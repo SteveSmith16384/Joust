@@ -20,6 +20,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -45,15 +46,22 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 
 		this.setVisible(false);
 		this.setResizable(false);
-
+		
 		thread = new Thread(this, "MainThread");
 		thread.setDaemon(true);
 		thread.start();
+	}
+	
+	
+	public void start() {
+		// Overridden
 	}
 
 
 	public void run() {
 		try {
+			start();
+			
 			while (running) {
 				long start = System.currentTimeMillis();
 
@@ -65,7 +73,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 				}
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			handleException(ex);
 		}
 	}
 
@@ -111,6 +119,28 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		this.setVisible(true);
 		this.createBufferStrategy(2);
 		bs = this.getBufferStrategy();
+	}
+
+
+	public Sprite createSprite(String filename, int w, int h) {
+		try {
+			BufferedImage img = ImageIO.read(new File(filename));
+
+			BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+			scaled.getGraphics().drawImage(img, 0, 0, w, h, this);
+
+			return new Sprite(scaled);
+		} catch (IOException ex) {
+			handleException(ex);
+			return null;
+		}
+	}
+
+
+	public void drawSprite(Sprite s, int x, int y) {
+		if (s.img != null) {
+			g2.drawImage(s.img, x, y, null);
+		}
 	}
 
 
@@ -236,6 +266,13 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		/*if (thread.module != null) {
 			thread.module.mouseWheelMoved(mwe);
 		}*/
+	}
+
+
+	public void handleException(Exception ex) {
+		p(ex.getMessage());
+		running = false;
+		this.setVisible(false);
 	}
 
 
