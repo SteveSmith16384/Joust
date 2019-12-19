@@ -28,12 +28,15 @@ import javax.swing.JOptionPane;
 
 public abstract class Simple2DGameLib extends JFrame implements MouseListener, KeyListener, MouseMotionListener, WindowListener, MouseWheelListener, Runnable {
 
+	public static 
 	private Thread thread;
 	private BufferStrategy bs;
 	private boolean running = true;
 	private boolean fullScreen;
 	private Graphics2D g2;
 	private Color backgroundColor = new Color(255, 255, 255);
+	private boolean[] keys = new boolean[255];
+	public float diff;
 
 	public Simple2DGameLib() {
 		super();
@@ -61,16 +64,17 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	public void run() {
 		try {
 			start();
+
+			diff = 100;
 			
 			while (running) {
 				long start = System.currentTimeMillis();
+				parentDraw(diff/1000f);
 
-				parentDraw();
-
-				long diff = System.currentTimeMillis() - start;
-				if (diff < Settings.FPS) {
-					Thread.sleep(Settings.FPS - diff);
-				}
+				//if (diff < Settings.FPS) {
+					Thread.sleep(50);//Settings.FPS - diff);
+				//}
+					diff = System.currentTimeMillis() - start;
 			}
 		} catch (Exception ex) {
 			handleException(ex);
@@ -78,21 +82,21 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
-	protected void parentDraw() {
+	protected void parentDraw(float delta) {
 		if (bs != null) { // Have we got a canvas yet?
 			g2 = (Graphics2D)bs.getDrawGraphics();
 
 			g2.setColor(this.backgroundColor);
 			g2.fillRect(0,  0,  this.getWidth(), this.getHeight());
 
-			draw();
+			draw(delta);
 
 			bs.show();
 		}
 	}
 
 
-	protected void draw() {
+	protected void draw(float delta) {
 		// To be overridden by parent
 	}
 
@@ -144,6 +148,11 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
+	public boolean isKeyPressed(int code) {
+		return keys[code];
+	}
+	
+	
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if (ke.getKeyCode() == KeyEvent.VK_F1) {
@@ -166,11 +175,14 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			}
 			return;
 		}
+		
+		keys[ke.getKeyCode()] = true;
 	}
 
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
+		keys[ke.getKeyCode()] = false;
 	}
 
 
