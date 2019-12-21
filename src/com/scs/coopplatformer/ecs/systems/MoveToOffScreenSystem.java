@@ -1,17 +1,21 @@
 package com.scs.coopplatformer.ecs.systems;
 
-import com.badlogic.gdx.Gdx;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
+import com.scs.coopplatformer.MyGdxGame;
 import com.scs.coopplatformer.Settings;
 import com.scs.coopplatformer.ecs.components.MoveOffScreenComponent;
 import com.scs.coopplatformer.ecs.components.PositionComponent;
 
 public class MoveToOffScreenSystem extends AbstractSystem {
 
-	public MoveToOffScreenSystem(BasicECS ecs) {
+	private MyGdxGame game;
+	
+	public MoveToOffScreenSystem(MyGdxGame _game, BasicECS ecs) {
 		super(ecs);
+		
+		game = _game;
 	}
 
 

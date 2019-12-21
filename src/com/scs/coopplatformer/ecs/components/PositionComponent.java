@@ -1,7 +1,7 @@
 package com.scs.coopplatformer.ecs.components;
 
+import com.scs.awt.Edge;
 import com.scs.awt.RectF;
-import com.sun.javafx.geom.Edge;
 
 public class PositionComponent {
 

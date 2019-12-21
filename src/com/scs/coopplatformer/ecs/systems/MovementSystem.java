@@ -1,6 +1,5 @@
 package com.scs.coopplatformer.ecs.systems;
 
-import com.badlogic.gdx.Gdx;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;

@@ -3,7 +3,6 @@ package com.scs.coopplatformer.ecs.systems;
 import com.scs.coopplatformer.MyGdxGame;
 import com.scs.coopplatformer.Settings;
 import com.scs.simple2dgamelib.Sprite;
-import com.sun.prism.Texture;
 
 public class DrawPostGameGuiSystem {
 
@@ -15,7 +14,7 @@ public class DrawPostGameGuiSystem {
 		game = _game;
 
 		if (Settings.RELEASE_MODE) {
-			background = new Sprite("background.jpg");
+			background = game.createSprite("background.jpg");
 			background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
 		}
 	}
@@ -23,18 +22,18 @@ public class DrawPostGameGuiSystem {
 
 	public void process() {
 		if (Settings.RELEASE_MODE) {
-			background.draw(batch);
+			background.drawSprite();
 		}
 		
 		game.drawFont("WINNER!", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 		if (winnerSprite == null) {
-			winnerSprite = new Sprite("player" + game.winnerImageId + "_right1.png");
+			winnerSprite = game.createSprite("player" + game.winnerImageId + "_right1.png");
 			winnerSprite.setSize(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/4);
 			winnerSprite.setPosition(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
 		}
-		winnerSprite.draw(batch);
+		winnerSprite.drawSprite();
 		
-		game.drawFont(batch, "PRESS 'S' TO RESTART", 20, Settings.LOGICAL_HEIGHT_PIXELS-120);
+		game.drawFont("PRESS 'S' TO RESTART", 20, Settings.LOGICAL_HEIGHT_PIXELS-120);
 	}
 	
 	

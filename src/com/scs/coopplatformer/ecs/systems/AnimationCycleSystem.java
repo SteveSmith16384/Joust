@@ -1,9 +1,9 @@
 package com.scs.coopplatformer.ecs.systems;
 
-import com.badlogic.gdx.Gdx;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
+import com.scs.coopplatformer.MyGdxGame;
 import com.scs.coopplatformer.ecs.components.AnimationCycleComponent;
 import com.scs.coopplatformer.ecs.components.ImageComponent;
 
@@ -13,8 +13,12 @@ import com.scs.coopplatformer.ecs.components.ImageComponent;
  */
 public class AnimationCycleSystem extends AbstractSystem {
 
-	public AnimationCycleSystem(BasicECS ecs) {
+	private MyGdxGame game;
+	
+	public AnimationCycleSystem(MyGdxGame _game, BasicECS ecs) {
 		super(ecs);
+		
+		game = _game;
 	}
 
 

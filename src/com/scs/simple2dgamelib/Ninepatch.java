@@ -1,8 +1,5 @@
 package com.scs.simple2dgamelib;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.scs.awt.Rect;
 
 public class Ninepatch {
@@ -17,6 +14,7 @@ public class Ninepatch {
 	
 	
 	public Sprite getImage(int w, int h) {
+		/*
 		Texture t1 = new Texture(filename);
 		t1.getTextureData().prepare();
 		Pixmap p1 = t1.getTextureData().consumePixmap();
@@ -51,6 +49,8 @@ public class Ninepatch {
 		p1.dispose();
 		
 		return new Sprite(newTex);
+		*/
+		return null; // todo
 	}
 
 

@@ -1,13 +1,13 @@
 package com.scs.coopplatformer.models;
 
 import com.scs.basicecs.AbstractEntity;
-import com.scs.simple2dgamelib.input.Controller;
+import com.scs.simple2dgamelib.input.IPlayerInput;
 
 public class PlayerData {
 
 	public static int nextImageId = 1;
 
-	//public Controller controller; // If null, player is keyboard
+	public IPlayerInput controller; // If null, player is keyboard
 	private boolean in_game = false;
 	public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
 	public AbstractEntity avatar;
@@ -16,7 +16,7 @@ public class PlayerData {
 	public int lives;
 	public int imageId;
 
-	public PlayerData(Controller _controller) {
+	public PlayerData(IPlayerInput _controller) {
 		this.controller = _controller;
 	}
 

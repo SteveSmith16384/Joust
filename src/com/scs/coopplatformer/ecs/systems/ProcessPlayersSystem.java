@@ -5,7 +5,7 @@ import com.scs.coopplatformer.MyGdxGame;
 import com.scs.coopplatformer.Settings;
 import com.scs.coopplatformer.models.PlayerData;
 import com.scs.lang.NumberFunctions;
-import com.scs.simple2dgamelib.input.Controller;
+import com.scs.simple2dgamelib.input.IPlayerInput;
 
 public class ProcessPlayersSystem {
 
@@ -52,7 +52,7 @@ public class ProcessPlayersSystem {
 	}
 
 	
-	private void createPlayersAvatar(PlayerData player, Controller controller) {
+	private void createPlayersAvatar(PlayerData player, IPlayerInput controller) {
 		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
 		AbstractEntity avatar = game.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
 		game.ecs.addEntity(avatar);

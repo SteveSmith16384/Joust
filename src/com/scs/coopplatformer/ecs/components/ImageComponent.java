@@ -1,12 +1,12 @@
 package com.scs.coopplatformer.ecs.components;
 
-import com.scs.simple2dgamelib.RectF;
+import com.scs.awt.RectF;
 import com.scs.simple2dgamelib.Sprite;
 
 public class ImageComponent {
 
 	public final String imageFilename;
-	public float w, h;
+	public int w, h;
 	public Sprite sprite;
 	public int zOrder; // -1, - or 1
 
@@ -15,8 +15,8 @@ public class ImageComponent {
 	public ImageComponent(String _filename, int _zOrder, float _w, float _h)  {
 		this.imageFilename = _filename;
 		zOrder = _zOrder;
-		w = _w;
-		h = _h;
+		w = (int)_w;
+		h = (int)_h;
 
 		if (_filename == null || _filename.length() == 0) {
 			throw new RuntimeException("No filename specified");

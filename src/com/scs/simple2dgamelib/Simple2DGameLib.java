@@ -21,14 +21,25 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.scs.coopplatformer.KeyboardPlayer;
+import com.scs.coopplatformer.models.PlayerData;
+import com.scs.simple2dgamelib.input.ControllerWrapper;
+import com.scs.simple2dgamelib.input.IPlayerInput;
+
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+
 public abstract class Simple2DGameLib extends JFrame implements MouseListener, KeyListener, MouseMotionListener, WindowListener, MouseWheelListener, Runnable {
 
-	public static 
+	//public static 
 	private Thread thread;
 	private BufferStrategy bs;
 	private boolean running = true;
@@ -37,6 +48,12 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	private Color backgroundColor = new Color(255, 255, 255);
 	private boolean[] keys = new boolean[255];
 	public float diff;
+	private boolean listenForPlayers = false;
+
+	protected List<IPlayerInput> controllersAdded = new ArrayList<IPlayerInput>();
+	protected List<IPlayerInput> controllersRemoved = new ArrayList<IPlayerInput>();
+	public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
+	//public DummyController dummyController = new DummyController(); // todo - Interface keyboard
 
 	public Simple2DGameLib() {
 		super();
@@ -53,6 +70,40 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		thread = new Thread(this, "MainThread");
 		thread.setDaemon(true);
 		thread.start();
+		
+	}
+	
+	
+	public void checkForControllers() {
+		Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+		// Add players for all connected controllers
+		for (Controller controller : controllers) {
+			controllersAdded.add(new ControllerWrapper(controller));
+		}
+		listenForPlayers = true;
+	}
+	
+
+	private void checkNewOrRemovedControllers() {
+		for (IPlayerInput c : this.controllersAdded) {
+			this.addPlayerForController(c);
+		}
+		this.controllersAdded.clear();
+
+		for (IPlayerInput c : this.controllersRemoved) {
+			this.removePlayerForController(c);
+		}
+		this.controllersAdded.clear();
+	}
+
+
+	public void addPlayerForController(IPlayerInput controller) {
+		// Overridden
+	}
+
+
+	public void removePlayerForController(IPlayerInput controller) {
+		// Overridden
 	}
 	
 	
@@ -69,6 +120,11 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			
 			while (running) {
 				long start = System.currentTimeMillis();
+				
+				if (this.listenForPlayers) {
+					this.checkNewOrRemovedControllers();
+				}
+				
 				parentDraw(diff/1000f);
 
 				//if (diff < Settings.FPS) {
@@ -126,6 +182,17 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
+	public Sprite createSprite(String filename) {
+		try {
+			BufferedImage img = ImageIO.read(new File(filename));
+			return new Sprite(this, img);
+		} catch (IOException ex) {
+			handleException(ex);
+			return null;
+		}
+	}
+
+
 	public Sprite createSprite(String filename, int w, int h) {
 		try {
 			BufferedImage img = ImageIO.read(new File(filename));
@@ -133,7 +200,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 			scaled.getGraphics().drawImage(img, 0, 0, w, h, this);
 
-			return new Sprite(scaled);
+			return new Sprite(this, scaled);
 		} catch (IOException ex) {
 			handleException(ex);
 			return null;
@@ -143,8 +210,21 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 
 	public void drawSprite(Sprite s, int x, int y) {
 		if (s.img != null) {
+			s.setPosition(x, y);
 			g2.drawImage(s.img, x, y, null);
 		}
+	}
+
+
+	public void drawSprite(Sprite s) {
+		if (s.img != null) {
+			g2.drawImage(s.img, (int)s.pos.x, (int)s.pos.y, null);
+		}
+	}
+
+
+	public void drawFont(String text, float x, float y) { // todo - rename
+		g2.drawString(text, x, y);
 	}
 
 

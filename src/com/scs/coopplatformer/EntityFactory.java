@@ -2,7 +2,6 @@ package com.scs.coopplatformer;
 
 import com.scs.awt.Rect;
 import com.scs.basicecs.AbstractEntity;
-import com.scs.coopplatformer.ecs.components.AnimationCycleComponent;
 import com.scs.coopplatformer.ecs.components.CanCollectComponent;
 import com.scs.coopplatformer.ecs.components.CollisionComponent;
 import com.scs.coopplatformer.ecs.components.HarmOnContactComponent;
@@ -19,7 +18,7 @@ import com.scs.coopplatformer.ecs.components.WalkingAnimationComponent;
 import com.scs.coopplatformer.models.PlayerData;
 import com.scs.simple2dgamelib.Ninepatch;
 import com.scs.simple2dgamelib.Sprite;
-import com.scs.simple2dgamelib.input.Controller;
+import com.scs.simple2dgamelib.input.IPlayerInput;
 
 public class EntityFactory {
 	
@@ -30,7 +29,7 @@ public class EntityFactory {
 	}
 	
 
-	public AbstractEntity createPlayersAvatar(PlayerData player, Controller controller, int x, int y) {
+	public AbstractEntity createPlayersAvatar(PlayerData player, IPlayerInput controller, int x, int y) {
 		AbstractEntity e = new AbstractEntity("Player");
 
 		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
@@ -52,7 +51,7 @@ public class EntityFactory {
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
 
-		game.animFrameHelper.createPlayersFrames(e, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		//game.animFrameHelper.createPlayersFrames(e, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -60,10 +59,10 @@ public class EntityFactory {
 	public AbstractEntity createWall(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Wall");
 
-		if (Settings.SHOW_GREY_BOXES) {
+		//if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		}
+		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
@@ -78,10 +77,10 @@ public class EntityFactory {
 	public AbstractEntity createHarmfulArea(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("HarmfulArea");
 
-		if (Settings.SHOW_GREY_BOXES) {
+		//if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		}
+		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
@@ -126,10 +125,10 @@ public class EntityFactory {
 	public AbstractEntity createLadderArea(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Ladder");
 
-		if (Settings.SHOW_GREY_BOXES) {
+		//if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		}
+		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, true);
@@ -144,10 +143,10 @@ public class EntityFactory {
 	public AbstractEntity createFluidPlatform(int x, int y, float w) {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
 
-		if (Settings.SHOW_GREY_BOXES) {
+		//if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, Settings.PLAYER_SIZE);
 			e.addComponent(imageData);
-		}
+		//}
 		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
@@ -210,7 +209,7 @@ public class EntityFactory {
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 
-		game.animFrameHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		//game.animFrameHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -235,7 +234,7 @@ public class EntityFactory {
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 
-		game.animFrameHelper.createCannonballFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		//todo game.animFrameHelper.createCannonballFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -264,13 +263,13 @@ public class EntityFactory {
 	public AbstractEntity createCoin(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
-		e.addComponent(acc);
-		/*if (acc.frames[0] == null) {
+		//todo AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
+		/*e.addComponent(acc);
+		if (acc.frames[0] == null) {
 			int dfgf = 456;
-		}*/
+		}
 		ImageComponent imageData = new ImageComponent(acc.frames[0], 1);
-		e.addComponent(imageData);
+		e.addComponent(imageData);*/
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);
