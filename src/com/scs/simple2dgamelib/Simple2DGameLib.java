@@ -22,17 +22,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-import com.scs.coopplatformer.KeyboardPlayer;
-import com.scs.coopplatformer.models.PlayerData;
-import com.scs.simple2dgamelib.input.ControllerWrapper;
-import com.scs.simple2dgamelib.input.IPlayerInput;
 
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
@@ -50,13 +44,13 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	public float diff;
 	private boolean listenForPlayers = false;
 
-	protected List<IPlayerInput> controllersAdded = new ArrayList<IPlayerInput>();
-	protected List<IPlayerInput> controllersRemoved = new ArrayList<IPlayerInput>();
-	public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
-	//public DummyController dummyController = new DummyController(); // todo - Interface keyboard
+	protected List<Controller> controllersAdded = new ArrayList<Controller>();
+	protected List<Controller> controllersRemoved = new ArrayList<Controller>();
 
 	public Simple2DGameLib() {
 		super();
+
+		System.setProperty("net.java.games.input.librarypath", new File("libs/jinput").getAbsolutePath());
 
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -66,47 +60,51 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 
 		this.setVisible(false);
 		this.setResizable(false);
-		
+
 		thread = new Thread(this, "MainThread");
 		thread.setDaemon(true);
 		thread.start();
-		
+
 	}
-	
-	
+
+
 	public void checkForControllers() {
-		Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
-		// Add players for all connected controllers
-		for (Controller controller : controllers) {
-			controllersAdded.add(new ControllerWrapper(controller));
+		if (listenForPlayers == false) {
+			Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
+			// Add players for all connected controllers
+			for (Controller controller : controllers) {
+				controllersAdded.add(controller);
+			}
+			listenForPlayers = true;
+		} else {
+			throw new RuntimeException("Already checked for controllers!");
 		}
-		listenForPlayers = true;
 	}
-	
+
 
 	private void checkNewOrRemovedControllers() {
-		for (IPlayerInput c : this.controllersAdded) {
+		for (Controller c : this.controllersAdded) {
 			this.addPlayerForController(c);
 		}
 		this.controllersAdded.clear();
 
-		for (IPlayerInput c : this.controllersRemoved) {
+		for (Controller c : this.controllersRemoved) {
 			this.removePlayerForController(c);
 		}
 		this.controllersAdded.clear();
 	}
 
 
-	public void addPlayerForController(IPlayerInput controller) {
+	public void addPlayerForController(Controller controller) {
 		// Overridden
 	}
 
 
-	public void removePlayerForController(IPlayerInput controller) {
+	public void removePlayerForController(Controller controller) {
 		// Overridden
 	}
-	
-	
+
+
 	public void start() {
 		// Overridden
 	}
@@ -117,20 +115,20 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			start();
 
 			diff = 100;
-			
+
 			while (running) {
 				long start = System.currentTimeMillis();
-				
+
 				if (this.listenForPlayers) {
 					this.checkNewOrRemovedControllers();
 				}
-				
+
 				parentDraw(diff/1000f);
 
 				//if (diff < Settings.FPS) {
-					Thread.sleep(50);//Settings.FPS - diff);
+				Thread.sleep(50);//Settings.FPS - diff);
 				//}
-					diff = System.currentTimeMillis() - start;
+				diff = System.currentTimeMillis() - start;
 			}
 		} catch (Exception ex) {
 			handleException(ex);
@@ -231,8 +229,8 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	public boolean isKeyPressed(int code) {
 		return keys[code];
 	}
-	
-	
+
+
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if (ke.getKeyCode() == KeyEvent.VK_F1) {
@@ -255,7 +253,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			}
 			return;
 		}
-		
+
 		keys[ke.getKeyCode()] = true;
 	}
 
@@ -365,6 +363,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		p(ex.getMessage());
 		running = false;
 		this.setVisible(false);
+		System.exit(-1);
 	}
 
 

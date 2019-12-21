@@ -1,6 +1,6 @@
 package com.scs.awt;
 
-import com.scs.coopplatformer.models.LineData;
+import com.scs.joustgame.models.LineData;
 
 public class Edge extends LineData {
 
