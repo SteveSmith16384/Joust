@@ -74,6 +74,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			// Add players for all connected controllers
 			for (Controller controller : controllers) {
 				controllersAdded.add(controller);
+				p("Controller added: " + controller);
 			}
 			listenForPlayers = true;
 		} else {
@@ -226,6 +227,11 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
+	public void setColour(int r, int g, int b) {
+		g2.setColor(new Color(r, g, b));
+	}
+
+
 	public boolean isKeyPressed(int code) {
 		return keys[code];
 	}
@@ -361,6 +367,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 
 	public void handleException(Exception ex) {
 		p(ex.getMessage());
+		ex.printStackTrace();
 		running = false;
 		this.setVisible(false);
 		System.exit(-1);

@@ -4,11 +4,11 @@ import java.awt.event.KeyEvent;
 
 import com.scs.joustgame.JoustMain;
 
-public class KeyboardPlayer implements IPlayerInput {
+public class KeyboardInput implements IPlayerInput {
 
 	private JoustMain game;
 	
-	public KeyboardPlayer(JoustMain _game) {
+	public KeyboardInput(JoustMain _game) {
 		game = _game;
 	}
 	

@@ -3,6 +3,8 @@ package com.scs.joustgame;
 public class Settings {
 
 	public static final boolean RELEASE_MODE = false;
+	public static final boolean QUICKSTART = false;
+	
 	public static final int MAX_MOVEMENT = 20;
 	public static final int PLAYER_SIZE = 20;
 	public static final int PLAYER_SPEED = 20;

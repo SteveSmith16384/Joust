@@ -1,11 +1,15 @@
 package com.scs.joustgame.ecs.systems;
 
+import java.awt.event.KeyEvent;
+
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 import com.scs.joustgame.JoustMain;
 import com.scs.joustgame.Settings;
 import com.scs.joustgame.ecs.components.PlayersAvatarComponent;
+import com.scs.joustgame.input.KeyboardInput;
+import com.scs.joustgame.models.PlayerData;
 
 public class InputSystem extends AbstractSystem {//implements ControllerListener {
 
@@ -27,18 +31,18 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 	@Override
 	public void process() {
-		/*if (key[Keys.S] && game.gameStage != 0) { // S to start
-			key[Keys.S] = false;
+		if (game.isKeyPressed(KeyEvent.VK_S) && game.gameStage != 0) { // S to start
+			key[KeyEvent.VK_S] = false;
 			game.startNextStage();
 		}
 
 		if (game.gameStage == -1) {
-			if (key[Keys.SPACE]) { // Space for keyboard player to join
-				key[Keys.SPACE] = false;
+			if (game.isKeyPressed(KeyEvent.VK_SPACE)) { // Space for keyboard player to join
+				key[KeyEvent.VK_SPACE] = false;
 				for (PlayerData player : game.players.values()) {
-					if (player.controller == null) {
+					if (player.controller instanceof KeyboardInput) {
 						if (player.isInGame() == false) {
-							MyGdxGame.p("Keyboard player joined");
+							game.p("Keyboard player joined");
 							player.setInGame(true);
 							break;
 						}
@@ -47,7 +51,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 			}
 
 			// See if players want to join
-			if (Settings.CONTROLLER_MODE_1) {
+			/*if (Settings.CONTROLLER_MODE_1) {
 				for (PlayerData player : game.players.values()) {
 					if (player.isInGame() == false) {
 						if (player.controller != null) {
@@ -58,10 +62,10 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 						}
 					}
 				}
-			}
+			}*/
 		} else if (game.gameStage == 0) {
 			super.process();
-		}*/
+		}
 	}
 
 

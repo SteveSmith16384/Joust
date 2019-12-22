@@ -39,6 +39,7 @@ public class DrawPreGameGuiSystem {
 				count++;
 			}
 		}
+		game.setColour(0,  0,  0);
 		game.drawFont(count + " players in the game!", 20, Settings.LOGICAL_HEIGHT_PIXELS-200);
 		game.drawFont("Press 'Space' for keyboard player", 20, Settings.LOGICAL_HEIGHT_PIXELS-260);
 		game.drawFont("PRESS 'S' TO START!", 20, Settings.LOGICAL_HEIGHT_PIXELS-320);

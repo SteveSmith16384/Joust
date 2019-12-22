@@ -17,11 +17,10 @@ import com.scs.joustgame.ecs.systems.MovementSystem;
 import com.scs.joustgame.ecs.systems.PlayerMovementSystem;
 import com.scs.joustgame.ecs.systems.ProcessCollisionSystem;
 import com.scs.joustgame.ecs.systems.ProcessPlayersSystem;
-import com.scs.joustgame.ecs.systems.ScrollPlayAreaSystem;
 import com.scs.joustgame.ecs.systems.WalkingAnimationSystem;
 import com.scs.joustgame.input.ControllerWrapper;
 import com.scs.joustgame.input.IPlayerInput;
-import com.scs.joustgame.input.KeyboardPlayer;
+import com.scs.joustgame.input.KeyboardInput;
 import com.scs.joustgame.models.GameData;
 import com.scs.joustgame.models.PlayerData;
 import com.scs.simple2dgamelib.Simple2DGameLib;
@@ -55,7 +54,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawInGameGuiSystem drawInGameGuiSystem;
 	private ProcessPlayersSystem processPlayersSystem;
-	private ScrollPlayAreaSystem scrollPlayAreaSystem;
+	//private ScrollPlayAreaSystem scrollPlayAreaSystem;
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
@@ -63,7 +62,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 	@Override
 	public void start() {
-		createWindow(640, 480, false);
+		createWindow(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
 
 		this.setBackgroundColour(255, 255, 255);
 
@@ -85,11 +84,11 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(this, ecs);
 		this.drawInGameGuiSystem = new DrawInGameGuiSystem(this);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
-		this.scrollPlayAreaSystem = new ScrollPlayAreaSystem(this, ecs);
+		//this.scrollPlayAreaSystem = new ScrollPlayAreaSystem(this, ecs);
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this);
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this);
 
-		KeyboardPlayer kp = new KeyboardPlayer(this);
+		KeyboardInput kp = new KeyboardInput(this);
 		players.put(kp, new PlayerData(kp)); // Create keyboard player by default (they might not actually join though!)
 		this.checkForControllers();
 		
@@ -97,7 +96,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 		startPreGame();
 
-		if (!Settings.RELEASE_MODE) {
+		if (Settings.QUICKSTART) {
 			this.nextStage = true; // Auto-start game
 		}
 	}
@@ -105,10 +104,13 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 	@Override
 	public void addPlayerForController(Controller controller) {
+		if (controller.getName().toLowerCase().indexOf("keyboard") >= 0) {
+			return;
+		}
 		if (this.players.containsKey(controller) == false) {
 			PlayerData data = new PlayerData(new ControllerWrapper(controller));
 			this.players.put(data.controller, data);
-			//p("player created");
+			p("player created for " + controller.getName());
 		}
 	}
 
@@ -208,7 +210,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 				this.moveToOffScreenSystem.process();
 				this.playerMovementSystem.process();
 				this.mobAiSystem.process();
-				this.scrollPlayAreaSystem.process();
+				//this.scrollPlayAreaSystem.process();
 				this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 				this.movementSystem.process();
 				this.animSystem.process();			
