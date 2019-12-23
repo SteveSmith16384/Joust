@@ -44,7 +44,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	private Graphics2D g2;
 	private Color backgroundColor = new Color(255, 255, 255);
 	private boolean[] keys = new boolean[255];
-	public float diff;
+	public float diff_secs;
 	private boolean listenForPlayers = false;
 
 	protected List<Controller> controllersAdded = new ArrayList<Controller>();
@@ -118,7 +118,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		try {
 			start();
 
-			diff = 100;
+			diff_secs = 1;
 
 			while (running) {
 				long start = System.currentTimeMillis();
@@ -127,12 +127,12 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 					this.checkNewOrRemovedControllers();
 				}
 
-				parentDraw(diff/1000f);
+				parentDraw();
 
 				//if (diff < Settings.FPS) {
-				Thread.sleep(50); // Stop it running too fast
+				Thread.sleep(10); // Stop it running too fast
 				//}
-				diff = System.currentTimeMillis() - start;
+				diff_secs = (System.currentTimeMillis() - start)/1000f;
 			}
 		} catch (Exception ex) {
 			handleException(ex);
@@ -140,21 +140,21 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
-	protected void parentDraw(float delta) {
+	protected void parentDraw() {
 		if (bs != null) { // Have we got a canvas yet?
 			g2 = (Graphics2D)bs.getDrawGraphics();
 
 			g2.setColor(this.backgroundColor);
 			g2.fillRect(0,  0,  this.getWidth(), this.getHeight());
 
-			draw(delta);
+			draw();
 
 			bs.show();
 		}
 	}
 
 
-	protected void draw(float delta) {
+	protected void draw() {
 		// To be overridden by parent
 	}
 

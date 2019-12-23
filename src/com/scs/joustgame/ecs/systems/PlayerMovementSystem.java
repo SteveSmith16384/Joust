@@ -42,10 +42,10 @@ public class PlayerMovementSystem extends AbstractSystem {
 				JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
 				if (jc.canJump) {
 					//game.sfx.play("BonusCube.ogg");
-					mc.offY = Settings.JUMP_FORCE;
+					mc.offY = -Settings.JUMP_FORCE;
 					jc.canJump = false;
 				} else {
-					JoustMain.p("Cannot jump!");
+					//JoustMain.p("Cannot jump!");
 				}
 			}
 		}

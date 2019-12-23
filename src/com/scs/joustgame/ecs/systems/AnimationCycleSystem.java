@@ -32,7 +32,7 @@ public class AnimationCycleSystem extends AbstractSystem {
 	public void processEntity(AbstractEntity entity) {
 		AnimationCycleComponent data = (AnimationCycleComponent)entity.getComponent(AnimationCycleComponent.class);
 		if (data != null) {
-			data.timeUntilNextFrame -= game.diff;
+			data.timeUntilNextFrame -= game.diff_secs;
 
 			if (data.timeUntilNextFrame <= 0) {
 				data.currentFrame++;

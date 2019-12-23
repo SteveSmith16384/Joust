@@ -36,7 +36,7 @@ public class MovementSystem extends AbstractSystem {
 			//MyGdxGame.p("Mob pos :" + pos.rect);
 			if (md.offX != 0) {
 				pos.prevPos.set(pos.rect);
-				float totalDist = md.offX * game.diff;
+				float totalDist = md.offX * game.diff_secs;
 				if (Math.abs(totalDist) > Settings.MAX_MOVEMENT) {
 					totalDist = Settings.MAX_MOVEMENT * Math.signum(totalDist);
 					//MyGdxGame.p("Max movement hit!");					
@@ -59,7 +59,7 @@ public class MovementSystem extends AbstractSystem {
 			}
 			if (md.offY != 0) {
 				pos.prevPos.set(pos.rect);
-				float totalDist = md.offY * game.diff;
+				float totalDist = md.offY * game.diff_secs;
 				if (Math.abs(totalDist) > Settings.MAX_MOVEMENT) {
 					//MyGdxGame.p("Max movement hit!");					
 					totalDist = Settings.MAX_MOVEMENT * Math.signum(totalDist);
@@ -69,7 +69,7 @@ public class MovementSystem extends AbstractSystem {
 				if (results != null) {
 					if (results.moveBack) {
 						pos.rect.set(pos.prevPos); // Move back
-						if (md.offY < 0) {
+						if (md.offY > 0) {
 							JumpingComponent jc = (JumpingComponent)movingEntity.getComponent(JumpingComponent.class);
 							if (jc != null) {
 								jc.canJump = true;
@@ -81,7 +81,7 @@ public class MovementSystem extends AbstractSystem {
 					}
 					game.processCollisionSystem.processCollision(movingEntity, results);
 				} else {
-					if (md.offY < 0) {
+					if (md.offY > 0) {
 						JumpingComponent jc = (JumpingComponent)movingEntity.getComponent(JumpingComponent.class);
 						if (jc != null) {
 							jc.canJump = false;
@@ -100,7 +100,7 @@ public class MovementSystem extends AbstractSystem {
 			if (md.canFall) {
 				// Gravity
 				if (!Settings.TURN_OFF_GRAVITY) {
-					md.offY += Settings.GRAVITY * game.diff;
+					md.offY += Settings.GRAVITY * game.diff_secs;
 				}
 			} else {
 				md.offY = 0;

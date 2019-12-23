@@ -182,7 +182,7 @@ public final class JoustMain extends Simple2DGameLib {
 
 
 	@Override
-	public void draw(float delta) {		
+	public void draw() {		
 		if (!paused) {
 			if (nextStage) {
 				nextStage = false;

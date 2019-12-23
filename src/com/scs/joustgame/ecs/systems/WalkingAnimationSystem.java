@@ -38,7 +38,7 @@ public class WalkingAnimationSystem extends AbstractSystem {
 					wac.currentDir = dir;
 					wac.timeUntilNextFrame = wac.interval;
 				} else {
-					wac.timeUntilNextFrame -= game.diff;
+					wac.timeUntilNextFrame -= game.diff_secs;
 					if (wac.timeUntilNextFrame <= 0) {
 						wac.currentFrame++;
 						if (wac.currentFrame >= wac.framesLeft.length) {

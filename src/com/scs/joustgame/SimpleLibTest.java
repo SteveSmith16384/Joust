@@ -26,11 +26,11 @@ public class SimpleLibTest extends Simple2DGameLib {
 	
 	
 	@Override
-	public void draw(float delta) {
+	public void draw() {
 		if (this.isKeyPressed(KeyEvent.VK_P)) {
-			x += 100*delta;
+			x += 100*super.diff_secs;
 		} else if (this.isKeyPressed(KeyEvent.VK_O)) {
-			x -= 100*delta;
+			x -= 100*super.diff_secs;
 		}
 
 		drawSprite(sprite, x, 50);

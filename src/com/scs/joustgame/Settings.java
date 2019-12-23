@@ -7,7 +7,7 @@ public class Settings {
 	
 	public static final int MAX_MOVEMENT = 20;
 	public static final int PLAYER_SIZE = 20;
-	public static final float PLAYER_SPEED = .2f;
+	public static final float PLAYER_SPEED = 30f;
 	public static final int COLLECTABLE_SIZE = 20;
 	public static final int AVATAR_RESPAWN_TIME_SECS = 5;
 	public static final int LOGICAL_WIDTH_PIXELS = 800;
@@ -17,8 +17,8 @@ public class Settings {
 	public static final int PLATFORM_SPACING = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.20f);
 	public static final int MAX_PLATFORM_HEIGHT = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.9f); // Needs to be slightly lower so the coins don't disappear straight away!
 
-	public static final float JUMP_FORCE = 300;	
-	public static final float GRAVITY = 400;
+	public static final float JUMP_FORCE = 30f;	
+	public static final float GRAVITY = 20f;
 	
 	public static final String GFX_FOLDER = "assets/gfx/";
 

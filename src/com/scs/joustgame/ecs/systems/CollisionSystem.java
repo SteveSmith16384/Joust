@@ -35,9 +35,6 @@ public class CollisionSystem extends AbstractSystem {
 		if (moverPos == null) {
 			throw new RuntimeException(mover + " has no " + PositionComponent.class.getSimpleName());
 		}
-		/*Iterator<AbstractEntity> it = ecs.getIterator();
-		while (it.hasNext()) {
-			AbstractEntity e = it.next();*/
 		Iterator<AbstractEntity> it = entities.iterator();
 		while (it.hasNext()) {
 			AbstractEntity e = it.next();
@@ -58,13 +55,13 @@ public class CollisionSystem extends AbstractSystem {
 						} else {
 							if (moverPos.rect.intersects(pos.rect)) {
 								if (cc.fluidPlatform) { // Check this first so we can kill baddies by jumping on them
-									if (offY < 0) { // Going down
+									if (offY > 0) { // Going down
 										if (moverPos.prevPos.intersects(pos.rect) == false) { // Didn't collide previously, so we have hit
 											return new CollisionResults(e, true, true);
 										}									
 									}
 								} else if (cc.isLadder) {
-									if (offY < 0) {
+									if (offY > 0) {
 										return new CollisionResults(e, false, cc.blocksMovement);
 									}
 								} else if (cc.alwaysCollides) {

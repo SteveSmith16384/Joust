@@ -21,7 +21,7 @@ public class ProcessPlayersSystem {
 			if (player.isInGame() && player.quit == false) {
 				if (player.lives > 0) {
 					if (player.avatar == null) {
-						player.timeUntilAvatar -= game.diff;
+						player.timeUntilAvatar -= game.diff_secs;
 						if (player.timeUntilAvatar <= 0) {
 							createPlayersAvatar(player, player.controller);
 						}
@@ -54,7 +54,7 @@ public class ProcessPlayersSystem {
 	
 	private void createPlayersAvatar(PlayerData player, IPlayerInput controller) {
 		int xPos = NumberFunctions.rnd(50,  Settings.LOGICAL_WIDTH_PIXELS-50);
-		AbstractEntity avatar = game.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS);
+		AbstractEntity avatar = game.entityFactory.createPlayersAvatar(player, controller, xPos, Settings.LOGICAL_HEIGHT_PIXELS * 0.1f);
 		game.ecs.addEntity(avatar);
 
 		player.avatar = avatar;

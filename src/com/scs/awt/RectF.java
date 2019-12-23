@@ -1,11 +1,8 @@
 package com.scs.awt;
 
-/**
- * This class assumes the origin is bottom-left (LibGDX)!  NOT top-left!
- * 
- * @author StephenCS
- *
- */
+
+// Origin is top-left!
+
 public class RectF {
 
 	public float left, top, right, bottom;
@@ -13,10 +10,6 @@ public class RectF {
 	public RectF() {
 	}
 
-	
-	public static RectF fromXYWH(float x, float y, float w, float h) {
-		return new RectF(x, y+h, x+w, y);
-	}
 
 	public RectF(float l, float t, float r, float b) {
 		left = l;
@@ -24,11 +17,8 @@ public class RectF {
 		right = r;
 		bottom = b;
 		
-		if (bottom > top) {
-			throw new RuntimeException("Top and bottom wrong way round");
-		}
-		if (left > right) {
-			throw new RuntimeException("Left and right wrong way round");
+		if (t > b) {
+			throw new RuntimeException("Invert rectangle!");
 		}
 	}
 
@@ -38,7 +28,11 @@ public class RectF {
 		top = t;
 		right = r;
 		bottom = b;
-	}
+
+		if (t > b) {
+			throw new RuntimeException("Invert rectangle!");
+		}
+}
 
 
 	public void set(RectF r) {
@@ -46,36 +40,51 @@ public class RectF {
 		top = r.top;
 		right = r.right;
 		bottom = r.bottom;
+
+		if (top > bottom) {
+			throw new RuntimeException("Invert rectangle!");
+		}
+}
+
+
+	public boolean intersect(float left, float top, float right, float bottom) {
+		if (this.left < right && left < this.right
+				&& this.top < bottom && top < this.bottom) {
+			if (this.left < left) {
+				this.left = left;
+			}
+			if (this.top < top) {
+				this.top = top;
+			}
+			if (this.right > right) {
+				this.right = right;
+			}
+			if (this.bottom > bottom) {
+				this.bottom = bottom;
+			}
+			return true;
+		}
+		return false;
 	}
 
 
 	public static boolean intersects(RectF a, RectF b) {
 		return a.left < b.right && b.left < a.right
-				&& a.top > b.bottom && b.top > a.bottom; // Switch these if the origin is top-left, not bottom-left!
+				&& a.top < b.bottom && b.top < a.bottom;
 	}
 
 
-	public boolean intersects(RectF b) {
-		return left < b.right && b.left < right
-				&& top > b.bottom && b.top > bottom; // Switch these if the origin is top-left, not bottom-left!
+	public boolean intersects(RectF a) {
+		return a.left < this.right && this.left < a.right
+				&& a.top < this.bottom && this.top < a.bottom;
 	}
 
 
 	public boolean contains(float x, float y) {
-		return left < right && top > bottom  // check for empty first
-				&& x >= left && x < right && y <= top && y > bottom;
+		return left < right && top < bottom  // check for empty first
+				&& x >= left && x < right && y >= top && y < bottom;
 	}
 
-
-
-	public final float getX() {
-		return left;
-	}
-
-
-	public final float getY() {
-		return bottom;
-	}
 
 
 	public final float centerX() {
@@ -89,38 +98,41 @@ public class RectF {
 
 
 	public final boolean isEmpty() {
-		return left >= right || top <= bottom;
-	}
+        return left >= right || top >= bottom;
+    }
 
-	/**
-	 * @return the rectangle's width. This does not check for a valid rectangle
-	 * (i.e. left <= right) so the result may be negative.
-	 */
-	public final float width() {
-		return right - left;
-	}
+    /**
+     * @return the rectangle's width. This does not check for a valid rectangle
+     * (i.e. left <= right) so the result may be negative.
+     */
+    public final float width() {
+        return right - left;
+    }
 
-	
-	/**
-	 * @return the rectangle's height. This does not check for a valid rectangle
-	 * (i.e. top <= bottom) so the result may be negative.
-	 */
-	public final float height() {
-		return top - bottom;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "RectF:" + left + "," + top + ", " + right + "," + bottom;
-	}
-	
-	
-	public void move(float offx, float offy) {
-		this.left += offx;
-		this.right += offx;
-		this.top += offy;
-		this.bottom += offy;
-	}
+    /**
+     * @return the rectangle's height. This does not check for a valid rectangle
+     * (i.e. top <= bottom) so the result may be negative.
+     */
+    public final float height() {
+        return bottom - top;
+    }
+    
+    
+    public float getX() {
+    	return this.left;
+    }
+    
+    
+    public float getY() {
+    	return this.top;
+    }
+    
+    
+    public void move(float offx, float offy) {
+    	this.left += offx;
+    	this.right += offx;
+    	this.top += offy;
+    	this.bottom += offy;
+    }
 
 }
