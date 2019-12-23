@@ -16,9 +16,14 @@ public class Sprite {
 	}
 
 
-	public void setSize(int w, int h) {
-		BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		scaled.getGraphics().drawImage(img, 0, 0, w, h, game);
+	public void flip(boolean x, boolean y) {
+		// todo
+	}
+	
+	
+	public void setSize(float w, float h) {
+		BufferedImage scaled = new BufferedImage((int)w, (int)h, BufferedImage.TYPE_INT_ARGB);
+		scaled.getGraphics().drawImage(img, 0, 0, (int)w, (int)h, game);
 		this.img = scaled;
 	}
 	

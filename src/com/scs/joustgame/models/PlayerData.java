@@ -23,11 +23,11 @@ public class PlayerData {
 
 	public void setInGame(boolean b) {
 		if (b) {
-			/*if (Settings.RELEASE_MODE == false) {
+			//if (Settings.RELEASE_MODE == false) {
 				if (in_game) {
 					throw new RuntimeException("Player already in game!");
 				}
-			}*/
+			//}
 			this.in_game = true;
 			this.lives = 3;
 			if (imageId <= 0) {

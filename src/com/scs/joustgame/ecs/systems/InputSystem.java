@@ -71,30 +71,12 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 
 	@Override
 	public void processEntity(AbstractEntity entity) {
-		/*PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-		if (uic != null) {
-			if (uic.controller != null) {
-				if (!Settings.RELEASE_MODE) {
-					// 1 = right stick l/r
-					// 2 = left stick u/d
-					// 3 = left stick l.r
-					//MyGdxGame.p("Axis:" + uic.controller.getAxis(3));
-					// 0 =square
-					if (uic.controller.getButton(1)) {
-						MyGdxGame.p("button!");
-					}
-				}
-				if (Settings.CONTROLLER_MODE_1) {
-					uic.moveLeft = uic.controller.getAxis(Settings.AXIS) < -0.5f;
-					uic.moveRight = uic.controller.getAxis(Settings.AXIS) > 0.5f;
-					uic.jump = uic.controller.getButton(1);
-				}
-			} else {
-				uic.moveLeft = key[29];
-				uic.moveRight = key[32];
-				uic.jump = key[51] || key[62];  // W or space
-			}
-		}*/
+		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
+		//if (uic.controller != null) {
+		uic.moveLeft = uic.controller.isLeftPressed();
+		uic.moveRight = uic.controller.isRightPressed();
+		uic.jump = uic.controller.isJumpPressed();
+		//}
 	}
 
 
@@ -114,7 +96,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		key[keycode] = false;
 	}
 
-/*
+	/*
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		if (buttonCode == 1) {
 			if (game.gameStage == -1) {
@@ -165,5 +147,5 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		}
 		return false;
 	}
-*/
+	 */
 }

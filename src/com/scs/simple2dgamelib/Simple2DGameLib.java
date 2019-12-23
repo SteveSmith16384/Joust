@@ -28,9 +28,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.scs.joustgame.Settings;
+
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 
+// Todo - rename
 public abstract class Simple2DGameLib extends JFrame implements MouseListener, KeyListener, MouseMotionListener, WindowListener, MouseWheelListener, Runnable {
 
 	//public static 
@@ -127,7 +130,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 				parentDraw(diff/1000f);
 
 				//if (diff < Settings.FPS) {
-				Thread.sleep(50);//Settings.FPS - diff);
+				Thread.sleep(50); // Stop it running too fast
 				//}
 				diff = System.currentTimeMillis() - start;
 			}
@@ -183,7 +186,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 
 	public Sprite createSprite(String filename) {
 		try {
-			BufferedImage img = ImageIO.read(new File(filename));
+			BufferedImage img = ImageIO.read(new File(Settings.GFX_FOLDER + filename));
 			return new Sprite(this, img);
 		} catch (IOException ex) {
 			handleException(ex);
@@ -192,9 +195,9 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
-	public Sprite createSprite(String filename, int w, int h) {
+	public Sprite createSprite(String filename, int w, int h) { // todo - combine create and setsize
 		try {
-			BufferedImage img = ImageIO.read(new File(filename));
+			BufferedImage img = ImageIO.read(new File(Settings.GFX_FOLDER + filename));
 
 			BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 			scaled.getGraphics().drawImage(img, 0, 0, w, h, this);
@@ -236,6 +239,10 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		return keys[code];
 	}
 
+	
+	public void playMusic(String s) {
+		// todo
+	}
 
 	@Override
 	public void keyPressed(KeyEvent ke) {

@@ -6,7 +6,7 @@ import com.scs.joustgame.models.PlayerData;
 public class PlayersAvatarComponent {
 
 	public PlayerData player;
-	public IPlayerInput controller; // If null, player is keyboard
+	public IPlayerInput controller;
 	public boolean moveLeft, moveRight, jump;
 	public long timeStarted;
 	

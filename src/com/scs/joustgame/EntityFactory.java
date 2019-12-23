@@ -51,7 +51,7 @@ public class EntityFactory {
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
 
-		//game.animFrameHelper.createPlayersFrames(e, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createPlayersFrames(e, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -97,7 +97,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("TestImage");
 		
 		//Texture tex = new Texture("grey_box.png");
-		Ninepatch np = new Ninepatch(null, null);
+		Ninepatch np = new Ninepatch(game, null, null);
 		Sprite sprite = np.getImage(w, h);
 		sprite.setSize(w, h);
 
@@ -161,7 +161,7 @@ public class EntityFactory {
 	public AbstractEntity createPlatformType1(int x, int y, int w, int h) {
 		AbstractEntity e = new AbstractEntity("PlatformImage1");
 
-		Ninepatch ninepatch = new Ninepatch("platform1.png", new Rect(1, 8, 1, 3));
+		Ninepatch ninepatch = new Ninepatch(game, "platform1.png", new Rect(1, 8, 1, 3));
 		
 		ImageComponent imageData = new ImageComponent(ninepatch.getImage(w, h), -1);
 		e.addComponent(imageData);

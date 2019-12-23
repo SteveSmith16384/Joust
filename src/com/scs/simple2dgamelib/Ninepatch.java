@@ -4,16 +4,19 @@ import com.scs.awt.Rect;
 
 public class Ninepatch {
 
+	private Simple2DGameLib game;
 	private Rect rect; // The insets!
 	private String filename;
 	
-	public Ninepatch(String _filename, Rect _rect) {
+	public Ninepatch(Simple2DGameLib _game, String _filename, Rect _rect) {
+		game = _game;
 		filename = _filename;
 		rect = _rect;
 	}
 	
 	
 	public Sprite getImage(int w, int h) {
+		return game.createSprite(filename, w, h);
 		/*
 		Texture t1 = new Texture(filename);
 		t1.getTextureData().prepare();
@@ -50,7 +53,6 @@ public class Ninepatch {
 		
 		return new Sprite(newTex);
 		*/
-		return null; // todo
 	}
 
 

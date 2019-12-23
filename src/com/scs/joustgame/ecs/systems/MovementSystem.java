@@ -31,7 +31,7 @@ public class MovementSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity movingEntity) {
 		MovementComponent md = (MovementComponent)movingEntity.getComponent(MovementComponent.class);
-		if (md != null) {
+		//if (md != null) {
 			PositionComponent pos = (PositionComponent)movingEntity.getComponent(PositionComponent.class);
 			//MyGdxGame.p("Mob pos :" + pos.rect);
 			if (md.offX != 0) {
@@ -100,12 +100,12 @@ public class MovementSystem extends AbstractSystem {
 			if (md.canFall) {
 				// Gravity
 				if (!Settings.TURN_OFF_GRAVITY) {
-					md.offY -= Settings.GRAVITY * game.diff;
+					md.offY += Settings.GRAVITY * game.diff;
 				}
 			} else {
 				md.offY = 0;
 			}
-		}
+		//}
 	}
 
 }

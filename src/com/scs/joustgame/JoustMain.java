@@ -27,13 +27,13 @@ import com.scs.simple2dgamelib.Simple2DGameLib;
 
 import net.java.games.input.Controller;
 
-public final class JoustMain extends Simple2DGameLib { // todo - rename
+public final class JoustMain extends Simple2DGameLib {
 
 	public BasicECS ecs;
 
 	public EntityFactory entityFactory;
 	public GameData gameData;
-	//public AnimationFramesHelper animFrameHelper;
+	public AnimationFramesHelper animFrameHelper;
 	public LevelGenerator levelGenerator;
 	public int winnerImageId;
 	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
@@ -68,7 +68,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 		ecs = new BasicECS();
 		entityFactory = new EntityFactory(this);
-		//animFrameHelper = new AnimationFramesHelper();
+		animFrameHelper = new AnimationFramesHelper(this);
 
 		// Systems
 		this.inputSystem = new InputSystem(this, ecs);
@@ -128,7 +128,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 
 	private void startPreGame() {
-		//todo this.playMusic("IntroLoop.wav");
+		this.playMusic("IntroLoop.wav");
 
 		this.removeAllEntities();
 
@@ -141,7 +141,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 	private void startPostGame() {
 		this.removeAllEntities();
-		//todo this.playMusic("VictoryMusic.wav");
+		this.playMusic("VictoryMusic.wav");
 	}
 
 
@@ -152,7 +152,7 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 
 
 	private void startGame() {
-		//todo this.playMusic("8BitMetal.wav");
+		this.playMusic("8BitMetal.wav");
 
 		/*if (!Settings.RELEASE_MODE) {
 			if (this.players.size() > 0) {
@@ -198,9 +198,8 @@ public final class JoustMain extends Simple2DGameLib { // todo - rename
 				}
 			}
 
-			ecs.processAllSystems();
-
-			//checkNewOrRemovedControllers();
+			ecs.addAndRemoveEntities();
+			ecs.processAllSystems(); // todo - split up
 
 			this.inputSystem.process();
 

@@ -7,7 +7,7 @@ public class Settings {
 	
 	public static final int MAX_MOVEMENT = 20;
 	public static final int PLAYER_SIZE = 20;
-	public static final int PLAYER_SPEED = 20;
+	public static final float PLAYER_SPEED = .2f;
 	public static final int COLLECTABLE_SIZE = 20;
 	public static final int AVATAR_RESPAWN_TIME_SECS = 5;
 	public static final int LOGICAL_WIDTH_PIXELS = 800;
@@ -19,9 +19,10 @@ public class Settings {
 
 	public static final float JUMP_FORCE = 300;	
 	public static final float GRAVITY = 400;
+	
+	public static final String GFX_FOLDER = "assets/gfx/";
 
 	private Settings() {
-		// TODO Auto-generated constructor stub
 	}
 
 }

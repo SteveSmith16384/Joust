@@ -16,10 +16,10 @@ public class LevelGenerator {
 
 
 	public void createLevel1() {
-		if (Settings.RELEASE_MODE) {
+		//if (Settings.RELEASE_MODE) {
 			AbstractEntity background = this.entityFactory.createImage("background.jpg", 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, -99);
 			ecs.addEntity(background);
-		}
+		//}
 
 		//AbstractEntity floor = this.entityFactory.createWall(20, 20, Settings.LOGICAL_WIDTH_PIXELS-50, 20);
 		//ecs.addEntity(floor);

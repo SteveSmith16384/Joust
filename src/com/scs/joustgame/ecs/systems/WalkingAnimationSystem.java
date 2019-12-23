@@ -29,7 +29,7 @@ public class WalkingAnimationSystem extends AbstractSystem {
 	public void processEntity(AbstractEntity entity) {
 		try {
 			WalkingAnimationComponent wac = (WalkingAnimationComponent)entity.getComponent(WalkingAnimationComponent.class);
-			if (wac != null) {
+			//if (wac != null) {
 				MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
 				int dir = (int)Math.signum(mc.offX);
 
@@ -60,7 +60,7 @@ public class WalkingAnimationSystem extends AbstractSystem {
 				if (image.sprite == null) {
 					throw new RuntimeException("null sprite for " + entity + "!");
 				}
-			}
+			//}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException(ex);
