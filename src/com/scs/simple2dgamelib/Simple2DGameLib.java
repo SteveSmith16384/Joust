@@ -1,13 +1,12 @@
 package com.scs.simple2dgamelib;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
+import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.Transparency;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -23,10 +22,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import com.scs.joustgame.Settings;
 
@@ -34,14 +34,12 @@ import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 
 // Todo - rename
-public abstract class Simple2DGameLib extends JFrame implements MouseListener, KeyListener, MouseMotionListener, WindowListener, MouseWheelListener, Runnable {
+public abstract class Simple2DGameLib extends Thread implements MouseListener, KeyListener, MouseMotionListener, WindowListener, MouseWheelListener, Runnable {
 
 	//public static 
-	private Thread thread;
-	private BufferStrategy bs;
+	//private Thread thread;
 	private boolean running = true;
 	private boolean fullScreen;
-	private Graphics2D g2;
 	private Color backgroundColor = new Color(255, 255, 255);
 	private boolean[] keys = new boolean[255];
 	public float diff_secs;
@@ -50,23 +48,68 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	protected List<Controller> controllersAdded = new ArrayList<Controller>();
 	protected List<Controller> controllersRemoved = new ArrayList<Controller>();
 
+	// Graphics Stuff
+	private boolean isRunning = true;
+	private Canvas canvas;
+	private BufferStrategy strategy;
+	private BufferedImage background;
+	private Graphics2D backgroundGraphics;
+	private Graphics2D graphics;
+	public JFrame frame;
+	//private int width = 800;
+	//private int height = 600;
+	private int scale = 1;
+	private GraphicsConfiguration config =
+			GraphicsEnvironment.getLocalGraphicsEnvironment()
+			.getDefaultScreenDevice()
+			.getDefaultConfiguration();
+
+	// Create a hardware accelerated image
+	public final BufferedImage create(final int width, final int height,
+			final boolean alpha) {
+		return config.createCompatibleImage(width, height, alpha
+				? Transparency.TRANSLUCENT : Transparency.OPAQUE);
+	}
+
 	public Simple2DGameLib() {
 		super();
 
 		System.setProperty("net.java.games.input.librarypath", new File("libs/jinput").getAbsolutePath());
 
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
-		this.addKeyListener(this);
-		this.addWindowListener(this);
-		this.addMouseWheelListener(this);
+		// JFrame
+		frame = new JFrame();
+		//frame.addWindowListener(new FrameClose());
+		//frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		frame.setSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
+		frame.setUndecorated(true);
+		frame.setVisible(true);
+		/*frame.addMouseListener(this);
+		frame.addMouseMotionListener(this);
+		frame.addKeyListener(this);
+		frame.addMouseWheelListener(this);*/
+		frame.addWindowListener(this);
+		frame.setResizable(false);
 
-		this.setVisible(false);
-		this.setResizable(false);
+		// Canvas
+		canvas = new Canvas(config);
+		canvas.setSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
+		canvas.setIgnoreRepaint(true);
+		frame.add(canvas, 0);
+		
+		canvas.addKeyListener(this);
+		canvas.addMouseListener(this);
+		canvas.addMouseMotionListener(this);
+		canvas.addMouseWheelListener(this);
 
-		thread = new Thread(this, "MainThread");
-		thread.setDaemon(true);
-		thread.start();
+		// Background & Buffer
+		background = create(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
+		canvas.createBufferStrategy(2);
+		do {
+			strategy = canvas.getBufferStrategy();
+		} while (strategy == null);
+
+
+		this.start();
 
 	}
 
@@ -109,11 +152,109 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	}
 
 
-	public void start() {
-		// Overridden
+
+	// Screen Stuff ------------------------------------------------------------
+	private Graphics2D getBuffer() {
+		if (graphics == null) {
+			try {
+				graphics = (Graphics2D) strategy.getDrawGraphics();
+			} catch (IllegalStateException e) {
+				return null;
+			}
+		}
+		return graphics;
 	}
 
+	private boolean updateScreen() {
+		graphics.dispose();
+		graphics = null;
+		try {
+			strategy.show();
+			Toolkit.getDefaultToolkit().sync();
+			return (!strategy.contentsLost());
 
+		} catch (NullPointerException e) {
+			return true;
+
+		} catch (IllegalStateException e) {
+			return true;
+		}
+	}
+	
+
+	// MainLoop ----------------------------------------------------------------
+	public void run() {
+		// Using a Background Image instead of drawing directly to the buffer 
+		// has two advantages: 1. You're able to scale the output and 2. 
+		// it's actually faster...
+		backgroundGraphics = (Graphics2D) background.getGraphics();
+		
+		init();
+		
+		long fpsWait = (long) (1.0 / 30 * 1000);
+		main: while (isRunning) {
+			long start = System.currentTimeMillis();
+
+			long renderStart = System.nanoTime();
+			updateGame();
+
+			// Update Graphics
+			do {
+				Graphics2D bg = getBuffer();
+				if (!isRunning) {
+					break main;
+				}
+				renderGame(backgroundGraphics);
+				//if (scale != 1) {
+					bg.drawImage(background, 0, 0, Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS, 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, null);
+				/*} else {
+					bg.drawImage(background, 0, 0, null);
+				}*/
+				bg.dispose();
+			} while (!updateScreen());
+
+			// FPS Limiting
+			/*long renderTime = (System.nanoTime() - renderStart) / 1000000;
+			try {
+				Thread.sleep(Math.max(0, fpsWait - renderTime));
+			} catch (InterruptedException e) {
+				Thread.interrupted();
+				break;
+			}
+			renderTime = (System.nanoTime() - renderStart) / 1000000;*/
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			diff_secs = (System.currentTimeMillis() - start)/1000f;
+
+		}
+		frame.dispose();
+	}
+
+	
+	// Game Methods ------------------------------------------------------------
+	public void updateGame() {
+		// update game logic here
+	}
+
+	//private Random rand = new Random();
+	
+	public void renderGame(Graphics2D g) {
+		g.setColor(this.backgroundColor);
+		g.fillRect(0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
+		
+		//g.setColor(Color.ORANGE);
+		
+		draw();
+		
+		//g.fillRect(rand.nextInt(width), rand.nextInt(height), 20, 20);
+	}
+
+	
+	/*
 	public void run() {
 		try {
 			start();
@@ -129,6 +270,15 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 
 				parentDraw();
 
+				// Update Graphics
+				do {
+					Graphics2D bg = getBuffer();
+					//renderGame(backgroundGraphics);
+					bg.drawImage(background, 0, 0, Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS
+							, 0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, null);
+					bg.dispose();
+				} while (!updateScreen());
+
 				//if (diff < Settings.FPS) {
 				Thread.sleep(10); // Stop it running too fast
 				//}
@@ -139,7 +289,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		}
 	}
 
-
+/*
 	protected void parentDraw() {
 		if (bs != null) { // Have we got a canvas yet?
 			g2 = (Graphics2D)bs.getDrawGraphics();
@@ -152,8 +302,12 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			bs.show();
 		}
 	}
+*/
 
-
+	protected void init() {
+		// To be overridden by parent
+	}
+	
 	protected void draw() {
 		// To be overridden by parent
 	}
@@ -162,25 +316,6 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	protected void setBackgroundColour(int r, int g, int b) {
 		backgroundColor = new Color(r, g, b);
 		//super.setBackground(new Color(r, g, b));
-	}
-
-
-	public void createWindow(int w, int h, boolean _fullScreen) {
-		fullScreen = _fullScreen;
-
-		this.setUndecorated(true);
-		if (fullScreen) {
-			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-			device.setFullScreenWindow(this);
-
-		} else {
-			this.setSize(w, h); // 25 since we've pushed image down to take into account insets of Window
-		}
-
-		this.setVisible(true);
-		this.createBufferStrategy(2);
-		bs = this.getBufferStrategy();
 	}
 
 
@@ -200,7 +335,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 			BufferedImage img = ImageIO.read(new File(Settings.GFX_FOLDER + filename));
 
 			BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-			scaled.getGraphics().drawImage(img, 0, 0, w, h, this);
+			scaled.getGraphics().drawImage(img, 0, 0, w, h, frame);
 
 			return new Sprite(this, scaled);
 		} catch (IOException ex) {
@@ -213,25 +348,25 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	public void drawSprite(Sprite s, int x, int y) {
 		if (s.img != null) {
 			s.setPosition(x, y);
-			g2.drawImage(s.img, x, y, null);
+			backgroundGraphics.drawImage(s.img, x, y, null);
 		}
 	}
 
 
 	public void drawSprite(Sprite s) {
 		if (s.img != null) {
-			g2.drawImage(s.img, (int)s.pos.x, (int)s.pos.y, null);
+			this.backgroundGraphics.drawImage(s.img, (int)s.pos.x, (int)s.pos.y, null);
 		}
 	}
 
 
 	public void drawFont(String text, float x, float y) { // todo - rename
-		g2.drawString(text, x, y);
+		backgroundGraphics.drawString(text, x, y);
 	}
 
 
 	public void setColour(int r, int g, int b) {
-		g2.setColor(new Color(r, g, b));
+		backgroundGraphics.setColor(new Color(r, g, b));
 	}
 
 
@@ -239,14 +374,15 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		return keys[code];
 	}
 
-	
+
 	public void playMusic(String s) {
 		// todo
 	}
 
+
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		if (ke.getKeyCode() == KeyEvent.VK_F1) {
+		/*if (ke.getKeyCode() == KeyEvent.VK_F1) {
 			// Take screenshot
 			try {
 				Rectangle r = null;
@@ -262,10 +398,10 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 				p("Screenshot saved as " + filename);
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			return;
-		}
+		}*/
 
 		keys[ke.getKeyCode()] = true;
 	}
@@ -336,7 +472,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		this.running = false;
-		this.dispose();
+		frame.dispose();
 
 	}
 
@@ -376,7 +512,7 @@ public abstract class Simple2DGameLib extends JFrame implements MouseListener, K
 		p(ex.getMessage());
 		ex.printStackTrace();
 		running = false;
-		this.setVisible(false);
+		frame.setVisible(false);
 		System.exit(-1);
 	}
 

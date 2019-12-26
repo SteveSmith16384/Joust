@@ -16,12 +16,12 @@ public class SimpleLibTest extends Simple2DGameLib {
 	public EntityFactory entityFactory;
 	
 	@Override
-	public void start() {
-		createWindow(640, 480, false);
+	public void init() {
+		//createWindow(800, 600, false);
 
 		this.setBackgroundColour(255, 255, 255);
 		
-		sprite = createSprite("assets/gfx/easy_ninja_l0.png", 20, 20);
+		sprite = createSprite("platform1.png", 20, 20);
 	}
 	
 	

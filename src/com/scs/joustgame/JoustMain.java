@@ -61,8 +61,8 @@ public final class JoustMain extends Simple2DGameLib {
 	public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
 
 	@Override
-	public void start() {
-		createWindow(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
+	public void init() {
+		//createWindow(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
 
 		this.setBackgroundColour(255, 255, 255);
 
@@ -199,7 +199,7 @@ public final class JoustMain extends Simple2DGameLib {
 			}
 
 			ecs.addAndRemoveEntities();
-			ecs.processAllSystems(); // todo - split up
+
 
 			this.inputSystem.process();
 

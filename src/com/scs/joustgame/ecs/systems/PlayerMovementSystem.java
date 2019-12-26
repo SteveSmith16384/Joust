@@ -29,7 +29,7 @@ public class PlayerMovementSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity player) {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)player.getComponent(PlayersAvatarComponent.class);
-		if (uic != null) {
+		//if (uic != null) {
 			MovementComponent mc = (MovementComponent)player.getComponent(MovementComponent.class);
 
 			if (uic.moveLeft) {
@@ -48,7 +48,7 @@ public class PlayerMovementSystem extends AbstractSystem {
 					//JoustMain.p("Cannot jump!");
 				}
 			}
-		}
+		//}
 	}
 
 

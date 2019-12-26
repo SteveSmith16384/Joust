@@ -10,8 +10,10 @@ public class Settings {
 	public static final float PLAYER_SPEED = 30f;
 	public static final int COLLECTABLE_SIZE = 20;
 	public static final int AVATAR_RESPAWN_TIME_SECS = 5;
-	public static final int LOGICAL_WIDTH_PIXELS = 800;
+	public static final int LOGICAL_WIDTH_PIXELS = 400;
 	public static final int LOGICAL_HEIGHT_PIXELS = (int)(LOGICAL_WIDTH_PIXELS * .68);
+	public static final int PHYSICAL_WIDTH_PIXELS = 800;
+	public static final int PHYSICAL_HEIGHT_PIXELS = (int)(PHYSICAL_WIDTH_PIXELS * .68);
 	public static final boolean TURN_OFF_GRAVITY = false;
 	
 	public static final int PLATFORM_SPACING = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.20f);
