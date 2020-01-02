@@ -22,11 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import com.scs.joustgame.Settings;
 
@@ -38,8 +35,8 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 
 	//public static 
 	//private Thread thread;
-	private boolean running = true;
-	private boolean fullScreen;
+	//private boolean running = true;
+	//private boolean fullScreen;
 	private Color backgroundColor = new Color(255, 255, 255);
 	private boolean[] keys = new boolean[255];
 	public float diff_secs;
@@ -55,21 +52,9 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 	private BufferedImage background;
 	private Graphics2D backgroundGraphics;
 	private Graphics2D graphics;
-	public JFrame frame;
-	//private int width = 800;
-	//private int height = 600;
-	private int scale = 1;
-	private GraphicsConfiguration config =
-			GraphicsEnvironment.getLocalGraphicsEnvironment()
-			.getDefaultScreenDevice()
-			.getDefaultConfiguration();
+	public GameWindow frame;
 
-	// Create a hardware accelerated image
-	public final BufferedImage create(final int width, final int height,
-			final boolean alpha) {
-		return config.createCompatibleImage(width, height, alpha
-				? Transparency.TRANSLUCENT : Transparency.OPAQUE);
-	}
+	public GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
 	public Simple2DGameLib() {
 		super();
@@ -77,40 +62,41 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 		System.setProperty("net.java.games.input.librarypath", new File("libs/jinput").getAbsolutePath());
 
 		// JFrame
-		frame = new JFrame();
-		//frame.addWindowListener(new FrameClose());
-		//frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		frame.setSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
+		frame = new GameWindow(this);
+		/*frame.setSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
 		frame.setUndecorated(true);
 		frame.setVisible(true);
-		/*frame.addMouseListener(this);
-		frame.addMouseMotionListener(this);
-		frame.addKeyListener(this);
-		frame.addMouseWheelListener(this);*/
 		frame.addWindowListener(this);
-		frame.setResizable(false);
+		frame.setResizable(false);*/
 
 		// Canvas
-		canvas = new Canvas(config);
+		/*canvas = new Canvas(config);
 		canvas.setSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
 		canvas.setIgnoreRepaint(true);
-		frame.add(canvas, 0);
+		frame.add(canvas, 0);*/
 		
+		/*
 		canvas.addKeyListener(this);
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
 		canvas.addMouseWheelListener(this);
-
+*/
+		
 		// Background & Buffer
+		canvas = frame.getCanvas();
 		background = create(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
 		canvas.createBufferStrategy(2);
 		do {
 			strategy = canvas.getBufferStrategy();
 		} while (strategy == null);
 
-
 		this.start();
+	}
 
+
+	// Create a hardware accelerated image
+	private final BufferedImage create(final int width, final int height, final boolean alpha) {
+		return config.createCompatibleImage(width, height, alpha ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
 	}
 
 
@@ -165,19 +151,20 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 		return graphics;
 	}
 
+	
 	private boolean updateScreen() {
 		graphics.dispose();
 		graphics = null;
 		try {
 			strategy.show();
 			Toolkit.getDefaultToolkit().sync();
-			return (!strategy.contentsLost());
-
+			return strategy.contentsLost();
 		} catch (NullPointerException e) {
-			return true;
-
+			e.printStackTrace();
+			return false;
 		} catch (IllegalStateException e) {
-			return true;
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -191,11 +178,11 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 		
 		init();
 		
-		long fpsWait = (long) (1.0 / 30 * 1000);
+		//long fpsWait = (long) (1.0 / 30 * 1000);
 		main: while (isRunning) {
 			long start = System.currentTimeMillis();
 
-			long renderStart = System.nanoTime();
+			//long renderStart = System.nanoTime();
 			updateGame();
 
 			// Update Graphics
@@ -211,7 +198,7 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 					bg.drawImage(background, 0, 0, null);
 				}*/
 				bg.dispose();
-			} while (!updateScreen());
+			} while (updateScreen());
 
 			// FPS Limiting
 			/*long renderTime = (System.nanoTime() - renderStart) / 1000000;
@@ -237,11 +224,13 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 	
 	// Game Methods ------------------------------------------------------------
 	public void updateGame() {
-		// update game logic here
+		if (this.listenForPlayers) {
+			this.checkNewOrRemovedControllers();
+		}
+
 	}
 
-	//private Random rand = new Random();
-	
+
 	public void renderGame(Graphics2D g) {
 		g.setColor(this.backgroundColor);
 		g.fillRect(0, 0, Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
@@ -471,7 +460,7 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		this.running = false;
+		this.isRunning = false;
 		frame.dispose();
 
 	}
@@ -511,9 +500,9 @@ public abstract class Simple2DGameLib extends Thread implements MouseListener, K
 	public void handleException(Exception ex) {
 		p(ex.getMessage());
 		ex.printStackTrace();
-		running = false;
+		isRunning = false;
 		frame.setVisible(false);
-		System.exit(-1);
+		//System.exit(-1);
 	}
 
 
