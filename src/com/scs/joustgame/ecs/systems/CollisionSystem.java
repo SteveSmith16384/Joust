@@ -87,7 +87,7 @@ public class CollisionSystem extends AbstractSystem {
 				return null;
 				//return new CollisionResults(edge, true, true);
 			}
-			moverPos.rect.move(0, 1);
+			moverPos.rect.add(0, 1);
 		}
 		return new CollisionResults(edge, true, true); // Will move us back
 	}
@@ -124,7 +124,7 @@ public class CollisionSystem extends AbstractSystem {
 		PositionComponent trainPos = (PositionComponent)train.getComponent(PositionComponent.class);
 		PositionComponent trackPos = (PositionComponent)track.getComponent(PositionComponent.class);
 		if (trainPos != null && trackPos != null) {
-			return trackPos.rect.contains(trainPos.rect.centerX(), trainPos.rect.centerY());
+			return trackPos.rect.contains(trainPos.rect.getCenterX(), trainPos.rect.getCenterY());
 		}
 		return false;
 	}

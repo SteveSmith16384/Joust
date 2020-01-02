@@ -1,6 +1,7 @@
 package com.scs.joustgame;
 
-import com.scs.awt.Rect;
+import java.awt.geom.Rectangle2D;
+
 import com.scs.basicecs.AbstractEntity;
 import com.scs.joustgame.ecs.components.CanCollectComponent;
 import com.scs.joustgame.ecs.components.CollisionComponent;
@@ -17,8 +18,8 @@ import com.scs.joustgame.ecs.components.ScrollsAroundComponent;
 import com.scs.joustgame.ecs.components.WalkingAnimationComponent;
 import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.models.PlayerData;
-import com.scs.simple2dgamelib.Ninepatch;
-import com.scs.simple2dgamelib.Sprite;
+import com.scs.simple2dgameframework.Ninepatch;
+import com.scs.simple2dgameframework.Sprite;
 
 public class EntityFactory {
 	
@@ -32,7 +33,7 @@ public class EntityFactory {
 	public AbstractEntity createPlayersAvatar(PlayerData player, IPlayerInput controller, float x, float y) {
 		AbstractEntity e = new AbstractEntity("Player");
 
-		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
@@ -60,7 +61,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("Wall");
 
 		//if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
+			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
@@ -78,7 +79,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("HarmfulArea");
 
 		//if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
+			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
@@ -126,7 +127,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("Ladder");
 
 		//if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, h);
+			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		//}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
@@ -144,7 +145,7 @@ public class EntityFactory {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
 
 		//if (Settings.SHOW_GREY_BOXES) {
-			ImageComponent imageData = new ImageComponent("grey_box.png", 0, w, Settings.PLAYER_SIZE);
+			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, Settings.PLAYER_SIZE);
 			e.addComponent(imageData);
 		//}
 		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
@@ -161,7 +162,7 @@ public class EntityFactory {
 	public AbstractEntity createPlatformType1(int x, int y, int w, int h) {
 		AbstractEntity e = new AbstractEntity("PlatformImage1");
 
-		Ninepatch ninepatch = new Ninepatch(game, "platform1.png", new Rect(1, 8, 1, 3));
+		Ninepatch ninepatch = new Ninepatch(game, Settings.GFX_FOLDER + "platform1.png", new Rectangle2D.Float(1, 8, 1, 3));
 		
 		ImageComponent imageData = new ImageComponent(ninepatch.getImage(w, h), -1);
 		e.addComponent(imageData);
@@ -194,7 +195,7 @@ public class EntityFactory {
 	public AbstractEntity createMob1(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Mob");
 
-		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
@@ -217,7 +218,7 @@ public class EntityFactory {
 	public AbstractEntity createMob_Cannonball(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Cannonball");
 
-		ImageComponent imageData = new ImageComponent("grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
@@ -243,7 +244,7 @@ public class EntityFactory {
 		PositionComponent pos = (PositionComponent)mob.getComponent(PositionComponent.class);
 		ImageComponent img = (ImageComponent)mob.getComponent(ImageComponent.class);	
 
-		return this.createFallingGraphic(mob.toString(), pos.rect.left, pos.rect.bottom, img.sprite, pos.rect.width(), pos.rect.height());
+		return this.createFallingGraphic(mob.toString(), pos.rect.x, pos.rect.y, img.sprite, pos.rect.width, pos.rect.height);
 	}
 
 
@@ -295,7 +296,7 @@ public class EntityFactory {
 			imageData = new ImageComponent(img.imageFilename, 1, img.w, img.h);
 		}
 		e.addComponent(imageData);
-		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
+		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(Settings.PLAYER_SPEED*2, Settings.PLAYER_SPEED*2);
 		e.addComponent(moc);
@@ -312,7 +313,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent(img.sprite, 1);
 		e.addComponent(imageData);
-		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.left, pos.rect.bottom, pos.rect.width(), pos.rect.height());
+		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*5);
 		e.addComponent(moc);

@@ -30,14 +30,14 @@ public class MoveToOffScreenSystem extends AbstractSystem {
 		MoveOffScreenComponent gic = (MoveOffScreenComponent)entity.getComponent(MoveOffScreenComponent.class);
 		if (gic != null) {
 			PositionComponent pos = (PositionComponent)entity.getComponent(PositionComponent.class);
-			if (pos.rect.right < 0 || pos.rect.top < 0 || pos.rect.left > Settings.LOGICAL_WIDTH_PIXELS || pos.rect.bottom > Settings.LOGICAL_HEIGHT_PIXELS) {
+			if (pos.rect.getMaxX() < 0 || pos.rect.getMaxY() < 0 || pos.rect.x > Settings.LOGICAL_WIDTH_PIXELS || pos.rect.y > Settings.LOGICAL_HEIGHT_PIXELS) {
 				entity.remove();
 				return;
 			}
 			//MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
 			//mc.offX = gic.offX;
 			//mc.offY = gic.offY;
-			pos.rect.move(gic.offX * game.diff_secs, gic.offY * game.diff_secs);
+			pos.rect.add(gic.offX * game.diff_secs, gic.offY * game.diff_secs);
 
 		}
 	}

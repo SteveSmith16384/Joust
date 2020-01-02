@@ -1,6 +1,6 @@
 package com.scs.joustgame.ecs.components;
 
-import com.scs.simple2dgamelib.Sprite;
+import com.scs.simple2dgameframework.Sprite;
 
 public class AnimationCycleComponent {
 

@@ -1,5 +1,6 @@
 package com.scs.joustgame;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.scs.basicecs.BasicECS;
@@ -23,11 +24,11 @@ import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.input.KeyboardInput;
 import com.scs.joustgame.models.GameData;
 import com.scs.joustgame.models.PlayerData;
-import com.scs.simple2dgamelib.Simple2DGameLib;
+import com.scs.simple2dgameframework.Simple2DGameFramework;
 
 import net.java.games.input.Controller;
 
-public final class JoustMain extends Simple2DGameLib {
+public final class JoustMain extends Simple2DGameFramework {
 
 	public BasicECS ecs;
 
@@ -38,7 +39,6 @@ public final class JoustMain extends Simple2DGameLib {
 	public int winnerImageId;
 	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
 	private boolean nextStage = false;
-	private boolean paused = false;
 
 	// Systems
 	public InputSystem inputSystem;
@@ -54,12 +54,18 @@ public final class JoustMain extends Simple2DGameLib {
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawInGameGuiSystem drawInGameGuiSystem;
 	private ProcessPlayersSystem processPlayersSystem;
-	//private ScrollPlayAreaSystem scrollPlayAreaSystem;
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
 	public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
 
+	public JoustMain() {
+		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
+		
+		this.setScreenSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
+	}
+	
+	
 	@Override
 	public void init() {
 		//createWindow(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
@@ -84,26 +90,24 @@ public final class JoustMain extends Simple2DGameLib {
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(this, ecs);
 		this.drawInGameGuiSystem = new DrawInGameGuiSystem(this);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
-		//this.scrollPlayAreaSystem = new ScrollPlayAreaSystem(this, ecs);
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this);
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this);
 
 		KeyboardInput kp = new KeyboardInput(this);
 		players.put(kp, new PlayerData(kp)); // Create keyboard player by default (they might not actually join though!)
-		this.checkForControllers();
-		
+
 		this.levelGenerator = new LevelGenerator(this.entityFactory, ecs);
 
 		startPreGame();
 
 		if (Settings.QUICKSTART) {
 			this.nextStage = true; // Auto-start game
+			players.get(kp).setInGame(true);
 		}
 	}
 
 
-	@Override
-	public void addPlayerForController(Controller controller) {
+	private void addPlayerForController(Controller controller) {
 		if (controller.getName().toLowerCase().indexOf("keyboard") >= 0) {
 			return;
 		}
@@ -115,10 +119,8 @@ public final class JoustMain extends Simple2DGameLib {
 	}
 
 
-	@Override
-	public void removePlayerForController(Controller controller) {
-		// todo
-		
+	private void removePlayerForController(Controller controller) {
+		// todo		
 	}
 
 
@@ -130,7 +132,7 @@ public final class JoustMain extends Simple2DGameLib {
 	private void startPreGame() {
 		this.playMusic("IntroLoop.wav");
 
-		this.removeAllEntities();
+		this.ecs.removeAllEntities();
 
 		// Reset all player data
 		for (PlayerData player : players.values()) {
@@ -140,7 +142,7 @@ public final class JoustMain extends Simple2DGameLib {
 
 
 	private void startPostGame() {
-		this.removeAllEntities();
+		this.ecs.removeAllEntities();
 		this.playMusic("VictoryMusic.wav");
 	}
 
@@ -154,17 +156,9 @@ public final class JoustMain extends Simple2DGameLib {
 	private void startGame() {
 		this.playMusic("8BitMetal.wav");
 
-		/*if (!Settings.RELEASE_MODE) {
-			if (this.players.size() > 0) {
-				if (this.players.get(0).isInGame() == false) {
-					this.players.get(0).setInGame(true); // Auto-add keyboard player
-				}
-			}
-		}*/
-
 		gameData = new GameData();
 
-		this.removeAllEntities();
+		this.ecs.removeAllEntities();
 
 		this.levelGenerator.createLevel1();
 	}
@@ -182,59 +176,64 @@ public final class JoustMain extends Simple2DGameLib {
 
 
 	@Override
-	public void draw() {		
-		if (!paused) {
-			if (nextStage) {
-				nextStage = false;
-				if (this.gameStage == -1 && this.getNumPlayersInGame() > 0) {
-					this.gameStage = 0;
-					this.startGame();
-				} else if (this.gameStage == 0) {
-					this.gameStage = 1;
-					startPostGame();
-				} else if (this.gameStage == 1) {
-					this.gameStage = -1;
-					startPreGame();
-				}
-			}
-
-			ecs.addAndRemoveEntities();
-
-
-			this.inputSystem.process();
-
-			if (this.gameStage == 0) {
-				// loop through systems
-				this.processPlayersSystem.process();
-				this.moveToOffScreenSystem.process();
-				this.playerMovementSystem.process();
-				this.mobAiSystem.process();
-				//this.scrollPlayAreaSystem.process();
-				this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
-				this.movementSystem.process();
-				this.animSystem.process();			
-			}
-
-			this.drawingSystem.process();
-			if (this.gameStage == -1) {
-				this.drawPreGameGuiSystem.process();
+	public void draw() {
+		Controller c = this.getNextNewController();
+		if (c != null) {
+			this.addPlayerForController(c);
+		}
+		c = this.getRemovedController();
+		if (c != null) {
+			this.removePlayerForController(c);
+		}
+		
+		if (nextStage) {
+			nextStage = false;
+			if (this.gameStage == -1 && this.getNumPlayersInGame() > 0) {
+				this.gameStage = 0;
+				this.startGame();
 			} else if (this.gameStage == 0) {
-				this.drawInGameGuiSystem.process();
+				this.gameStage = 1;
+				startPostGame();
 			} else if (this.gameStage == 1) {
-				this.drawPostGameGuiSystem.process();
-				this.drawInGameGuiSystem.process();
+				this.gameStage = -1;
+				startPreGame();
 			}
+		}
+
+		ecs.addAndRemoveEntities();
+
+		this.inputSystem.process();
+
+		if (this.gameStage == 0) {
+			// loop through systems
+			this.processPlayersSystem.process();
+			this.moveToOffScreenSystem.process();
+			this.playerMovementSystem.process();
+			this.mobAiSystem.process();
+			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
+			this.movementSystem.process();
+			this.animSystem.process();			
+		}
+
+		this.drawingSystem.process();
+		if (this.gameStage == -1) {
+			this.drawPreGameGuiSystem.process();
+		} else if (this.gameStage == 0) {
+			this.drawInGameGuiSystem.process();
+		} else if (this.gameStage == 1) {
+			this.drawPostGameGuiSystem.process();
+			this.drawInGameGuiSystem.process();
 		}
 	}
 
-
+/*
 	private void removeAllEntities() {
 		this.ecs.removeAllEntities();
 	}
-
+*/
 
 	//#############################
-/*
+	/*
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -269,9 +268,9 @@ public final class JoustMain extends Simple2DGameLib {
 		this.inputSystem.axisMoved(controller, axisCode, value);
 		return false;
 	}
-*/
+	 */
 
-	
+
 	// ----------------------------------------------
 
 	public static void main(String[] args) {

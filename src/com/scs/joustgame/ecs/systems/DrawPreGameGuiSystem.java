@@ -3,7 +3,7 @@ package com.scs.joustgame.ecs.systems;
 import com.scs.joustgame.JoustMain;
 import com.scs.joustgame.Settings;
 import com.scs.joustgame.models.PlayerData;
-import com.scs.simple2dgamelib.Sprite;
+import com.scs.simple2dgameframework.Sprite;
 
 public class DrawPreGameGuiSystem {
 
@@ -15,10 +15,10 @@ public class DrawPreGameGuiSystem {
 		game = _game;
 
 		if (Settings.RELEASE_MODE) {
-			background = game.createSprite("background.jpg");
+			background = game.createSprite(Settings.GFX_FOLDER + "background.jpg");
 			background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
 
-			logo = game.createSprite("ctc_logo.png");
+			logo = game.createSprite(Settings.GFX_FOLDER + "ctc_logo.png");
 			logo.setSize(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
 			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/2);
 		}

@@ -1,16 +1,15 @@
-package com.scs.simple2dgamelib;
+package com.scs.simple2dgameframework;
 
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-
-import com.scs.awt.PointF;
 
 public class Sprite {
 
 	public BufferedImage img;
-	private Simple2DGameLib game;
-	public PointF pos = new PointF();
+	private Simple2DGameFramework game;
+	public Point2D.Float pos = new Point2D.Float();
 
-	public Sprite(Simple2DGameLib _game, BufferedImage _img) {
+	public Sprite(Simple2DGameFramework _game, BufferedImage _img) {
 		game = _game;
 		img = _img;
 	}

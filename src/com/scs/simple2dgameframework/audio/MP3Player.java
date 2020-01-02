@@ -1,4 +1,4 @@
-package com.scs.simple2dgamelib.audio;
+package com.scs.simple2dgameframework.audio;
 
 import java.io.IOException;
 import java.io.InputStream;

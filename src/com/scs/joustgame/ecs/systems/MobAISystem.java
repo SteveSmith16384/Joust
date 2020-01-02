@@ -41,7 +41,7 @@ public class MobAISystem extends AbstractSystem {
 				PositionComponent pos = (PositionComponent)entity.getComponent(PositionComponent.class);
 				// Check for missing floor
 				boolean floorFound = false;
-				List<AbstractEntity> ents = game.collisionSystem.getEntitiesAt(pos.rect.centerX(), pos.rect.bottom-1); 
+				List<AbstractEntity> ents = game.collisionSystem.getEntitiesAt((float)pos.rect.getCenterX(), pos.rect.y-1); 
 				for (AbstractEntity e : ents) {
 					CollisionComponent cc = (CollisionComponent)e.getComponent(CollisionComponent.class);
 					if (cc.blocksMovement || cc.fluidPlatform) {

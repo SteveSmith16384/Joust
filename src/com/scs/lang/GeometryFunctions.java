@@ -1,8 +1,7 @@
 package com.scs.lang;
 
 import java.awt.Point;
-
-import com.scs.awt.PointF;
+import java.awt.geom.Point2D;
 
 public class GeometryFunctions {
 
@@ -72,10 +71,10 @@ public class GeometryFunctions {
 	}
 
 
-	public static PointF GetPointFromAngle(int degrees, float len) {
+	public static Point2D.Float GetPointFromAngle(int degrees, float len) {
 		float x = (float)(Math.toRadians(Math.cos(degrees)) * len);
 		float y = (float)(Math.toRadians(Math.sin(degrees)) * len);
-		return new PointF(x, y);
+		return new Point2D.Float(x, y);
 	}
 
 
@@ -115,7 +114,7 @@ public class GeometryFunctions {
 	/**
 	 * Point where the segments intersect, or null if they don't
 	 */
-	public static PointF GetLineIntersection (
+	public static Point2D.Float GetLineIntersection (
 			float sx1, float sy1, float ex1, float ey1, 
 			float sx2, float sy2, float ex2, float ey2
 	) {
@@ -125,7 +124,7 @@ public class GeometryFunctions {
 		float xi = ((sx2-ex2)*(sx1*ey1-sy1*ex1)-(sx1-ex1)*(sx2*ey2-sy2*ex2))/d;
 		float yi = ((sy2-ey2)*(sx1*ey1-sy1*ex1)-(sy1-ey1)*(sx2*ey2-sy2*ex2))/d;
 
-		PointF p = new PointF(xi,yi);
+		Point2D.Float p = new Point2D.Float(xi,yi);
 		if (xi < Math.min(sx1,ex1) || xi > Math.max(sx1,ex1)) return null;
 		if (xi < Math.min(sx2,ex2) || xi > Math.max(sx2,ex2)) return null;
 		return p;

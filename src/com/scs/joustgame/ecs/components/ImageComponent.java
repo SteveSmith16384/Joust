@@ -1,7 +1,8 @@
 package com.scs.joustgame.ecs.components;
 
-import com.scs.awt.RectF;
-import com.scs.simple2dgamelib.Sprite;
+import java.awt.geom.Rectangle2D;
+
+import com.scs.simple2dgameframework.Sprite;
 
 public class ImageComponent {
 
@@ -10,7 +11,7 @@ public class ImageComponent {
 	public Sprite sprite;
 	public int zOrder; // -1, - or 1
 
-	public RectF atlasPosition; // Fill this in if it uses atlas
+	public Rectangle2D.Float atlasPosition; // Fill this in if it uses atlas
 
 	public ImageComponent(String _filename, int _zOrder, float _w, float _h)  {
 		this.imageFilename = _filename;
@@ -37,7 +38,7 @@ public class ImageComponent {
 	}
 
 
-	public ImageComponent(String _filename, int _zOrder, float _w, float _h, RectF _atlasPosition)  {
+	public ImageComponent(String _filename, int _zOrder, float _w, float _h, Rectangle2D.Float _atlasPosition)  {
 		this(_filename, _zOrder, _w, _h);
 
 		atlasPosition = _atlasPosition;

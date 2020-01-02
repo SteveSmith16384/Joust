@@ -62,7 +62,7 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 		}
 
 		// Draw the sprite
-		imageData.sprite.setPosition(posData.rect.getX(), posData.rect.getY());
+		imageData.sprite.setPosition(posData.rect.x, posData.rect.y);
 		imageData.sprite.drawSprite();
 		//}
 	}

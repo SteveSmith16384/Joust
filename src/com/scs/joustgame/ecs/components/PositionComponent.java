@@ -1,12 +1,13 @@
 package com.scs.joustgame.ecs.components;
 
+import java.awt.geom.Rectangle2D;
+
 import com.scs.awt.Edge;
-import com.scs.awt.RectF;
 
 public class PositionComponent {
 
-	public RectF rect;
-	public RectF prevPos;
+	public Rectangle2D.Float rect;
+	public Rectangle2D.Float prevPos;
 	public Edge edge;
 	
 	/* Removed because it causes confusion - origin is always left-bottom
@@ -20,14 +21,14 @@ public class PositionComponent {
 
 	public static PositionComponent ByBottomLeft(float x, float y, float w, float h) {
 		PositionComponent pos = new PositionComponent();
-		pos.rect = new RectF(x, y-h, x+(w), y);
+		pos.rect = new Rectangle2D.Float(x, y-h, x+(w), y);
 		return pos;
 	}
 
 
 	public static PositionComponent ByTopLeft(float x, float y, float w, float h) {
 		PositionComponent pos = new PositionComponent();
-		pos.rect = new RectF(x, y, x+(w), y+h);
+		pos.rect = new Rectangle2D.Float(x, y, x+(w), y+h);
 		return pos;
 	}
 
@@ -40,7 +41,7 @@ public class PositionComponent {
 
 	
 	private PositionComponent() {
-		prevPos = new RectF();
+		prevPos = new Rectangle2D.Float();
 	}
 
 }

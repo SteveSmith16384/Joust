@@ -1,5 +1,7 @@
 package com.scs.awt;
 
+import java.awt.geom.Rectangle2D;
+
 import com.scs.joustgame.models.LineData;
 
 public class Edge extends LineData {
@@ -13,8 +15,8 @@ public class Edge extends LineData {
 	}
 
 	
-	public boolean intersectsRect(RectF r) {
-		return intersectsRect(r.getX(), r.getY(), r.width(), r.height());
+	public boolean intersectsRect(Rectangle2D.Float r) {
+		return intersectsRect(r.x, r.y, r.width, r.height);
 	}
 	
 	

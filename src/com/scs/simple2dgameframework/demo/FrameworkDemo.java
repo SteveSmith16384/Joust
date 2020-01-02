@@ -1,25 +1,27 @@
-package com.scs.joustgame;
+package com.scs.simple2dgameframework.demo;
 
 import java.awt.event.KeyEvent;
 
-import com.scs.basicecs.BasicECS;
-import com.scs.simple2dgamelib.Simple2DGameLib;
-import com.scs.simple2dgamelib.Sprite;
+import com.scs.simple2dgameframework.Simple2DGameFramework;
+import com.scs.simple2dgameframework.Sprite;
 
-public class SimpleLibTest extends Simple2DGameLib {
+public class FrameworkDemo extends Simple2DGameFramework {
 
 	private Sprite sprite;
 	private int x = 50;
-	public BasicECS ecs;
-	public EntityFactory entityFactory;
+	
+	public FrameworkDemo() {
+		super(400, 300);
+		
+		this.setScreenSize(800, 600);
+	}
+	
 	
 	@Override
 	public void init() {
-		//createWindow(800, 600, false);
-
 		this.setBackgroundColour(255, 255, 255);
 		
-		sprite = createSprite("platform1.png", 20, 20);
+		sprite = createSprite("grey_box.png", 20, 20);
 	}
 	
 	
@@ -37,7 +39,7 @@ public class SimpleLibTest extends Simple2DGameLib {
 	// ----------------------------------------------
 
 	public static void main(String[] args) {
-		new SimpleLibTest();
+		new FrameworkDemo();
 	}
 
 }

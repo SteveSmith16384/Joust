@@ -29,26 +29,24 @@ public class PlayerMovementSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity player) {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)player.getComponent(PlayersAvatarComponent.class);
-		//if (uic != null) {
-			MovementComponent mc = (MovementComponent)player.getComponent(MovementComponent.class);
+		MovementComponent mc = (MovementComponent)player.getComponent(MovementComponent.class);
 
-			if (uic.moveLeft) {
-				mc.offX = -Settings.PLAYER_SPEED;
-			} else if (uic.moveRight) {
-				mc.offX = Settings.PLAYER_SPEED;
-			}
+		if (uic.moveLeft) {
+			mc.offX = -Settings.PLAYER_SPEED;
+		} else if (uic.moveRight) {
+			mc.offX = Settings.PLAYER_SPEED;
+		}
 
-			if (uic.jump) {
-				JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
-				if (jc.canJump) {
-					//game.sfx.play("BonusCube.ogg");
-					mc.offY = -Settings.JUMP_FORCE;
-					jc.canJump = false;
-				} else {
-					//JoustMain.p("Cannot jump!");
-				}
+		if (uic.jump) {
+			JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
+			if (jc.canJump) {
+				//game.sfx.play("BonusCube.ogg");
+				mc.offY = -Settings.JUMP_FORCE;
+				jc.canJump = false;
+			} else {
+				//JoustMain.p("Cannot jump!");
 			}
-		//}
+		}
 	}
 
 

@@ -1,14 +1,14 @@
-package com.scs.simple2dgamelib;
+package com.scs.simple2dgameframework;
 
-import com.scs.awt.Rect;
+import java.awt.geom.Rectangle2D;
 
 public class Ninepatch {
 
-	private Simple2DGameLib game;
-	private Rect rect; // The insets!
+	private Simple2DGameFramework game;
+	private Rectangle2D.Float rect; // The insets!
 	private String filename;
 	
-	public Ninepatch(Simple2DGameLib _game, String _filename, Rect _rect) {
+	public Ninepatch(Simple2DGameFramework _game, String _filename, Rectangle2D.Float _rect) {
 		game = _game;
 		filename = _filename;
 		rect = _rect;
@@ -17,7 +17,8 @@ public class Ninepatch {
 	
 	public Sprite getImage(int w, int h) {
 		return game.createSprite(filename, w, h);
-		/*
+		
+		/* TODO
 		Texture t1 = new Texture(filename);
 		t1.getTextureData().prepare();
 		Pixmap p1 = t1.getTextureData().consumePixmap();
