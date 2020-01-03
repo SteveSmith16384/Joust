@@ -42,7 +42,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 				for (PlayerData player : game.players.values()) {
 					if (player.controller instanceof KeyboardInput) {
 						if (player.isInGame() == false) {
-							game.p("Keyboard player joined");
+							//game.p("Keyboard player joined");
 							player.setInGame(true);
 							break;
 						}

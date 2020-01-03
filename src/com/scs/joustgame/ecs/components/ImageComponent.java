@@ -2,7 +2,7 @@ package com.scs.joustgame.ecs.components;
 
 import java.awt.geom.Rectangle2D;
 
-import com.scs.simple2dgameframework.Sprite;
+import com.scs.simple2dgameframework.graphics.Sprite;
 
 public class ImageComponent {
 

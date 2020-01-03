@@ -1,7 +1,8 @@
 package com.scs.joustgame;
 
-import java.util.Arrays;
 import java.util.HashMap;
+
+import javax.swing.SwingUtilities;
 
 import com.scs.basicecs.BasicECS;
 import com.scs.joustgame.ecs.systems.AnimationCycleSystem;
@@ -18,8 +19,9 @@ import com.scs.joustgame.ecs.systems.MovementSystem;
 import com.scs.joustgame.ecs.systems.PlayerMovementSystem;
 import com.scs.joustgame.ecs.systems.ProcessCollisionSystem;
 import com.scs.joustgame.ecs.systems.ProcessPlayersSystem;
+import com.scs.joustgame.ecs.systems.ScrollPlayAreaSystem;
 import com.scs.joustgame.ecs.systems.WalkingAnimationSystem;
-import com.scs.joustgame.input.ControllerWrapper;
+import com.scs.joustgame.input.ControllerInput;
 import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.input.KeyboardInput;
 import com.scs.joustgame.models.GameData;
@@ -54,6 +56,7 @@ public final class JoustMain extends Simple2DGameFramework {
 	private MoveToOffScreenSystem moveToOffScreenSystem;
 	private DrawInGameGuiSystem drawInGameGuiSystem;
 	private ProcessPlayersSystem processPlayersSystem;
+	private ScrollPlayAreaSystem scrollPlayAreaSystem;
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
@@ -61,11 +64,11 @@ public final class JoustMain extends Simple2DGameFramework {
 
 	public JoustMain() {
 		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
-		
+
 		this.setScreenSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
 	}
-	
-	
+
+
 	@Override
 	public void init() {
 		//createWindow(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
@@ -90,6 +93,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		this.moveToOffScreenSystem = new MoveToOffScreenSystem(this, ecs);
 		this.drawInGameGuiSystem = new DrawInGameGuiSystem(this);
 		this.processPlayersSystem = new ProcessPlayersSystem(this);
+		this.scrollPlayAreaSystem = new ScrollPlayAreaSystem(this, ecs);
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this);
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this);
 
@@ -108,14 +112,12 @@ public final class JoustMain extends Simple2DGameFramework {
 
 
 	private void addPlayerForController(Controller controller) {
-		if (controller.getName().toLowerCase().indexOf("keyboard") >= 0) {
-			return;
-		}
-		if (this.players.containsKey(controller) == false) {
-			PlayerData data = new PlayerData(new ControllerWrapper(controller));
-			this.players.put(data.controller, data);
-			p("player created for " + controller.getName());
-		}
+		/*
+		if (this.players.containsKey(controller) == false) {*/
+		PlayerData data = new PlayerData(new ControllerInput(controller));
+		this.players.put(data.controller, data);
+		p("player created for " + controller.getName());
+		//}
 	}
 
 
@@ -185,7 +187,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		if (c != null) {
 			this.removePlayerForController(c);
 		}
-		
+
 		if (nextStage) {
 			nextStage = false;
 			if (this.gameStage == -1 && this.getNumPlayersInGame() > 0) {
@@ -210,6 +212,7 @@ public final class JoustMain extends Simple2DGameFramework {
 			this.moveToOffScreenSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
+			//todo - re-add this.scrollPlayAreaSystem.process();
 			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 			this.movementSystem.process();
 			this.animSystem.process();			
@@ -226,11 +229,11 @@ public final class JoustMain extends Simple2DGameFramework {
 		}
 	}
 
-/*
+	/*
 	private void removeAllEntities() {
 		this.ecs.removeAllEntities();
 	}
-*/
+	 */
 
 	//#############################
 	/*
@@ -274,8 +277,12 @@ public final class JoustMain extends Simple2DGameFramework {
 	// ----------------------------------------------
 
 	public static void main(String[] args) {
-		new JoustMain();
-	}
-
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new JoustMain();
+            }
+        });
+    }
+    
 }
-

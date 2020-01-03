@@ -87,7 +87,7 @@ public class CollisionSystem extends AbstractSystem {
 				return null;
 				//return new CollisionResults(edge, true, true);
 			}
-			moverPos.rect.add(0, 1);
+			moverPos.rect.y -= 1;
 		}
 		return new CollisionResults(edge, true, true); // Will move us back
 	}

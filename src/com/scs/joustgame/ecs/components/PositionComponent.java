@@ -21,14 +21,14 @@ public class PositionComponent {
 
 	public static PositionComponent ByBottomLeft(float x, float y, float w, float h) {
 		PositionComponent pos = new PositionComponent();
-		pos.rect = new Rectangle2D.Float(x, y-h, x+(w), y);
+		pos.rect = new Rectangle2D.Float(x, y-h, w, h);
 		return pos;
 	}
 
 
 	public static PositionComponent ByTopLeft(float x, float y, float w, float h) {
 		PositionComponent pos = new PositionComponent();
-		pos.rect = new Rectangle2D.Float(x, y, x+(w), y+h);
+		pos.rect = new Rectangle2D.Float(x, y, w, h);
 		return pos;
 	}
 

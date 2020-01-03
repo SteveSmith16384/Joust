@@ -41,7 +41,7 @@ public class LevelGenerator {
 	public void generateRow(int rowYPos, boolean createMobs) {
 		//generateRow_OneLongRow(row);
 		
-		int numPlatforms = NumberFunctions.rnd(1, 6); // 1;//todo - restore
+		int numPlatforms = NumberFunctions.rnd(1, 6);
 		generateRow_MultiplePlatforms(rowYPos, numPlatforms, createMobs);
 	}
 

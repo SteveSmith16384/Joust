@@ -3,7 +3,7 @@ package com.scs.simple2dgameframework.demo;
 import java.awt.event.KeyEvent;
 
 import com.scs.simple2dgameframework.Simple2DGameFramework;
-import com.scs.simple2dgameframework.Sprite;
+import com.scs.simple2dgameframework.graphics.Sprite;
 
 public class FrameworkDemo extends Simple2DGameFramework {
 

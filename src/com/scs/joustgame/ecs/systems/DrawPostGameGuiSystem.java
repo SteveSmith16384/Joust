@@ -2,7 +2,7 @@ package com.scs.joustgame.ecs.systems;
 
 import com.scs.joustgame.JoustMain;
 import com.scs.joustgame.Settings;
-import com.scs.simple2dgameframework.Sprite;
+import com.scs.simple2dgameframework.graphics.Sprite;
 
 public class DrawPostGameGuiSystem {
 

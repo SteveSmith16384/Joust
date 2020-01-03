@@ -3,7 +3,7 @@ package com.scs.joustgame.ecs.systems;
 import com.scs.joustgame.JoustMain;
 import com.scs.joustgame.Settings;
 import com.scs.joustgame.models.PlayerData;
-import com.scs.simple2dgameframework.Sprite;
+import com.scs.simple2dgameframework.graphics.Sprite;
 
 public class DrawInGameGuiSystem {
 

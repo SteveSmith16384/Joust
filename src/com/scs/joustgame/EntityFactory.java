@@ -1,9 +1,11 @@
 package com.scs.joustgame;
 
-import java.awt.geom.Rectangle2D;
+import java.awt.Rectangle;
 
 import com.scs.basicecs.AbstractEntity;
+import com.scs.joustgame.ecs.components.AnimationCycleComponent;
 import com.scs.joustgame.ecs.components.CanCollectComponent;
+import com.scs.joustgame.ecs.components.CollectableComponent;
 import com.scs.joustgame.ecs.components.CollisionComponent;
 import com.scs.joustgame.ecs.components.HarmOnContactComponent;
 import com.scs.joustgame.ecs.components.ImageComponent;
@@ -18,8 +20,8 @@ import com.scs.joustgame.ecs.components.ScrollsAroundComponent;
 import com.scs.joustgame.ecs.components.WalkingAnimationComponent;
 import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.models.PlayerData;
-import com.scs.simple2dgameframework.Ninepatch;
-import com.scs.simple2dgameframework.Sprite;
+import com.scs.simple2dgameframework.graphics.Ninepatch;
+import com.scs.simple2dgameframework.graphics.Sprite;
 
 public class EntityFactory {
 	
@@ -51,8 +53,7 @@ public class EntityFactory {
 		e.addComponent(ccc);
 		WalkingAnimationComponent wac = new WalkingAnimationComponent(.2f);
 		e.addComponent(wac);
-
-		game.animFrameHelper.createPlayersFrames(e, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createPlayersFrames(wac, player.imageId, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -60,10 +61,10 @@ public class EntityFactory {
 	public AbstractEntity createWall(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Wall");
 
-		//if (Settings.SHOW_GREY_BOXES) {
+		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		//}
+		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
@@ -78,10 +79,10 @@ public class EntityFactory {
 	public AbstractEntity createHarmfulArea(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("HarmfulArea");
 
-		//if (Settings.SHOW_GREY_BOXES) {
+		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		//}
+		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
@@ -126,10 +127,10 @@ public class EntityFactory {
 	public AbstractEntity createLadderArea(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Ladder");
 
-		//if (Settings.SHOW_GREY_BOXES) {
+		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
-		//}
+		}
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, true);
@@ -144,10 +145,10 @@ public class EntityFactory {
 	public AbstractEntity createFluidPlatform(int x, int y, float w) {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
 
-		//if (Settings.SHOW_GREY_BOXES) {
+		if (Settings.SHOW_GREY_BOXES) {
 			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, Settings.PLAYER_SIZE);
 			e.addComponent(imageData);
-		//}
+		}
 		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(false, true, false, false);
@@ -162,7 +163,7 @@ public class EntityFactory {
 	public AbstractEntity createPlatformType1(int x, int y, int w, int h) {
 		AbstractEntity e = new AbstractEntity("PlatformImage1");
 
-		Ninepatch ninepatch = new Ninepatch(game, Settings.GFX_FOLDER + "platform1.png", new Rectangle2D.Float(1, 8, 1, 3));
+		Ninepatch ninepatch = new Ninepatch(game, Settings.GFX_FOLDER + "platform1.png", new Rectangle(1, 8, 1, 3));
 		
 		ImageComponent imageData = new ImageComponent(ninepatch.getImage(w, h), -1);
 		e.addComponent(imageData);
@@ -210,7 +211,7 @@ public class EntityFactory {
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 
-		//game.animFrameHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createMob1Frames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -235,7 +236,7 @@ public class EntityFactory {
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 
-		//todo game.animFrameHelper.createCannonballFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		game.animFrameHelper.createCannonballFrames(e, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		return e;
 	}
 
@@ -264,19 +265,16 @@ public class EntityFactory {
 	public AbstractEntity createCoin(int x, int y) {
 		AbstractEntity e = new AbstractEntity("Coin");
 
-		//todo AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
-		/*e.addComponent(acc);
-		if (acc.frames[0] == null) {
-			int dfgf = 456;
-		}
+		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
+		e.addComponent(acc);
 		ImageComponent imageData = new ImageComponent(acc.frames[0], 1);
-		e.addComponent(imageData);*/
+		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, false, false);
 		e.addComponent(cc);
-		/*CollectableComponent col = new CollectableComponent(Type.Coin);
-		e.addComponent(col);*/
+		CollectableComponent col = new CollectableComponent(CollectableComponent.Type.Coin);
+		e.addComponent(col);
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
 		return e;

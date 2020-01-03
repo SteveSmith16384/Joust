@@ -2,11 +2,11 @@ package com.scs.joustgame.input;
 
 import net.java.games.input.Controller;
 
-public class ControllerWrapper implements IPlayerInput {
+public class ControllerInput implements IPlayerInput {
 
 	private Controller controller;
 	
-	public ControllerWrapper(Controller _controller) {
+	public ControllerInput(Controller _controller) {
 		controller = _controller;
 	}
 
