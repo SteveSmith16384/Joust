@@ -223,7 +223,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	}
 
 
-	public void drawFont(String text, float x, float y) { // todo - rename
+	public void drawFont(String text, float x, float y) {
 		backgroundGraphics.drawString(text, x, y);
 	}
 

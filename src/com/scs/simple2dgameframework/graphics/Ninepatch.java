@@ -30,30 +30,31 @@ public class Ninepatch {
 		try {
 			//Sprite s = game.createSprite(filename, w, h);
 			//BufferedImage p1 = s.img;
-			BufferedImage p1 = ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
+			BufferedImage sourceImage = ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
+			sourceImage = GraphicsUtils.scaleImage(sourceImage, w, h);
 
 			BufferedImage finalImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
 			// First coords are DEST, second coords are SOURCE
 
 			// Left
-			finalImg.getGraphics().drawImage(p1, 0, 0, insets.x, h, 
+			finalImg.getGraphics().drawImage(sourceImage, 0, 0, insets.x, h, 
 					0, 0, insets.x, h, game.frame);
 
 			// Top
-			finalImg.getGraphics().drawImage(p1, 0, 0, w, insets.y, 
+			finalImg.getGraphics().drawImage(sourceImage, 0, 0, w, insets.y, 
 					0, 0, w, insets.y, game.frame);
 
 			// Right
-			finalImg.getGraphics().drawImage(p1, w-insets.width, 0, insets.width, h, 
+			finalImg.getGraphics().drawImage(sourceImage, w-insets.width, 0, insets.width, h, 
 					w-insets.width, 0, insets.width, h, game.frame);
 
 			// Bottom
-			finalImg.getGraphics().drawImage(p1, 0, 0, w, insets.height, 
+			finalImg.getGraphics().drawImage(sourceImage, 0, 0, w, insets.height, 
 					0, 0, w, insets.height, game.frame);
 
 			// Middle
-			finalImg.getGraphics().drawImage(p1, insets.x, insets.height, w-insets.x-insets.width, h-insets.height-insets.y,
+			finalImg.getGraphics().drawImage(sourceImage, insets.x, insets.height, w-insets.x-insets.width, h-insets.height-insets.y,
 					insets.x, insets.height, w-insets.x-insets.width, h-insets.height-insets.y, game.frame);
 
 			return new Sprite(game, finalImg);

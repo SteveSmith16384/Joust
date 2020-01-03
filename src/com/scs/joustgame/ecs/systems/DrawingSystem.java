@@ -14,10 +14,10 @@ import com.scs.joustgame.ecs.components.PositionComponent;
 public class DrawingSystem extends AbstractSystem implements Comparator<AbstractEntity> {
 
 	private JoustMain game;
-	
+
 	public DrawingSystem(JoustMain _game, BasicECS ecs) {
 		super(ecs);
-		
+
 		game  = _game;
 
 	}
@@ -43,19 +43,11 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 	//@Override
 	public void processEntity(AbstractEntity entity) {
 		ImageComponent imageData = (ImageComponent)entity.getComponent(ImageComponent.class);
-		//if (imageData != null) {
 		PositionComponent posData = (PositionComponent)entity.getComponent(PositionComponent.class);
 		if (imageData.sprite == null) {
 			// Load sprite for given filename
-			JoustMain.p("Creating sprite for " + entity);
-			//Texture tex = getTexture(imageData.imageFilename);
-			//if (imageData.atlasPosition == null) {
-				imageData.sprite = game.createSprite(imageData.imageFilename);
-			/*} else {
-				TextureAtlas atlas = new TextureAtlas();
-				atlas.addRegion("r", tex, (int)imageData.atlasPosition.left, (int)imageData.atlasPosition.bottom, (int)imageData.atlasPosition.width(), (int)imageData.atlasPosition.height());
-				imageData.sprite = atlas.createSprite("r");
-			}*/
+			//JoustMain.p("Creating sprite for " + entity);
+			imageData.sprite = game.createSprite(imageData.imageFilename);
 			if (imageData.w > 0 && imageData.h > 0) {
 				imageData.sprite.setSize(imageData.w, imageData.h);
 			}
@@ -64,7 +56,6 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 		// Draw the sprite
 		imageData.sprite.setPosition(posData.rect.x, posData.rect.y);
 		imageData.sprite.drawSprite();
-		//}
 	}
 
 	/*

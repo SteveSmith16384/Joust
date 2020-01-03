@@ -11,7 +11,7 @@ import com.scs.simple2dgameframework.Simple2DGameFramework;
 
 public class GraphicsUtils {
 
-	public GraphicsUtils() {
+	private GraphicsUtils() {
 	}
 	
 	
@@ -19,11 +19,9 @@ public class GraphicsUtils {
 		try {
 			return ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
 		} catch (IOException ex) {
-			//return null;
 			throw new RuntimeException("Unable to load image " + filename);
 		}
 	}
-
 
 
 	public static BufferedImage scaleImage(BufferedImage img, int w, int h) {
@@ -46,9 +44,9 @@ public class GraphicsUtils {
 		BufferedImage newimage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		for (int j=0;j<image.getHeight();j++) {
 			for (int i=0;i<image.getWidth();i++) {
-				//int tmp = image.getRGB(i, j);
-				newimage.setRGB(i, j, image.getRGB(i, image.getHeight()-j-1));
-				//image.setRGB(i, image.getHeight()-j-1, tmp);
+				//newimage.setRGB(i, j, image.getRGB(i, image.getHeight()-j-1));
+				int tmp = image.getRGB(i, j);
+				newimage.setRGB(i, image.getHeight()-j-1, tmp);
 			}
 		}
 		return newimage;

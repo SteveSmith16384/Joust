@@ -84,8 +84,8 @@ public class LevelGenerator {
 
 
 	private void createPlatform(int row, int startX, int width, boolean createMob) {
-		AbstractEntity platform = this.entityFactory.createFluidPlatform(startX, row, width);
-		ecs.addEntity(platform);
+		//AbstractEntity platform = this.entityFactory.createFluidPlatform(startX, row, width);
+		//ecs.addEntity(platform);
 		AbstractEntity platformImage = this.entityFactory.createPlatformType1(startX, row, width, 35);
 		ecs.addEntity(platformImage);
 

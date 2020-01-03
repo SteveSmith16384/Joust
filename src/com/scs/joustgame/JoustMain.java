@@ -212,7 +212,7 @@ public final class JoustMain extends Simple2DGameFramework {
 			this.moveToOffScreenSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
-			//todo - re-add this.scrollPlayAreaSystem.process();
+			this.scrollPlayAreaSystem.process();
 			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 			this.movementSystem.process();
 			this.animSystem.process();			

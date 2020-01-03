@@ -14,7 +14,6 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 	private float dist;
 	private int highestPos, lowestPos;
 	private int dir = 1;
-	//private float timeUntilChange;
 	
 	public ScrollPlayAreaSystem(JoustMain _game, BasicECS ecs) {
 		super(ecs);
@@ -76,7 +75,7 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 					return;
 				}
 			}
-			pos.rect.y -= dist;
+			pos.rect.y += dist;
 		}
 	}
 
