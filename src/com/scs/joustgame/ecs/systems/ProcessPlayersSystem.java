@@ -17,11 +17,11 @@ public class ProcessPlayersSystem {
 
 
 	public void process() {
-		for (PlayerData player : game.players.values()) {
+		for (PlayerData player : game.players) {
 			if (player.isInGame() && player.quit == false) {
 				if (player.lives > 0) {
 					if (player.avatar == null) {
-						player.timeUntilAvatar -= game.diff_secs;
+						player.timeUntilAvatar -= game.delta_seconds;
 						if (player.timeUntilAvatar <= 0) {
 							createPlayersAvatar(player, player.controller);
 						}
@@ -34,7 +34,7 @@ public class ProcessPlayersSystem {
 		int winner = -1;
 		int highestScore = -1;
 
-		for (PlayerData player : game.players.values()) {
+		for (PlayerData player : game.players) {
 			if (player.isInGame()) {
 				if (player.lives <= 0) {
 					if (player.score > highestScore) {

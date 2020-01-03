@@ -34,7 +34,7 @@ public class MovementSystem extends AbstractSystem {
 		//p("Mob pos :" + pos.rect);
 		if (md.offX != 0) {
 			pos.prevPos.setRect(pos.rect);
-			float totalDist = md.offX * game.diff_secs;
+			float totalDist = md.offX * game.delta_seconds;
 			if (Math.abs(totalDist) > Settings.MAX_MOVEMENT) {
 				totalDist = Settings.MAX_MOVEMENT * Math.signum(totalDist);
 				//MyGdxGame.p("Max movement hit!");					
@@ -57,7 +57,7 @@ public class MovementSystem extends AbstractSystem {
 		}
 		if (md.offY != 0) {
 			pos.prevPos.setRect(pos.rect);
-			float totalDist = md.offY * game.diff_secs;
+			float totalDist = md.offY * game.delta_seconds;
 			if (Math.abs(totalDist) > Settings.MAX_MOVEMENT) {
 				//MyGdxGame.p("Max movement hit!");					
 				totalDist = Settings.MAX_MOVEMENT * Math.signum(totalDist);
@@ -98,7 +98,7 @@ public class MovementSystem extends AbstractSystem {
 		if (md.canFall) {
 			// Gravity
 			if (!Settings.TURN_OFF_GRAVITY) {
-				md.offY += Settings.GRAVITY * game.diff_secs;
+				md.offY += Settings.GRAVITY * game.delta_seconds;
 			}
 		} else {
 			md.offY = 0;

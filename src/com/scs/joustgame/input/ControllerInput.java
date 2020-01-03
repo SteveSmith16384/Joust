@@ -4,7 +4,7 @@ import net.java.games.input.Controller;
 
 public class ControllerInput implements IPlayerInput {
 
-	private Controller controller;
+	public Controller controller;
 	
 	public ControllerInput(Controller _controller) {
 		controller = _controller;

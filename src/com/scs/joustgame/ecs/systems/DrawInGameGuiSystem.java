@@ -17,7 +17,7 @@ public class DrawInGameGuiSystem {
 
 	public void process() {
 		int num = 0;
-		for (PlayerData player : game.players.values()) {
+		for (PlayerData player : game.players) {
 			if (player.isInGame()) {
 				int xStart = 20+(num*250);
 				game.drawFont("Score: " + player.score, xStart, 90);

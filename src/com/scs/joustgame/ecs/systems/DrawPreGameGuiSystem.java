@@ -34,7 +34,7 @@ public class DrawPreGameGuiSystem {
 		//game.drawFont(batch, Controllers.getControllers().size + " controllers found", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 
 		int count = 0;
-		for (PlayerData player : game.players.values()) {
+		for (PlayerData player : game.players) {
 			if (player.isInGame()) {
 				count++;
 			}

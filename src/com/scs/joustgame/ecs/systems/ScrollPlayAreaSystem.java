@@ -37,7 +37,7 @@ public class ScrollPlayAreaSystem extends AbstractSystem {
 			timeUntilChange = NumberFunctions.rndFloat(2, 10);
 		}*/
 		
-		dist = 20 * game.diff_secs * dir;
+		dist = 20 * game.delta_seconds * dir;
 		highestPos = 0;
 		lowestPos = Settings.LOGICAL_HEIGHT_PIXELS;
 

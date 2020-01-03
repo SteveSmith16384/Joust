@@ -1,6 +1,7 @@
 package com.scs.simple2dgameframework;
 
 import java.awt.Canvas;
+import java.awt.GraphicsConfiguration;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -12,7 +13,7 @@ public class GameWindow extends JFrame {
 	private Simple2DGameFramework game;
 	private Canvas canvas;
 	
-	public GameWindow(Simple2DGameFramework _game, int pw, int ph) {
+	public GameWindow(Simple2DGameFramework _game, int pw, int ph, GraphicsConfiguration config) {
 		game = _game;
 		
 		setSize(pw, ph);
@@ -21,7 +22,7 @@ public class GameWindow extends JFrame {
 		addWindowListener(game);
 		setResizable(false);
 		
-		canvas = new Canvas(game.config);
+		canvas = new Canvas(config);
 		canvas.setSize(pw, ph);
 		canvas.setIgnoreRepaint(true);
 		add(canvas, 0);

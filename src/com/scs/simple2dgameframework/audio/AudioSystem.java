@@ -5,4 +5,10 @@ public class AudioSystem {
 	public AudioSystem() {
 	}
 
+
+	public void playMusic(String s) {
+		// todo
+	}
+
+
 }

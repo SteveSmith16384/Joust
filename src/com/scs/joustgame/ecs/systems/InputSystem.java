@@ -39,7 +39,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		if (game.gameStage == -1) {
 			if (game.isKeyPressed(KeyEvent.VK_SPACE)) { // Space for keyboard player to join
 				key[KeyEvent.VK_SPACE] = false;
-				for (PlayerData player : game.players.values()) {
+				for (PlayerData player : game.players) {
 					if (player.controller instanceof KeyboardInput) {
 						if (player.isInGame() == false) {
 							//game.p("Keyboard player joined");

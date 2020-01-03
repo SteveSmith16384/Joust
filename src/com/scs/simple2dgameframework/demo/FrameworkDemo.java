@@ -28,9 +28,9 @@ public class FrameworkDemo extends Simple2DGameFramework {
 	@Override
 	public void draw() {
 		if (this.isKeyPressed(KeyEvent.VK_P)) {
-			x += 100*super.diff_secs;
+			x += 100*super.delta_seconds;
 		} else if (this.isKeyPressed(KeyEvent.VK_O)) {
-			x -= 100*super.diff_secs;
+			x -= 100*super.delta_seconds;
 		}
 
 		drawSprite(sprite, x, 50);

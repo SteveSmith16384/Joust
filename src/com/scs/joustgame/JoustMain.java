@@ -1,6 +1,6 @@
 package com.scs.joustgame;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
@@ -22,7 +22,6 @@ import com.scs.joustgame.ecs.systems.ProcessPlayersSystem;
 import com.scs.joustgame.ecs.systems.ScrollPlayAreaSystem;
 import com.scs.joustgame.ecs.systems.WalkingAnimationSystem;
 import com.scs.joustgame.input.ControllerInput;
-import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.input.KeyboardInput;
 import com.scs.joustgame.models.GameData;
 import com.scs.joustgame.models.PlayerData;
@@ -60,7 +59,8 @@ public final class JoustMain extends Simple2DGameFramework {
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
-	public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
+	//public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
+	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 
 	public JoustMain() {
 		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
@@ -71,8 +71,6 @@ public final class JoustMain extends Simple2DGameFramework {
 
 	@Override
 	public void init() {
-		//createWindow(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS, false);
-
 		this.setBackgroundColour(255, 255, 255);
 
 		ecs = new BasicECS();
@@ -97,8 +95,9 @@ public final class JoustMain extends Simple2DGameFramework {
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this);
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this);
 
-		KeyboardInput kp = new KeyboardInput(this);
-		players.put(kp, new PlayerData(kp)); // Create keyboard player by default (they might not actually join though!)
+		KeyboardInput keyboardInput = new KeyboardInput(this);
+		PlayerData keyboardPlayer = new PlayerData(keyboardInput); 
+		players.add(keyboardPlayer); // Create keyboard player by default (they might not actually join though!)
 
 		this.levelGenerator = new LevelGenerator(this.entityFactory, ecs);
 
@@ -106,23 +105,28 @@ public final class JoustMain extends Simple2DGameFramework {
 
 		if (Settings.QUICKSTART) {
 			this.nextStage = true; // Auto-start game
-			players.get(kp).setInGame(true);
+			keyboardPlayer.setInGame(true);
 		}
 	}
 
 
 	private void addPlayerForController(Controller controller) {
-		/*
-		if (this.players.containsKey(controller) == false) {*/
 		PlayerData data = new PlayerData(new ControllerInput(controller));
-		this.players.put(data.controller, data);
+		this.players.add(data);
 		p("player created for " + controller.getName());
-		//}
 	}
 
 
 	private void removePlayerForController(Controller controller) {
-		// todo		
+		for (PlayerData p : this.players) {
+			if (p.controller instanceof ControllerInput) {
+				ControllerInput ci = (ControllerInput)p.controller;
+				if (ci.controller == controller) {
+					this.players.remove(p);
+					return;
+				}
+			}
+		}
 	}
 
 
@@ -137,7 +141,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		this.ecs.removeAllEntities();
 
 		// Reset all player data
-		for (PlayerData player : players.values()) {
+		for (PlayerData player : players) {
 			player.setInGame(false);
 		}
 	}
@@ -168,7 +172,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 	private int getNumPlayersInGame() {
 		int count = 0;
-		for (PlayerData player : players.values()) {
+		for (PlayerData player : players) {
 			if (player.isInGame()) {
 				count++;
 			}
@@ -207,7 +211,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		this.inputSystem.process();
 
 		if (this.gameStage == 0) {
-			// loop through systems
+			// Loop through systems
 			this.processPlayersSystem.process();
 			this.moveToOffScreenSystem.process();
 			this.playerMovementSystem.process();
@@ -228,50 +232,6 @@ public final class JoustMain extends Simple2DGameFramework {
 			this.drawInGameGuiSystem.process();
 		}
 	}
-
-	/*
-	private void removeAllEntities() {
-		this.ecs.removeAllEntities();
-	}
-	 */
-
-	//#############################
-	/*
-
-	@Override
-	public boolean keyDown(int keycode) {
-		this.inputSystem.keyDown(keycode);
-		return true;
-	}
-
-
-	@Override
-	public boolean keyUp(int keycode) {
-		this.inputSystem.keyUp(keycode);
-		return true;
-	}
-
-
-	@Override
-	public boolean buttonDown(Controller controller, int buttonCode) {
-		this.inputSystem.buttonDown(controller, buttonCode);
-		return false;
-	}
-
-
-	@Override
-	public boolean buttonUp(Controller controller, int buttonCode) {
-		this.inputSystem.buttonUp(controller, buttonCode);
-		return false;
-	}
-
-
-	@Override
-	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		this.inputSystem.axisMoved(controller, axisCode, value);
-		return false;
-	}
-	 */
 
 
 	// ----------------------------------------------

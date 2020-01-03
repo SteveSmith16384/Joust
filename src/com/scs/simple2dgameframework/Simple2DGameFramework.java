@@ -26,6 +26,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import com.scs.simple2dgameframework.audio.AudioSystem;
 import com.scs.simple2dgameframework.graphics.Sprite;
 import com.scs.simple2dgameframework.input.ControllerManager;
 
@@ -39,17 +40,16 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	private int physicalWidth, physicalHeight;
 	private Color backgroundColor = new Color(255, 255, 255);
 	private boolean[] keys = new boolean[255];
-	public float diff_secs;
-
-	// Graphics Stuff
+	public float delta_seconds;
 	private boolean isRunning = true;
 	private BufferStrategy strategy;
 	private Graphics2D backgroundGraphics;
 	private Graphics2D graphics;
 	public GameWindow frame;
 	private ControllerManager controllerManager;
+	private AudioSystem audioSystem;
 	
-	public GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+	private GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
 	public Simple2DGameFramework(int _logicalWidth, int _logicalHeight) {
 		super();
@@ -58,20 +58,10 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		logicalHeight = _logicalHeight;
 		
 		System.setProperty("net.java.games.input.librarypath", new File("libs/jinput").getAbsolutePath());
+		
+		audioSystem = new AudioSystem();
 	}
 	
-	
-	private void createWindow() {
-		frame = new GameWindow(this, this.physicalWidth, this.physicalHeight);
-
-		do {
-			strategy = frame.getBufferStrategy();
-		} while (strategy == null);
-
-		controllerManager = new ControllerManager();
-		this.start();
-	}
-
 	
 	public void setFullScreen() {
 		this.physicalWidth = config.getBounds().width;
@@ -87,7 +77,18 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	}
 
 
-	// Screen Stuff ------------------------------------------------------------
+	private void createWindow() {
+		frame = new GameWindow(this, this.physicalWidth, this.physicalHeight, config);
+
+		do {
+			strategy = frame.getBufferStrategy();
+		} while (strategy == null);
+
+		controllerManager = new ControllerManager();
+		this.start();
+	}
+
+	
 	private Graphics2D getBuffer() {
 		if (graphics == null) {
 			graphics = (Graphics2D) strategy.getDrawGraphics();
@@ -133,7 +134,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			diff_secs = (System.currentTimeMillis() - start)/1000f;
+			delta_seconds = (System.currentTimeMillis() - start)/1000f;
 
 		}
 		frame.dispose();
@@ -239,7 +240,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 
 
 	public void playMusic(String s) {
-		// todo
+		audioSystem.playMusic(s);
 	}
 
 
