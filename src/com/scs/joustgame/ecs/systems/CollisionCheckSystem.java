@@ -14,12 +14,11 @@ import com.scs.joustgame.models.CollisionResults;
 
 /**
  * This system just detects if two things collide.  it does not actually handle the collisions.
- * @author StephenCS
  *
  */
-public class CollisionSystem extends AbstractSystem {
+public class CollisionCheckSystem extends AbstractSystem {
 
-	public CollisionSystem(BasicECS ecs) {
+	public CollisionCheckSystem(BasicECS ecs) {
 		super(ecs);
 	}
 

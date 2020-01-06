@@ -72,27 +72,25 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-		//if (uic.controller != null) {
 		uic.moveLeft = uic.controller.isLeftPressed();
 		uic.moveRight = uic.controller.isRightPressed();
-		uic.jump = uic.controller.isJumpPressed();
-		//}
+		uic.jumpOrFlap = uic.controller.isJumpPressed();
+		//JoustMain.p("Jump="+uic.jumpOrFlap);
 	}
 
 
 	public void keyDown(int keycode) {
-		if (!Settings.RELEASE_MODE) {
+		/*if (!Settings.RELEASE_MODE) {
 			JoustMain.p("key pressed: " + keycode);
-		}
+		}*/
 		key[keycode] = true;
 	}
 
 
 	public void keyUp(int keycode) {
-		if (!Settings.RELEASE_MODE) {
+		/*if (!Settings.RELEASE_MODE) {
 			//Settings.p("key released: " + keycode);
-		}
-
+		}*/
 		key[keycode] = false;
 	}
 

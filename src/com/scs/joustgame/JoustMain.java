@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 import com.scs.basicecs.BasicECS;
 import com.scs.joustgame.ecs.systems.AnimationCycleSystem;
 import com.scs.joustgame.ecs.systems.CollectorSystem;
-import com.scs.joustgame.ecs.systems.CollisionSystem;
+import com.scs.joustgame.ecs.systems.CollisionCheckSystem;
 import com.scs.joustgame.ecs.systems.DrawInGameGuiSystem;
 import com.scs.joustgame.ecs.systems.DrawPostGameGuiSystem;
 import com.scs.joustgame.ecs.systems.DrawPreGameGuiSystem;
@@ -44,7 +44,7 @@ public final class JoustMain extends Simple2DGameFramework {
 	// Systems
 	public InputSystem inputSystem;
 	private DrawingSystem drawingSystem;
-	public CollisionSystem collisionSystem;
+	public CollisionCheckSystem collisionSystem;
 	private MovementSystem movementSystem;
 	private AnimationCycleSystem animSystem;
 	private MobAISystem mobAiSystem;
@@ -80,7 +80,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		// Systems
 		this.inputSystem = new InputSystem(this, ecs);
 		drawingSystem = new DrawingSystem(this, ecs);
-		collisionSystem = new CollisionSystem(ecs);
+		collisionSystem = new CollisionCheckSystem(ecs);
 		movementSystem = new MovementSystem(this, ecs);
 		animSystem = new AnimationCycleSystem(this, ecs);
 		mobAiSystem = new MobAISystem(this, ecs);
@@ -216,7 +216,9 @@ public final class JoustMain extends Simple2DGameFramework {
 			this.moveToOffScreenSystem.process();
 			this.playerMovementSystem.process();
 			this.mobAiSystem.process();
-			this.scrollPlayAreaSystem.process();
+			if (Settings.JOUST_MOVEMENT == false) {
+				this.scrollPlayAreaSystem.process();
+			}
 			this.walkingAnimationSystem.process(); // Must be before the movementsystem, as that clears the direction
 			this.movementSystem.process();
 			this.animSystem.process();			

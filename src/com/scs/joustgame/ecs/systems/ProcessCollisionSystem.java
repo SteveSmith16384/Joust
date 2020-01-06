@@ -12,6 +12,7 @@ import com.scs.joustgame.ecs.components.HarmOnContactComponent;
 import com.scs.joustgame.ecs.components.KillByJumpingOnComponent;
 import com.scs.joustgame.ecs.components.MobComponent;
 import com.scs.joustgame.ecs.components.PlayersAvatarComponent;
+import com.scs.joustgame.ecs.components.PositionComponent;
 import com.scs.joustgame.models.CollisionResults;
 import com.scs.joustgame.models.PlayerData;
 
@@ -27,30 +28,59 @@ public class ProcessCollisionSystem extends AbstractSystem {
 
 
 	public void processCollision(AbstractEntity mover, CollisionResults results) {
-		// Player moving into mob
-		{
-			MobComponent mob = (MobComponent)results.collidedWith.getComponent(MobComponent.class);
-			if (mob != null) {
-				// Player jumping on mob
-				if (results.fromAbove) {
-					KillByJumpingOnComponent kbj = (KillByJumpingOnComponent)mover.getComponent(KillByJumpingOnComponent.class);
-					if (kbj != null) {
-						results.collidedWith.remove();
-						//game.sfx.play("Laser.ogg");
-						AbstractEntity fall = game.entityFactory.createFallingMob(results.collidedWith);
-						game.ecs.addEntity(fall);
-
-						// Give player points
-						PlayersAvatarComponent uic = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
-						if (uic != null) {
-							uic.player.score += 200;
-						}
-
-						return;
+		if (Settings.JOUST_MOVEMENT) {
+			/*{
+				// Cancel momentum if applicable
+				if (results.moveBack) {
+					PlayersAvatarComponent movingPlayer = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
+					if (movingPlayer != null) {
+						movingPlayer.momentum.x = 0;
+						movingPlayer.momentum.y = 0;
 					}
 				}
-				PlayersAvatarComponent dbm = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
-				if (dbm != null) {
+			}*/
+			{
+				// Player moving into player
+				PlayersAvatarComponent movingPlayer = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
+				if (movingPlayer != null) {
+					PlayersAvatarComponent hitPlayer = (PlayersAvatarComponent)results.collidedWith.getComponent(PlayersAvatarComponent.class);
+					if (hitPlayer != null) {
+						PositionComponent movingPos = (PositionComponent)mover.getComponent(PositionComponent.class);
+						PositionComponent hitPlayerPos = (PositionComponent)results.collidedWith.getComponent(PositionComponent.class);
+						if (movingPos.rect.y < hitPlayerPos.rect.y) {
+							this.playerKilled(results.collidedWith, hitPlayer.timeStarted);
+						} else if (movingPos.rect.y > hitPlayerPos.rect.y) {
+							this.playerKilled(mover, movingPlayer.timeStarted);
+						}
+					}
+				}
+			}
+		}
+
+		{
+			PlayersAvatarComponent dbm = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
+			if (dbm != null) {
+				// Player moving into mob
+				MobComponent mob = (MobComponent)results.collidedWith.getComponent(MobComponent.class);
+				if (mob != null) {
+					// Player jumping on mob
+					if (results.fromAbove) {
+						KillByJumpingOnComponent kbj = (KillByJumpingOnComponent)mover.getComponent(KillByJumpingOnComponent.class);
+						if (kbj != null) {
+							results.collidedWith.remove();
+							//game.sfx.play("Laser.ogg");
+							AbstractEntity fall = game.entityFactory.createFallingMob(results.collidedWith);
+							game.ecs.addEntity(fall);
+
+							// Give player points
+							//PlayersAvatarComponent uic = (PlayersAvatarComponent)mover.getComponent(PlayersAvatarComponent.class);
+							//if (uic != null) {
+							dbm.player.score += 200;
+							//}
+
+							return;
+						}
+					}
 					this.playerKilled(mover, dbm.timeStarted);
 					return;
 

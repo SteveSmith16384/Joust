@@ -79,7 +79,8 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 
 	private void createWindow() {
 		frame = new GameWindow(this, this.physicalWidth, this.physicalHeight, config);
-
+		frame.requestFocus();
+		frame.requestFocusInWindow();
 		do {
 			strategy = frame.getBufferStrategy();
 		} while (strategy == null);

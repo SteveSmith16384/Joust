@@ -14,17 +14,17 @@ public class KeyboardInput implements IPlayerInput {
 	
 	@Override
 	public boolean isLeftPressed() {
-		return game.isKeyPressed(KeyEvent.VK_O);
+		return game.isKeyPressed(KeyEvent.VK_O) || game.isKeyPressed(KeyEvent.VK_LEFT) || game.isKeyPressed(KeyEvent.VK_A);
 	}
 
 	@Override
 	public boolean isRightPressed() {
-		return game.isKeyPressed(KeyEvent.VK_P);
+		return game.isKeyPressed(KeyEvent.VK_P) || game.isKeyPressed(KeyEvent.VK_RIGHT) || game.isKeyPressed(KeyEvent.VK_D);
 	}
 
 	@Override
 	public boolean isJumpPressed() {
-		return game.isKeyPressed(KeyEvent.VK_SPACE);
+		return game.isKeyPressed(KeyEvent.VK_SPACE) || game.isKeyPressed(KeyEvent.VK_UP) || game.isKeyPressed(KeyEvent.VK_W);
 	}
 
 }

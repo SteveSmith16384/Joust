@@ -256,7 +256,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
 		e.addComponent(pos);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*5);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, 200);
 		e.addComponent(moc);
 		return e;
 	}
@@ -296,7 +296,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(Settings.PLAYER_SPEED*2, Settings.PLAYER_SPEED*2);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(40, -40);
 		e.addComponent(moc);
 
 		return e;
@@ -313,7 +313,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, -Settings.PLAYER_SPEED*5);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, 200);
 		e.addComponent(moc);
 
 		return e;

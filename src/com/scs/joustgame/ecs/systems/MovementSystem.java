@@ -10,6 +10,10 @@ import com.scs.joustgame.ecs.components.MovementComponent;
 import com.scs.joustgame.ecs.components.PositionComponent;
 import com.scs.joustgame.models.CollisionResults;
 
+/**
+ * This only handles actual movement and collisions; the movement calcs are handled elsewhere.
+ *
+ */
 public class MovementSystem extends AbstractSystem {
 
 	private JoustMain game;
@@ -37,11 +41,13 @@ public class MovementSystem extends AbstractSystem {
 			float totalDist = md.offX * game.delta_seconds;
 			if (Math.abs(totalDist) > Settings.MAX_MOVEMENT) {
 				totalDist = Settings.MAX_MOVEMENT * Math.signum(totalDist);
-				//MyGdxGame.p("Max movement hit!");					
+				JoustMain.p("Max movement hit!");					
 			}
 			pos.rect.x += totalDist;
 			CollisionResults results = game.collisionSystem.collided(movingEntity, md.offX, 0);
-			md.offX = 0;
+			if (Settings.JOUST_MOVEMENT == false) {
+				md.offX = 0;
+			}
 			if (results != null) {
 				if (results.moveBack) {
 					pos.rect.setRect(pos.prevPos); // Move back
@@ -86,8 +92,8 @@ public class MovementSystem extends AbstractSystem {
 					}
 				}
 
-				if (pos.rect.getMaxY() < 0) { // Fallen off bottom of screen
-					pos.rect.y += Settings.LOGICAL_HEIGHT_PIXELS; // Re-appear at the top
+				if (pos.rect.getMaxY() >= Settings.LOGICAL_HEIGHT_PIXELS) { // Fallen off bottom of screen
+					pos.rect.y -= Settings.LOGICAL_HEIGHT_PIXELS; // Re-appear at the top
 					/*PlayersAvatarComponent dbm = (PlayersAvatarComponent)movingEntity.getComponent(PlayersAvatarComponent.class);
 						if (dbm != null) {
 							game.processCollisionSystem.playerKilled(movingEntity, -1);
