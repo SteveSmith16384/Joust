@@ -47,10 +47,13 @@ public class ProcessCollisionSystem extends AbstractSystem {
 					if (hitPlayer != null) {
 						PositionComponent movingPos = (PositionComponent)mover.getComponent(PositionComponent.class);
 						PositionComponent hitPlayerPos = (PositionComponent)results.collidedWith.getComponent(PositionComponent.class);
-						if (movingPos.rect.y < hitPlayerPos.rect.y) {
-							this.playerKilled(results.collidedWith, hitPlayer.timeStarted);
-						} else if (movingPos.rect.y > hitPlayerPos.rect.y) {
-							this.playerKilled(mover, movingPlayer.timeStarted);
+						float diff = Math.abs(movingPos.rect.y - hitPlayerPos.rect.y);
+						if (diff > Settings.PLAYER_SIZE/4) {
+							if (movingPos.rect.y < hitPlayerPos.rect.y) {
+								this.playerKilled(results.collidedWith, hitPlayer.timeStarted);
+							} else if (movingPos.rect.y > hitPlayerPos.rect.y) {
+								this.playerKilled(mover, movingPlayer.timeStarted);
+							}
 						}
 					}
 				}

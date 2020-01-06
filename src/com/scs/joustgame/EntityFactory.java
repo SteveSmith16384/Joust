@@ -43,7 +43,7 @@ public class EntityFactory {
 		e.addComponent(cc);
 		MovementComponent mc = new MovementComponent(true);
 		e.addComponent(mc);
-		PlayersAvatarComponent uic = new PlayersAvatarComponent(player, controller);
+		PlayersAvatarComponent uic = new PlayersAvatarComponent(player);
 		e.addComponent(uic);
 		JumpingComponent jc = new JumpingComponent();
 		e.addComponent(jc);
@@ -57,7 +57,7 @@ public class EntityFactory {
 		return e;
 	}
 
-
+/*
 	public AbstractEntity createWall(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Wall");
 
@@ -74,7 +74,7 @@ public class EntityFactory {
 
 		return e;
 	}
-
+*/
 
 	public AbstractEntity createHarmfulArea(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("HarmfulArea");
@@ -94,7 +94,7 @@ public class EntityFactory {
 		return e;
 	}
 
-
+/*
 	public AbstractEntity createTestImage(int x, int y, int w, int h, int zOrder) {
 		AbstractEntity e = new AbstractEntity("TestImage");
 		
@@ -110,7 +110,7 @@ public class EntityFactory {
 
 		return e;
 	}
-
+*/
 
 	public AbstractEntity createImage(String filename, int x, int y, float w, float h, int zOrder) {
 		AbstractEntity e = new AbstractEntity("Image_" + filename);
@@ -123,7 +123,7 @@ public class EntityFactory {
 		return e;
 	}
 
-
+/*
 	public AbstractEntity createLadderArea(int x, int y, float w, float h) {
 		AbstractEntity e = new AbstractEntity("Ladder");
 
@@ -140,7 +140,7 @@ public class EntityFactory {
 
 		return e;
 	}
-
+*/
 
 	public AbstractEntity createFluidPlatform(int x, int y, float w) {
 		AbstractEntity e = new AbstractEntity("FluidPlatform");
@@ -170,7 +170,8 @@ public class EntityFactory {
 		
 		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
-		CollisionComponent cc = new CollisionComponent(false, true, false, false);
+		//CollisionComponent cc = new CollisionComponent(false, true, false, false);
+		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
 		e.addComponent(mdc);

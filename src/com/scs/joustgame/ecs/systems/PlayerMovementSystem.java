@@ -32,28 +32,28 @@ public class PlayerMovementSystem extends AbstractSystem {
 		MovementComponent mc = (MovementComponent)player.getComponent(MovementComponent.class);
 
 		if (Settings.JOUST_MOVEMENT) {
-			if (uic.jumpOrFlap) {
+			if (uic.player.jumpOrFlap) {
 				mc.offY -= 5; // Flap up
 			}
 			JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
-			if (uic.moveLeft && (uic.jumpOrFlap || jc.canJump)) {
+			if (uic.player.moveLeft && (uic.player.jumpOrFlap || jc.canJump)) {
 				mc.offX -= Settings.JOUST_PLAYER_SPEED;
-			} else if (uic.moveRight && (uic.jumpOrFlap || jc.canJump)) {
+			} else if (uic.player.moveRight && (uic.player.jumpOrFlap || jc.canJump)) {
 				mc.offX += Settings.JOUST_PLAYER_SPEED;
 			}
-			if (uic.jumpOrFlap) {
-				uic.jumpOrFlap = false;
+			if (uic.player.jumpOrFlap) {
+				uic.player.jumpOrFlap = false;
 			}
 			mc.offX *= 0.99f;
 
 		} else {
-			if (uic.moveLeft) {
+			if (uic.player.moveLeft) {
 				mc.offX = -Settings.NORMAL_PLAYER_SPEED;
-			} else if (uic.moveRight) {
+			} else if (uic.player.moveRight) {
 				mc.offX = Settings.NORMAL_PLAYER_SPEED;
 			}
 
-			if (uic.jumpOrFlap) {
+			if (uic.player.jumpOrFlap) {
 				JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
 				if (jc.canJump) {
 					//game.sfx.play("BonusCube.ogg");

@@ -44,9 +44,8 @@ public class GraphicsUtils {
 		BufferedImage newimage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		for (int j=0;j<image.getHeight();j++) {
 			for (int i=0;i<image.getWidth();i++) {
-				//newimage.setRGB(i, j, image.getRGB(i, image.getHeight()-j-1));
 				int tmp = image.getRGB(i, j);
-				newimage.setRGB(i, image.getHeight()-j-1, tmp);
+				newimage.setRGB(image.getWidth()-i-1, j, tmp);
 			}
 		}
 		return newimage;

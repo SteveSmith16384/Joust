@@ -2,42 +2,50 @@ package com.scs.joustgame.ecs.systems;
 
 import java.awt.event.KeyEvent;
 
-import com.scs.basicecs.AbstractEntity;
-import com.scs.basicecs.AbstractSystem;
-import com.scs.basicecs.BasicECS;
 import com.scs.joustgame.JoustMain;
-import com.scs.joustgame.Settings;
-import com.scs.joustgame.ecs.components.PlayersAvatarComponent;
-import com.scs.joustgame.input.KeyboardInput;
 import com.scs.joustgame.models.PlayerData;
 
-public class InputSystem extends AbstractSystem {//implements ControllerListener {
+public class InputSystem { //extends AbstractSystem {
 
 	private JoustMain game;
 	private volatile boolean key[] = new boolean[256];
 
-	public InputSystem(JoustMain _game, BasicECS ecs) {
-		super(ecs);
+	public InputSystem(JoustMain _game) {//, BasicECS ecs) {
+		//super(ecs);
 
 		game = _game;
 	}
 
-
+	/*
 	@Override
 	public Class<?> getComponentClass() {
 		return PlayersAvatarComponent.class;
 	}
+	 */
 
-
-	@Override
+	//@Override
 	public void process() {
 		if (game.isKeyPressed(KeyEvent.VK_S) && game.gameStage != 0) { // S to start
 			key[KeyEvent.VK_S] = false;
 			game.startNextStage();
 		}
 
+		for (PlayerData player : game.players) {
+			player.moveLeft = player.controller.isLeftPressed();
+			player.moveRight = player.controller.isRightPressed();
+			player.jumpOrFlap = player.controller.isJumpPressed();
+
+			if (player.jumpOrFlap) {
+				if (player.isInGame() == false) {
+					//game.p("Keyboard player joined");
+					player.setInGame(true);
+					break;
+				}
+			}
+		}
+
 		if (game.gameStage == -1) {
-			if (game.isKeyPressed(KeyEvent.VK_SPACE)) { // Space for keyboard player to join
+			/*todo if (game.isKeyPressed(KeyEvent.VK_SPACE)) { // Space for keyboard player to join
 				key[KeyEvent.VK_SPACE] = false;
 				for (PlayerData player : game.players) {
 					if (player.controller instanceof KeyboardInput) {
@@ -48,7 +56,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 						}
 					}
 				}
-			}
+			}*/
 
 			// See if players want to join
 			/*if (Settings.CONTROLLER_MODE_1) {
@@ -64,11 +72,11 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 				}
 			}*/
 		} else if (game.gameStage == 0) {
-			super.process();
+			//super.process();
 		}
 	}
 
-
+	/*
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
@@ -77,7 +85,7 @@ public class InputSystem extends AbstractSystem {//implements ControllerListener
 		uic.jumpOrFlap = uic.controller.isJumpPressed();
 		//JoustMain.p("Jump="+uic.jumpOrFlap);
 	}
-
+	 */
 
 	public void keyDown(int keycode) {
 		/*if (!Settings.RELEASE_MODE) {

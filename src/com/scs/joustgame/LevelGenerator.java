@@ -29,12 +29,6 @@ public class LevelGenerator {
 			this.generateRow(row, false);
 		}
 
-		/*AbstractEntity edgeUp = this.entityFactory.createEdge(50, 20, 300, 50);
-		ecs.addEntity(edgeUp);
-
-		AbstractEntity edgeDown = this.entityFactory.createEdge(300, 50, 400, 500);
-		ecs.addEntity(edgeDown);*/
-
 	}
 
 

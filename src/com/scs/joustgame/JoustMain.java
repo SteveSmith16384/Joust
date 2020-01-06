@@ -22,7 +22,9 @@ import com.scs.joustgame.ecs.systems.ProcessPlayersSystem;
 import com.scs.joustgame.ecs.systems.ScrollPlayAreaSystem;
 import com.scs.joustgame.ecs.systems.WalkingAnimationSystem;
 import com.scs.joustgame.input.ControllerInput;
-import com.scs.joustgame.input.KeyboardInput;
+import com.scs.joustgame.input.KeyboardCursorInput;
+import com.scs.joustgame.input.KeyboardOPSpaceInput;
+import com.scs.joustgame.input.KeyboardWASDInput;
 import com.scs.joustgame.models.GameData;
 import com.scs.joustgame.models.PlayerData;
 import com.scs.simple2dgameframework.Simple2DGameFramework;
@@ -59,7 +61,6 @@ public final class JoustMain extends Simple2DGameFramework {
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
 
-	//public HashMap<IPlayerInput, PlayerData> players = new HashMap<IPlayerInput, PlayerData>();
 	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 
 	public JoustMain() {
@@ -78,7 +79,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		animFrameHelper = new AnimationFramesHelper(this);
 
 		// Systems
-		this.inputSystem = new InputSystem(this, ecs);
+		this.inputSystem = new InputSystem(this);
 		drawingSystem = new DrawingSystem(this, ecs);
 		collisionSystem = new CollisionCheckSystem(ecs);
 		movementSystem = new MovementSystem(this, ecs);
@@ -95,9 +96,17 @@ public final class JoustMain extends Simple2DGameFramework {
 		this.drawPreGameGuiSystem = new DrawPreGameGuiSystem(this);
 		this.drawPostGameGuiSystem = new DrawPostGameGuiSystem(this);
 
-		KeyboardInput keyboardInput = new KeyboardInput(this);
-		PlayerData keyboardPlayer = new PlayerData(keyboardInput); 
-		players.add(keyboardPlayer); // Create keyboard player by default (they might not actually join though!)
+		KeyboardWASDInput keyboardInput = new KeyboardWASDInput(this);
+		PlayerData keyboardPlayer1 = new PlayerData(keyboardInput); 
+		players.add(keyboardPlayer1); // Create keyboard player by default (they might not actually join though!)
+		
+		KeyboardOPSpaceInput keyboardInput2 = new KeyboardOPSpaceInput(this);
+		PlayerData keyboardPlayer2 = new PlayerData(keyboardInput2); 
+		players.add(keyboardPlayer2); // Create keyboard player by default (they might not actually join though!)
+
+		KeyboardCursorInput keyboardInput3 = new KeyboardCursorInput(this);
+		PlayerData keyboardPlayer3 = new PlayerData(keyboardInput3); 
+		players.add(keyboardPlayer3); // Create keyboard player by default (they might not actually join though!)
 
 		this.levelGenerator = new LevelGenerator(this.entityFactory, ecs);
 
@@ -105,7 +114,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 		if (Settings.QUICKSTART) {
 			this.nextStage = true; // Auto-start game
-			keyboardPlayer.setInGame(true);
+			keyboardPlayer1.setInGame(true);
 		}
 	}
 

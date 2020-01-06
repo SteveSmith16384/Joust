@@ -1,18 +1,16 @@
 package com.scs.joustgame.ecs.components;
 
-import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.models.PlayerData;
 
 public class PlayersAvatarComponent {
 
 	public PlayerData player;
-	public IPlayerInput controller;
-	public boolean moveLeft, moveRight, jumpOrFlap;
+	//public IPlayerInput controller; // todo - remove
 	public long timeStarted;
 
-	public PlayersAvatarComponent(PlayerData _player, IPlayerInput _controller) {
+	public PlayersAvatarComponent(PlayerData _player) {
 		player = _player;
-		controller = _controller;
+		//controller = _controller;
 		
 		timeStarted = System.currentTimeMillis();
 	}

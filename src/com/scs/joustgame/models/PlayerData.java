@@ -3,10 +3,11 @@ package com.scs.joustgame.models;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.joustgame.input.IPlayerInput;
 
-public class PlayerData {
+public class PlayerData { // todo - move package
 
 	public static int nextImageId = 1;
 
+	public boolean moveLeft, moveRight, jumpOrFlap;
 	public IPlayerInput controller; // If null, player is keyboard
 	private boolean in_game = false;
 	public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
@@ -23,11 +24,9 @@ public class PlayerData {
 
 	public void setInGame(boolean b) {
 		if (b) {
-			//if (Settings.RELEASE_MODE == false) {
-				if (in_game) {
-					throw new RuntimeException("Player already in game!");
-				}
-			//}
+			if (in_game) {
+				throw new RuntimeException("Player already in game!");
+			}
 			this.in_game = true;
 			this.lives = 3;
 			if (imageId <= 0) {
