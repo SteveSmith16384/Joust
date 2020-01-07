@@ -5,7 +5,7 @@ public class Settings {
 	public static final boolean RELEASE_MODE = false;
 	public static final boolean JOUST_MOVEMENT = true;
 	public static final boolean QUICKSTART = !RELEASE_MODE && true;
-	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && true;
+	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && false;
  
 	public static final int MAX_MOVEMENT = 3;
 	public static final float JOUST_PLAYER_SPEED = 5f;//40f;

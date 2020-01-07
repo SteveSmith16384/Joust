@@ -12,16 +12,19 @@ public class KeyboardCursorInput implements IPlayerInput {
 		game = _game;
 	}
 	
+	
 	@Override
 	public boolean isLeftPressed() {
 		return game.isKeyPressed(KeyEvent.VK_LEFT);
 	}
+	
 
 	@Override
 	public boolean isRightPressed() {
 		return game.isKeyPressed(KeyEvent.VK_RIGHT);
 	}
 
+	
 	@Override
 	public boolean isJumpPressed() {
 		return game.isKeyPressed(KeyEvent.VK_UP);

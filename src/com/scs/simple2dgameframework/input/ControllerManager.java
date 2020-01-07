@@ -8,7 +8,7 @@ import net.java.games.input.ControllerEnvironment;
 
 public class ControllerManager {
 
-	protected List<Controller> knownControllers = new ArrayList<Controller>();
+	public List<Controller> knownControllers = new ArrayList<Controller>();
 	public List<Controller> controllersAdded = new ArrayList<Controller>();
 	public List<Controller> controllersRemoved = new ArrayList<Controller>();
 

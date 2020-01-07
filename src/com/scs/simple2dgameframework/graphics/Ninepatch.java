@@ -28,14 +28,12 @@ public class Ninepatch {
 
 	public Sprite getImage(int w, int h) {
 		try {
-			//Sprite s = game.createSprite(filename, w, h);
-			//BufferedImage p1 = s.img;
 			BufferedImage sourceImage = ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
-			//sourceImage = GraphicsUtils.scaleImage(sourceImage, w, h);  NO as the insets will be wrong!
 
 			BufferedImage finalImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
-			// First coords are DEST, second coords are SOURCE
+			// First coords are DEST, second coords are SOURCE.
+			// All coords are POINTS not W/H!
 
 			// Left
 			finalImg.getGraphics().drawImage(sourceImage, 0, 0, insets.x, h, 
@@ -46,16 +44,16 @@ public class Ninepatch {
 					0, 0, sourceImage.getWidth(), insets.y, game.frame);
 
 			// Right
-			finalImg.getGraphics().drawImage(sourceImage, w-insets.width, 0, insets.width, h, 
-					sourceImage.getWidth()-insets.width, 0, insets.width, sourceImage.getHeight(), game.frame);
+			finalImg.getGraphics().drawImage(sourceImage, w-insets.width, 0, w, h, 
+					sourceImage.getWidth()-insets.width, 0, sourceImage.getWidth(), sourceImage.getHeight(), game.frame);
 
 			// Bottom
-			finalImg.getGraphics().drawImage(sourceImage, 0, 0, w, insets.height, 
-					0, 0, sourceImage.getWidth(), insets.height, game.frame);
+			finalImg.getGraphics().drawImage(sourceImage, 0, h-insets.height, w, h, 
+					0, 0, sourceImage.getWidth(), sourceImage.getHeight(), game.frame);
 
 			// Middle
-			finalImg.getGraphics().drawImage(sourceImage, insets.x, insets.height, w-insets.x-insets.width, h-insets.height-insets.y,
-					insets.x, insets.height, sourceImage.getWidth()-insets.x-insets.width, sourceImage.getHeight()-insets.height-insets.y, game.frame);
+			finalImg.getGraphics().drawImage(sourceImage, insets.x, insets.height, w-insets.width, h-insets.height,
+					insets.x, insets.height, sourceImage.getWidth()-insets.width, sourceImage.getHeight()-insets.height, game.frame);
 
 			return new Sprite(game, finalImg);
 		} catch (IOException ex) {

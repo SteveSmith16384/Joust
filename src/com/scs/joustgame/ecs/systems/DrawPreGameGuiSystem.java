@@ -39,10 +39,11 @@ public class DrawPreGameGuiSystem {
 				count++;
 			}
 		}
-		game.setColour(0,  0,  0);
+		game.setColour(0, 0, 0);
 		game.drawFont(count + " players in the game!", 20, 20);
-		game.drawFont("Press 'Space' for keyboard player", 20, 40);
-		game.drawFont("PRESS 'S' TO START!", 20, 60);
+		game.drawFont("Press Space, W or Down for keyboard players", 20, 50);
+		game.drawFont("Press X on controller", 20, 80);
+		game.drawFont("PRESS 'S' TO START!", 20, 110);
 	}
 
 

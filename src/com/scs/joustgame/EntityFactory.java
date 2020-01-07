@@ -277,6 +277,8 @@ public class EntityFactory {
 		e.addComponent(col);
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(false);
 		e.addComponent(mdc);
+		
+		game.collectorSystem.coinsLeft++;
 		return e;
 	}
 
@@ -296,8 +298,10 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(40, -40);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(80, -80);
 		e.addComponent(moc);
+		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
+		e.addComponent(acc);
 
 		return e;
 	}	

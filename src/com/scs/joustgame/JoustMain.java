@@ -43,7 +43,7 @@ public final class JoustMain extends Simple2DGameFramework {
 	public int winnerImageId;
 	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
 	private boolean nextStage = false;
-	//private Font font;
+	private ArrayList<String> log = new ArrayList<String>(); 
 
 	// Systems
 	public InputSystem inputSystem;
@@ -111,6 +111,8 @@ public final class JoustMain extends Simple2DGameFramework {
 		PlayerData keyboardPlayer3 = new PlayerData(keyboardInput3); 
 		players.add(keyboardPlayer3); // Create keyboard player by default (they might not actually join though!)
 
+		this.addLogEntry(super.getConnectedControllers().size() + " controllers connected");
+		
 		this.levelGenerator = new LevelGenerator(this.entityFactory, ecs);
 
 		startPreGame();
@@ -245,9 +247,22 @@ public final class JoustMain extends Simple2DGameFramework {
 			this.drawPostGameGuiSystem.process();
 			this.drawInGameGuiSystem.process();
 		}
+		
+		for (int i=0 ; i<this.log.size() ; i++) {
+			super.drawFont(this.log.get(i), 20, 200-(i*20));
+		}
+
 	}
 
 
+	private void addLogEntry(String s) {
+		this.log.add(s);
+		while (this.log.size() > 5) {
+			this.log.remove(0);
+		}
+	}
+
+	
 	// ----------------------------------------------
 
 	public static void main(String[] args) {
@@ -259,4 +274,5 @@ public final class JoustMain extends Simple2DGameFramework {
         });
     }
     
+
 }

@@ -8,6 +8,7 @@ import com.scs.joustgame.ecs.components.PlayersAvatarComponent;
 public class CollectorSystem {
 
 	private JoustMain game;
+	public int coinsLeft;
 
 	public CollectorSystem(JoustMain _game) {
 		game = _game;
@@ -26,6 +27,10 @@ public class CollectorSystem {
 				uic.player.score += 100;
 			}
 			game.ecs.addEntity(game.entityFactory.createRisingCoin(coin));
+			coinsLeft--;
+			if (this.coinsLeft <= 0) {
+				game.startNextStage();
+			}
 			break;
 		default:
 			throw new RuntimeException("Unknown collectable type: " + cc.type);

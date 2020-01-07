@@ -23,6 +23,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -396,5 +397,10 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	
 	protected void setFont(Font _font) {
 		font = _font;
+	}
+	
+	
+	public List<Controller> getConnectedControllers() {
+		return this.controllerManager.knownControllers;
 	}
 }
