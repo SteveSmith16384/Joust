@@ -31,7 +31,7 @@ public class Ninepatch {
 			//Sprite s = game.createSprite(filename, w, h);
 			//BufferedImage p1 = s.img;
 			BufferedImage sourceImage = ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
-			sourceImage = GraphicsUtils.scaleImage(sourceImage, w, h);
+			//sourceImage = GraphicsUtils.scaleImage(sourceImage, w, h);  NO as the insets will be wrong!
 
 			BufferedImage finalImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
@@ -39,23 +39,23 @@ public class Ninepatch {
 
 			// Left
 			finalImg.getGraphics().drawImage(sourceImage, 0, 0, insets.x, h, 
-					0, 0, insets.x, h, game.frame);
+					0, 0, insets.x, sourceImage.getHeight(), game.frame);
 
 			// Top
 			finalImg.getGraphics().drawImage(sourceImage, 0, 0, w, insets.y, 
-					0, 0, w, insets.y, game.frame);
+					0, 0, sourceImage.getWidth(), insets.y, game.frame);
 
 			// Right
 			finalImg.getGraphics().drawImage(sourceImage, w-insets.width, 0, insets.width, h, 
-					w-insets.width, 0, insets.width, h, game.frame);
+					sourceImage.getWidth()-insets.width, 0, insets.width, sourceImage.getHeight(), game.frame);
 
 			// Bottom
 			finalImg.getGraphics().drawImage(sourceImage, 0, 0, w, insets.height, 
-					0, 0, w, insets.height, game.frame);
+					0, 0, sourceImage.getWidth(), insets.height, game.frame);
 
 			// Middle
 			finalImg.getGraphics().drawImage(sourceImage, insets.x, insets.height, w-insets.x-insets.width, h-insets.height-insets.y,
-					insets.x, insets.height, w-insets.x-insets.width, h-insets.height-insets.y, game.frame);
+					insets.x, insets.height, sourceImage.getWidth()-insets.x-insets.width, sourceImage.getHeight()-insets.height-insets.y, game.frame);
 
 			return new Sprite(game, finalImg);
 		} catch (IOException ex) {

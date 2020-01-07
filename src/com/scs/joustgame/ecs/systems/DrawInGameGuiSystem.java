@@ -20,6 +20,7 @@ public class DrawInGameGuiSystem {
 		for (PlayerData player : game.players) {
 			if (player.isInGame()) {
 				int xStart = 20+(num*250);
+				game.setColour(0,  0,  0);
 				game.drawFont("Score: " + player.score, xStart, 90);
 				if (player.lives > 0) {
 					if (players[num] == null) {

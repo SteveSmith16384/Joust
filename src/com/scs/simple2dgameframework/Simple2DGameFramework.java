@@ -1,6 +1,7 @@
 package com.scs.simple2dgameframework;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
@@ -48,6 +49,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	public GameWindow frame;
 	private ControllerManager controllerManager;
 	private AudioSystem audioSystem;
+	private Font font;
 	
 	private GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
@@ -90,7 +92,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	}
 
 	
-	private Graphics2D getBuffer() {
+	private Graphics2D getGraphics() {
 		if (graphics == null) {
 			graphics = (Graphics2D) strategy.getDrawGraphics();
 		}
@@ -121,7 +123,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 			
 			// Update Graphics
 			do {
-				Graphics2D bg = getBuffer();
+				Graphics2D bg = getGraphics();
 				if (!isRunning) {
 					break main;
 				}
@@ -145,6 +147,11 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	public void renderGame(Graphics2D g) {
 		g.setColor(this.backgroundColor);
 		g.fillRect(0, 0, logicalWidth, logicalHeight);
+		
+		if (font != null) {
+			g.setFont(font);
+		}
+		
 		draw();
 	}
 
@@ -384,5 +391,10 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 
 	public static void p(String s) {
 		System.out.println(s);
+	}
+	
+	
+	protected void setFont(Font _font) {
+		font = _font;
 	}
 }

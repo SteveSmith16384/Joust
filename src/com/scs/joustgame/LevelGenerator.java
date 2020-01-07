@@ -80,7 +80,7 @@ public class LevelGenerator {
 	private void createPlatform(int row, int startX, int width, boolean createMob) {
 		//AbstractEntity platform = this.entityFactory.createFluidPlatform(startX, row, width);
 		//ecs.addEntity(platform);
-		AbstractEntity platformImage = this.entityFactory.createPlatformType1(startX, row, width, 35);
+		AbstractEntity platformImage = this.entityFactory.createPlatformType1(startX, row, width, Settings.LOGICAL_HEIGHT_PIXELS/20);
 		ecs.addEntity(platformImage);
 
 		if (createMob) {
@@ -93,10 +93,8 @@ public class LevelGenerator {
 			}
 		}
 
+		// Add coins
 		for (int col=startX+15 ; col<startX+width-15 ; col+=50) {
-			/*if (Settings.DEBUG_COINS) {
-				MyGdxGame.p("Creating coin");
-			}*/
 			AbstractEntity coin = this.entityFactory.createCoin(col, row+5);
 			ecs.addEntity(coin);
 		}

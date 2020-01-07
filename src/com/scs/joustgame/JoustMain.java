@@ -1,5 +1,6 @@
 package com.scs.joustgame;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -42,6 +43,7 @@ public final class JoustMain extends Simple2DGameFramework {
 	public int winnerImageId;
 	public int gameStage = -1; // -1, 0, or 1 for before, during and after game
 	private boolean nextStage = false;
+	//private Font font;
 
 	// Systems
 	public InputSystem inputSystem;
@@ -67,6 +69,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
 
 		this.setScreenSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
+		super.setFont(new Font("Helvetica", Font.BOLD, 24));
 	}
 
 

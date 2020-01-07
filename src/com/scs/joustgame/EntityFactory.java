@@ -168,9 +168,8 @@ public class EntityFactory {
 		ImageComponent imageData = new ImageComponent(ninepatch.getImage(w, h), -1);
 		e.addComponent(imageData);
 		
-		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, Settings.PLAYER_SIZE);
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, h);
 		e.addComponent(pos);
-		//CollisionComponent cc = new CollisionComponent(false, true, false, false);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
 		ScrollsAroundComponent mdc = new ScrollsAroundComponent(true);
