@@ -20,7 +20,9 @@ public class ReadAllEvents {
 	public ReadAllEvents() {
 		System.out.println("Starting...");
 
-		System.setProperty("net.java.games.input.librarypath", new File("libs").getAbsolutePath());
+		//System.setProperty("net.java.games.input.librarypath", new File("libs").getAbsolutePath());
+		System.setProperty("net.java.games.input.librarypath", new File("libs/jinput").getAbsolutePath());
+
 
 		Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
 		if (controllers.length == 0) {
@@ -59,26 +61,27 @@ public class ReadAllEvents {
 					 */
 					float value = event.getValue();
 					//if (value == 0 || value < -0.5 || value > 0.5) {
-					StringBuffer buffer = new StringBuffer(controllers[i].getName());
-					buffer.append(" at ");
-					buffer.append(event.getNanos()).append(", ");
-					Component comp = event.getComponent();
-					buffer.append(comp.getName()).append(" changed to ");
+						StringBuffer buffer = new StringBuffer(controllers[i].getName());
+						buffer.append(" at ");
+						buffer.append(event.getNanos()).append(", ");
+						Component comp = event.getComponent();
+						buffer.append(comp.getName()).append(" changed to ");
 
-					/*
-					 * Check the type of the component and display an
-					 * appropriate value
-					 */
-					if (comp.isAnalog()) {
-						buffer.append(value);
-					} else {
-						if (value == 1.0f) {
-							buffer.append("On");
+						/*
+						 * Check the type of the component and display an
+						 * appropriate value
+						 */
+						if (comp.isAnalog()) {
+							buffer.append(value);
+							continue;
 						} else {
-							buffer.append("Off");
+							if (value == 1.0f) {
+								buffer.append("On (" + value + ")");
+							} else {
+								buffer.append("Off (" + value + ")");
+							}
 						}
-					}
-					System.out.println(buffer.toString());
+						System.out.println(buffer.toString());
 					//}
 				}
 			}

@@ -12,20 +12,20 @@ public class ControllerInput implements IPlayerInput {
 
 	@Override
 	public boolean isLeftPressed() {
-		// TODO Auto-generated method stub
-		return false;
+		return false;//controller.; //Hat Switch changed to Off (1) 
 	}
 
 	@Override
 	public boolean isRightPressed() {
 		// TODO Auto-generated method stub
+		//Hat Switch changed to Off (0.5)
 		return false;
 	}
 
 	@Override
 	public boolean isJumpPressed() {
 		// TODO Auto-generated method stub
-		return false;
+		return false; // Button 1 changed to On (1.0)
 	}
 
 }
