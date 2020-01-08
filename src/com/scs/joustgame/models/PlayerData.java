@@ -3,14 +3,14 @@ package com.scs.joustgame.models;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.joustgame.input.IPlayerInput;
 
-public class PlayerData { // todo - move package
+public class PlayerData {
 
 	public static int nextImageId = 1;
 
 	public boolean moveLeft, moveRight, jumpOrFlap;
-	public IPlayerInput controller; // If null, player is keyboard
+	public IPlayerInput controller;
 	private boolean in_game = false;
-	public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
+	//public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
 	public AbstractEntity avatar;
 	public float timeUntilAvatar;
 	public int score;

@@ -110,8 +110,6 @@ public final class JoustMain extends Simple2DGameFramework {
 		PlayerData keyboardPlayer3 = new PlayerData(keyboardInput3); 
 		players.add(keyboardPlayer3); // Create keyboard player by default (they might not actually join though!)
 
-		//todo - move this.addLogEntry(super.getConnectedControllers().size() + " controllers connected");
-		
 		this.levelGenerator = new LevelGenerator(this.entityFactory, ecs);
 
 		startPreGame();

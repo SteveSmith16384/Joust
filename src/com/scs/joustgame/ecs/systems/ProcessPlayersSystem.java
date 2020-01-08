@@ -18,7 +18,7 @@ public class ProcessPlayersSystem {
 
 	public void process() {
 		for (PlayerData player : game.players) {
-			if (player.isInGame() && player.quit == false) {
+			if (player.isInGame()) {// && player.quit == false) {
 				if (player.lives > 0) {
 					if (player.avatar == null) {
 						player.timeUntilAvatar -= game.delta_seconds;

@@ -12,11 +12,17 @@ public class ControllerManager {
 	public List<Controller> controllersAdded = new ArrayList<Controller>();
 	public List<Controller> controllersRemoved = new ArrayList<Controller>();
 
+	private long lastCheckTime;
+
 	public ControllerManager() {
 	}
 
 
 	public void checkForControllers() {
+		if (lastCheckTime + 4000 > System.currentTimeMillis()) {
+			return;
+		}
+		
 		Controller[] controllers = ControllerEnvironment.getDefaultEnvironment().getControllers();
 		for (Controller controller : controllers) {
 			if (knownControllers.contains(controller) == false) {
@@ -27,9 +33,21 @@ public class ControllerManager {
 				//p("Controller added: " + controller);
 			}
 		}
-		
-		// Todo - removed controllers
-		//this.controllersRemoved = controllers.
+
+		// Removed controllers
+		for (Controller knownController : this.knownControllers) {
+			boolean found = false; 
+			for (Controller controller : controllers) {
+				if (controller == knownController) {
+					found = true;
+					break;
+				}
+			}
+			if (found == false) {
+				this.knownControllers.remove(knownController);
+				this.controllersRemoved.add(knownController);
+			}
+		}
 	}
 
 }
