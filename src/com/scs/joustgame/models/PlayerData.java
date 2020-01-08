@@ -28,9 +28,9 @@ public class PlayerData {
 			}
 			this.in_game = true;
 			this.lives = 3;
-			//if (imageId <= 0) {
+			if (imageId <= 0) { // So we don;t create a new one for a new avatar
 				imageId = nextImageId++;
-			//}
+			}
 		} else {
 			this.in_game = false;
 		}

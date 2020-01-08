@@ -6,7 +6,7 @@ import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
 import net.java.games.input.Component.Identifier;
 
-public class ControllerInput implements IPlayerInput {
+public class ControllerInput implements IPlayerInput { // todo - rename to PS4 controller
 
 	public Controller controller;
 	private boolean leftPressed, rightPressed, firePressed;
@@ -27,7 +27,7 @@ public class ControllerInput implements IPlayerInput {
 		
 		while (queue.getNextEvent(event)) {
 			if (event.getNanos() < lastEventTime) {
-				continue;
+				//continue;
 			}
 			lastEventTime = event.getNanos();
 
@@ -35,11 +35,11 @@ public class ControllerInput implements IPlayerInput {
 			//if (value == 0 || value < -0.5 || value > 0.5) {
 			Component comp = event.getComponent();
 			if (comp.isAnalog() == false) { // Only interested in digital events
-				if (comp.getIdentifier() == Identifier.Button.LEFT) { // todo - check
-					this.leftPressed = value > 0.5f;
-				} else if (comp.getIdentifier() == Identifier.Button.RIGHT) { // todo - check
-					this.rightPressed = value > 0.5f;
-				} else if (comp.getIdentifier() == Identifier.Button.TOP) { // todo - check
+				if (comp.getIdentifier() == Identifier.Axis.POV) {
+					this.leftPressed = value >= 1f;
+				//} else if (comp.getIdentifier() == Identifier.Button.RIGHT) {
+					this.rightPressed = value == 0.5f;
+				} else if (comp.getIdentifier() == Identifier.Button._1) { // X
 					this.firePressed = value > 0.5f;
 				}
 			}
