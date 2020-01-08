@@ -10,7 +10,6 @@ public class PlayerData {
 	public boolean moveLeft, moveRight, jumpOrFlap;
 	public IPlayerInput controller;
 	private boolean in_game = false;
-	//public boolean quit = false; // If they've removed their controller; prevent them re-attaching to start again
 	public AbstractEntity avatar;
 	public float timeUntilAvatar;
 	public int score;
@@ -29,9 +28,9 @@ public class PlayerData {
 			}
 			this.in_game = true;
 			this.lives = 3;
-			if (imageId <= 0) {
+			//if (imageId <= 0) {
 				imageId = nextImageId++;
-			}
+			//}
 		} else {
 			this.in_game = false;
 		}

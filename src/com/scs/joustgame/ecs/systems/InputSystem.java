@@ -5,25 +5,16 @@ import java.awt.event.KeyEvent;
 import com.scs.joustgame.JoustMain;
 import com.scs.joustgame.models.PlayerData;
 
-public class InputSystem { //extends AbstractSystem {
+public class InputSystem {
 
 	private JoustMain game;
 	private volatile boolean key[] = new boolean[256];
 
-	public InputSystem(JoustMain _game) {//, BasicECS ecs) {
-		//super(ecs);
-
+	public InputSystem(JoustMain _game) {
 		game = _game;
 	}
 
-	/*
-	@Override
-	public Class<?> getComponentClass() {
-		return PlayersAvatarComponent.class;
-	}
-	 */
 
-	//@Override
 	public void process() {
 		if (game.isKeyPressed(KeyEvent.VK_S) && game.gameStage != 0) { // S to start
 			key[KeyEvent.VK_S] = false;
@@ -38,8 +29,8 @@ public class InputSystem { //extends AbstractSystem {
 
 			if (player.jumpOrFlap) {
 				if (player.isInGame() == false) {
-					//game.p("Keyboard player joined");
 					player.setInGame(true);
+					game.addLogEntry("Player " + player.imageId + " joined");
 					break;
 				}
 			}

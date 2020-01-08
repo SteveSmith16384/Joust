@@ -235,7 +235,7 @@ public final class JoustMain extends Simple2DGameFramework {
 	private void addPlayerForController(Controller controller) {
 		PlayerData data = new PlayerData(new ControllerInput(controller));
 		this.players.add(data);
-		p("player created for " + controller.getName());
+		this.addLogEntry("Player created for controller " + controller.getName());
 	}
 
 
@@ -245,14 +245,15 @@ public final class JoustMain extends Simple2DGameFramework {
 				ControllerInput ci = (ControllerInput)p.controller;
 				if (ci.controller == controller) {
 					this.players.remove(p);
-					return;
+					this.addLogEntry("Player removed for controller " + controller.getName());
+					break;
 				}
 			}
 		}
 	}
 
 
-	private void addLogEntry(String s) {
+	public void addLogEntry(String s) {
 		this.log.add(s);
 		while (this.log.size() > 5) {
 			this.log.remove(0);
