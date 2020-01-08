@@ -30,4 +30,10 @@ public class KeyboardOPSpaceInput implements IPlayerInput {
 		return game.isKeyPressed(KeyEvent.VK_SPACE);
 	}
 
+
+	@Override
+	public void poll() {
+		// Not required		
+	}
+
 }

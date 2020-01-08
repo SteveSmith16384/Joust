@@ -31,6 +31,7 @@ public class InputSystem { //extends AbstractSystem {
 		}
 
 		for (PlayerData player : game.players) {
+			player.controller.poll();
 			player.moveLeft = player.controller.isLeftPressed();
 			player.moveRight = player.controller.isRightPressed();
 			player.jumpOrFlap = player.controller.isJumpPressed();

@@ -1,31 +1,66 @@
 package com.scs.joustgame.input;
 
+import net.java.games.input.Component;
 import net.java.games.input.Controller;
+import net.java.games.input.Event;
+import net.java.games.input.EventQueue;
+import net.java.games.input.Component.Identifier;
 
 public class ControllerInput implements IPlayerInput {
 
 	public Controller controller;
+	private boolean leftPressed, rightPressed, firePressed;
 	
 	public ControllerInput(Controller _controller) {
 		controller = _controller;
 	}
 
+
+	@Override
+	public void poll() {
+		controller.poll();
+
+		EventQueue queue = controller.getEventQueue();
+
+		long lastEventTime = 0;
+		Event event = new Event();
+		
+		while (queue.getNextEvent(event)) {
+			if (event.getNanos() < lastEventTime) {
+				continue;
+			}
+			lastEventTime = event.getNanos();
+
+			float value = event.getValue();
+			//if (value == 0 || value < -0.5 || value > 0.5) {
+			Component comp = event.getComponent();
+			if (comp.isAnalog() == false) { // Only interested in digital events
+				if (comp.getIdentifier() == Identifier.Button.LEFT) { // todo - check
+					this.leftPressed = value > 0.5f;
+				} else if (comp.getIdentifier() == Identifier.Button.RIGHT) { // todo - check
+					this.rightPressed = value > 0.5f;
+				} else if (comp.getIdentifier() == Identifier.Button.TOP) { // todo - check
+					this.firePressed = value > 0.5f;
+				}
+			}
+		}
+	}
+
+
 	@Override
 	public boolean isLeftPressed() {
-		return false;//controller.; //Hat Switch changed to Off (1) 
+		return this.leftPressed; //Hat Switch changed to Off (1) 
 	}
 
 	@Override
 	public boolean isRightPressed() {
-		// TODO Auto-generated method stub
 		//Hat Switch changed to Off (0.5)
-		return false;
+		return this.rightPressed;
 	}
 
 	@Override
 	public boolean isJumpPressed() {
-		// TODO Auto-generated method stub
-		return false; // Button 1 changed to On (1.0)
+		return this.firePressed; // Button 1 changed to On (1.0)
 	}
 
 }

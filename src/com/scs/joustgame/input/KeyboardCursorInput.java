@@ -30,4 +30,10 @@ public class KeyboardCursorInput implements IPlayerInput {
 		return game.isKeyPressed(KeyEvent.VK_UP);
 	}
 
+
+	@Override
+	public void poll() {
+		// Not required		
+	}
+
 }

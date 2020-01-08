@@ -30,4 +30,10 @@ public class KeyboardWASDInput implements IPlayerInput {
 		return game.isKeyPressed(KeyEvent.VK_W);
 	}
 
+
+	@Override
+	public void poll() {
+		// Not required		
+	}
+
 }

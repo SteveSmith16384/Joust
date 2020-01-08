@@ -36,6 +36,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 	public BasicECS ecs;
 
+	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	public EntityFactory entityFactory;
 	public GameData gameData;
 	public AnimationFramesHelper animFrameHelper;
@@ -62,8 +63,6 @@ public final class JoustMain extends Simple2DGameFramework {
 	private ScrollPlayAreaSystem scrollPlayAreaSystem;
 	private DrawPreGameGuiSystem drawPreGameGuiSystem;
 	private DrawPostGameGuiSystem drawPostGameGuiSystem;
-
-	public ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 
 	public JoustMain() {
 		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
@@ -120,26 +119,6 @@ public final class JoustMain extends Simple2DGameFramework {
 		if (Settings.QUICKSTART) {
 			this.nextStage = true; // Auto-start game
 			keyboardPlayer1.setInGame(true);
-		}
-	}
-
-
-	private void addPlayerForController(Controller controller) {
-		PlayerData data = new PlayerData(new ControllerInput(controller));
-		this.players.add(data);
-		p("player created for " + controller.getName());
-	}
-
-
-	private void removePlayerForController(Controller controller) {
-		for (PlayerData p : this.players) {
-			if (p.controller instanceof ControllerInput) {
-				ControllerInput ci = (ControllerInput)p.controller;
-				if (ci.controller == controller) {
-					this.players.remove(p);
-					return;
-				}
-			}
 		}
 	}
 
@@ -252,6 +231,26 @@ public final class JoustMain extends Simple2DGameFramework {
 			super.drawFont(this.log.get(i), 20, 200-(i*20));
 		}
 
+	}
+
+
+	private void addPlayerForController(Controller controller) {
+		PlayerData data = new PlayerData(new ControllerInput(controller));
+		this.players.add(data);
+		p("player created for " + controller.getName());
+	}
+
+
+	private void removePlayerForController(Controller controller) {
+		for (PlayerData p : this.players) {
+			if (p.controller instanceof ControllerInput) {
+				ControllerInput ci = (ControllerInput)p.controller;
+				if (ci.controller == controller) {
+					this.players.remove(p);
+					return;
+				}
+			}
+		}
 	}
 
 

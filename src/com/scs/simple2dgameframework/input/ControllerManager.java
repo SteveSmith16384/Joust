@@ -8,7 +8,7 @@ import net.java.games.input.ControllerEnvironment;
 
 public class ControllerManager {
 
-	public List<Controller> knownControllers = new ArrayList<Controller>();
+	private List<Controller> knownControllers = new ArrayList<Controller>();
 	public List<Controller> controllersAdded = new ArrayList<Controller>();
 	public List<Controller> controllersRemoved = new ArrayList<Controller>();
 
@@ -31,19 +31,5 @@ public class ControllerManager {
 		// Todo - removed controllers
 		//this.controllersRemoved = controllers.
 	}
-
-	/*
-	private void checkNewOrRemovedControllers() {
-		for (Controller c : this.controllersAdded) {
-			this.addPlayerForController(c);
-		}
-		this.controllersAdded.clear();
-
-		for (Controller c : this.controllersRemoved) {
-			this.removePlayerForController(c);
-		}
-		this.controllersAdded.clear();
-	}
-	 */
 
 }
