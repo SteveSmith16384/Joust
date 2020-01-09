@@ -56,7 +56,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	private GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
 	public Simple2DGameFramework(int _logicalWidth, int _logicalHeight) {
-		super();
+		super(Simple2DGameFramework.class.getSimpleName());
 
 		logicalWidth = _logicalWidth;
 		logicalHeight = _logicalHeight;
@@ -118,7 +118,6 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 
 		init();
 
-		//long fpsWait = (long) (1.0 / 30 * 1000);
 		main: while (isRunning) {
 			long start = System.currentTimeMillis();
 
@@ -204,17 +203,6 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		Sprite s = this.createSprite(filename);
 		s.setSize(w, h);
 		return s;
-		/*try {
-			BufferedImage img = ImageIO.read(new File(ASSETS_FOLDER + filename));
-
-			BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-			scaled.getGraphics().drawImage(img, 0, 0, w, h, frame);
-
-			return new Sprite(this, scaled);
-		} catch (IOException ex) {
-			handleException(ex);
-			return null;
-		}*/
 	}
 
 
@@ -249,7 +237,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 
 
 	public void playMusic(String s) {
-		audioSystem.playMusic(s);
+		audioSystem.playMusic(ASSETS_FOLDER + s);
 	}
 
 
@@ -258,22 +246,16 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		if (ke.getKeyCode() == KeyEvent.VK_F1) {
 			// Take screenshot
 			try {
-				Rectangle r = null;
-				/*if (fullScreen) {
-					r = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-				} else {*/
 				Insets insets = frame.getInsets();
-				r = new Rectangle(frame.getX() + insets.left, frame.getY() + insets.top, frame.getWidth() - insets.left-insets.right, frame.getHeight() - insets.top-insets.bottom);
-				//}
+				Rectangle r = new Rectangle(frame.getX() + insets.left, frame.getY() + insets.top, frame.getWidth() - insets.left-insets.right, frame.getHeight() - insets.top-insets.bottom);
 				BufferedImage image = new Robot().createScreenCapture(r);
-				String filename = "StellarForces_Screenshot_" + System.currentTimeMillis() + ".png";
+				String filename = "Screenshot_" + System.currentTimeMillis() + ".png";
 				ImageIO.write(image, "png", new File(filename));
 				p("Screenshot saved as " + filename);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			return;
 		}
 
 		keys[ke.getKeyCode()] = true;
@@ -385,7 +367,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		p(ex.getMessage());
 		ex.printStackTrace();
 		isRunning = false;
-		frame.setVisible(false);
+		//frame.setVisible(false);
 		//System.exit(-1);
 	}
 

@@ -1,7 +1,6 @@
 package com.scs.joustgame;
 
 import java.awt.Font;
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -23,10 +22,10 @@ import com.scs.joustgame.ecs.systems.ProcessCollisionSystem;
 import com.scs.joustgame.ecs.systems.ProcessPlayersSystem;
 import com.scs.joustgame.ecs.systems.ScrollPlayAreaSystem;
 import com.scs.joustgame.ecs.systems.WalkingAnimationSystem;
-import com.scs.joustgame.input.PS4ControllerInput;
 import com.scs.joustgame.input.KeyboardCursorInput;
 import com.scs.joustgame.input.KeyboardOPSpaceInput;
 import com.scs.joustgame.input.KeyboardWASDInput;
+import com.scs.joustgame.input.PS4ControllerInput;
 import com.scs.joustgame.models.GameData;
 import com.scs.joustgame.models.PlayerData;
 import com.scs.simple2dgameframework.Simple2DGameFramework;
@@ -120,12 +119,12 @@ public final class JoustMain extends Simple2DGameFramework {
 			keyboardPlayer1.setInGame(true);
 		}
 
-		if (Settings.RELEASE_MODE == false) {
+		/*if (Settings.RELEASE_MODE == false) {
 			File[] files = new File("bin/assets/sfx").listFiles();
 			for (File file : files) {
 				this.playSound(file.getName());
 			}
-		}
+		}*/
 	}
 
 
@@ -135,7 +134,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 
 	private void startPreGame() {
-		this.playMusic("IntroLoop.wav");
+		this.playMusic(Settings.SFX_FOLDER + "IntroLoop.wav");
 
 		this.ecs.removeAllEntities();
 
@@ -148,7 +147,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 	private void startPostGame() {
 		this.ecs.removeAllEntities();
-		this.playMusic("VictoryMusic.wav");
+		this.playMusic(Settings.SFX_FOLDER + "VictoryMusic.wav");
 	}
 
 
@@ -159,7 +158,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 
 	private void startGame() {
-		this.playMusic("8BitMetal.wav");
+		this.playMusic(Settings.SFX_FOLDER + "8BitMetal.wav");
 
 		gameData = new GameData();
 

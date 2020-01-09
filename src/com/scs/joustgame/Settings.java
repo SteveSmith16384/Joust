@@ -26,6 +26,7 @@ public class Settings {
 	public static final int MAX_PLATFORM_HEIGHT = (int)(Settings.LOGICAL_HEIGHT_PIXELS * 0.9f); // Needs to be slightly lower so the coins don't disappear straight away!
 
 	public static final String GFX_FOLDER = "gfx/";
+	public static final String SFX_FOLDER = "sfx/";
 
 	private Settings() {
 	}

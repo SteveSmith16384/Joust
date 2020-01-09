@@ -51,6 +51,9 @@ public class MovementSystem extends AbstractSystem {
 			if (results != null) {
 				if (results.moveBack) {
 					pos.rect.setRect(pos.prevPos); // Move back
+					if (Settings.JOUST_MOVEMENT) {
+						md.offX = 0;
+					}
 				}
 				game.processCollisionSystem.processCollision(movingEntity, results);
 			} else {
@@ -78,6 +81,9 @@ public class MovementSystem extends AbstractSystem {
 						if (jc != null) {
 							jc.canJump = true;
 						}
+					}
+					if (Settings.JOUST_MOVEMENT) {
+						md.offY = 0;
 					}
 					if (md.canFall) {
 						md.offY = 0;
