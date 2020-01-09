@@ -1,6 +1,7 @@
 package com.scs.joustgame;
 
 import java.awt.Font;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -22,7 +23,7 @@ import com.scs.joustgame.ecs.systems.ProcessCollisionSystem;
 import com.scs.joustgame.ecs.systems.ProcessPlayersSystem;
 import com.scs.joustgame.ecs.systems.ScrollPlayAreaSystem;
 import com.scs.joustgame.ecs.systems.WalkingAnimationSystem;
-import com.scs.joustgame.input.ControllerInput;
+import com.scs.joustgame.input.PS4ControllerInput;
 import com.scs.joustgame.input.KeyboardCursorInput;
 import com.scs.joustgame.input.KeyboardOPSpaceInput;
 import com.scs.joustgame.input.KeyboardWASDInput;
@@ -68,7 +69,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
 
 		this.setScreenSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
-		super.setFont(new Font("Helvetica", Font.BOLD, 24));
+		super.setDefaultFont(new Font("Helvetica", Font.BOLD, 24));
 	}
 
 
@@ -117,6 +118,13 @@ public final class JoustMain extends Simple2DGameFramework {
 		if (Settings.QUICKSTART) {
 			this.nextStage = true; // Auto-start game
 			keyboardPlayer1.setInGame(true);
+		}
+
+		if (Settings.RELEASE_MODE == false) {
+			File[] files = new File("bin/assets/sfx").listFiles();
+			for (File file : files) {
+				this.playSound(file.getName());
+			}
 		}
 	}
 
@@ -233,7 +241,7 @@ public final class JoustMain extends Simple2DGameFramework {
 
 
 	private void addPlayerForController(Controller controller) {
-		PlayerData data = new PlayerData(new ControllerInput(controller));
+		PlayerData data = new PlayerData(new PS4ControllerInput(controller));
 		this.players.add(data);
 		this.addLogEntry("Player created for controller " + controller.getName());
 	}
@@ -241,8 +249,8 @@ public final class JoustMain extends Simple2DGameFramework {
 
 	private void removePlayerForController(Controller controller) {
 		for (PlayerData p : this.players) {
-			if (p.controller instanceof ControllerInput) {
-				ControllerInput ci = (ControllerInput)p.controller;
+			if (p.controller instanceof PS4ControllerInput) {
+				PS4ControllerInput ci = (PS4ControllerInput)p.controller;
 				if (ci.controller == controller) {
 					this.players.remove(p);
 					this.addLogEntry("Player removed for controller " + controller.getName());

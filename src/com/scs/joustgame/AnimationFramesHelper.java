@@ -22,7 +22,7 @@ public class AnimationFramesHelper {
 		AnimationCycleComponent acd = new AnimationCycleComponent(.1f);
 		acd.frames = new Sprite[numFrames];
 
-		BufferedImage img = GraphicsUtils.loadImage(Settings.GFX_FOLDER + "Coin_16x16_Anim.png");
+		BufferedImage img = game.graphicsUtils.loadImage(Settings.GFX_FOLDER + "Coin_16x16_Anim.png");
 		
 		for (int i=0 ; i<numFrames ; i++) {
 			BufferedImage bi = GraphicsUtils.extractImage(img, i*16, 0, 16, 16, game.frame);
@@ -65,7 +65,7 @@ public class AnimationFramesHelper {
 		wac.framesLeft = new Sprite[NUM_FRAMES];
 		wac.framesRight = new Sprite[NUM_FRAMES];
 
-		BufferedImage img = GraphicsUtils.loadImage(Settings.GFX_FOLDER + "mob1_frames.png");
+		BufferedImage img = game.graphicsUtils.loadImage(Settings.GFX_FOLDER + "mob1_frames.png");
 		for (int i=0 ; i<NUM_FRAMES ; i++) {
 			BufferedImage bi = GraphicsUtils.extractImage(img, i*16, 0, 16, 13, game.frame);
 			wac.framesLeft[i] = game.createSprite(bi);
@@ -84,7 +84,7 @@ public class AnimationFramesHelper {
 		wac.framesLeft = new Sprite[NUM_FRAMES];
 		wac.framesRight = new Sprite[NUM_FRAMES];
 
-		BufferedImage img = GraphicsUtils.loadImage(Settings.GFX_FOLDER + "cannonbobmouth.png");
+		BufferedImage img = game.graphicsUtils.loadImage(Settings.GFX_FOLDER + "cannonbobmouth.png");
 		for (int i=0 ; i<NUM_FRAMES ; i++) {
 			BufferedImage bi = GraphicsUtils.extractImage(img, i*16, 0, 16, 16, game.frame);
 			wac.framesLeft[i] = game.createSprite(bi);

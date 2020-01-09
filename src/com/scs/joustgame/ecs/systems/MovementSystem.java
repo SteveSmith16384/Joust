@@ -41,7 +41,7 @@ public class MovementSystem extends AbstractSystem {
 			float totalDist = md.offX * game.delta_seconds;
 			if (Math.abs(totalDist) > Settings.MAX_MOVEMENT) {
 				totalDist = Settings.MAX_MOVEMENT * Math.signum(totalDist);
-				JoustMain.p("Max movement hit!");					
+				//JoustMain.p("Max movement hit!");					
 			}
 			pos.rect.x += totalDist;
 			CollisionResults results = game.collisionSystem.collided(movingEntity, md.offX, 0);

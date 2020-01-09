@@ -22,19 +22,20 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import com.scs.simple2dgameframework.audio.AudioPlayer;
 import com.scs.simple2dgameframework.audio.AudioSystem;
+import com.scs.simple2dgameframework.graphics.GraphicsUtils;
 import com.scs.simple2dgameframework.graphics.Sprite;
 import com.scs.simple2dgameframework.input.ControllerManager;
 
 import net.java.games.input.Controller;
 
 public abstract class Simple2DGameFramework extends Thread implements MouseListener, KeyListener, MouseMotionListener, WindowListener, MouseWheelListener, Runnable {
-	
+
 	public static final String ASSETS_FOLDER = "assets/";
 
 	private int logicalWidth, logicalHeight;
@@ -49,22 +50,24 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	public GameWindow frame;
 	private ControllerManager controllerManager;
 	private AudioSystem audioSystem;
-	private Font font;
+	private Font defaultFont;
+	public  GraphicsUtils graphicsUtils;
 	
 	private GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
 	public Simple2DGameFramework(int _logicalWidth, int _logicalHeight) {
 		super();
-		
+
 		logicalWidth = _logicalWidth;
 		logicalHeight = _logicalHeight;
-		
+
 		System.setProperty("net.java.games.input.librarypath", new File("libs/jinput").getAbsolutePath());
-		
+
+		this.graphicsUtils = new GraphicsUtils();
 		audioSystem = new AudioSystem();
 	}
-	
-	
+
+
 	public void setFullScreen() {
 		this.physicalWidth = config.getBounds().width;
 		this.physicalHeight = config.getBounds().height;
@@ -91,7 +94,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		this.start();
 	}
 
-	
+
 	private Graphics2D getGraphics() {
 		if (graphics == null) {
 			graphics = (Graphics2D) strategy.getDrawGraphics();
@@ -120,7 +123,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 			long start = System.currentTimeMillis();
 
 			this.controllerManager.checkForControllers();
-			
+
 			// Update Graphics
 			do {
 				Graphics2D bg = getGraphics();
@@ -147,11 +150,11 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	public void renderGame(Graphics2D g) {
 		g.setColor(this.backgroundColor);
 		g.fillRect(0, 0, logicalWidth, logicalHeight);
-		
-		if (font != null) {
-			g.setFont(font);
+
+		if (defaultFont != null) {
+			g.setFont(defaultFont);
 		}
-		
+
 		draw();
 	}
 
@@ -171,29 +174,24 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		}
 		return null;
 	}
-	
-	
+
+
 	protected Controller getRemovedController() {
 		if (this.controllerManager.controllersRemoved.size() > 0) {
 			return this.controllerManager.controllersRemoved.remove(0);
 		}
 		return null;
 	}
-	
-	
+
+
 	protected void setBackgroundColour(int r, int g, int b) {
 		backgroundColor = new Color(r, g, b);
 	}
 
 
 	public Sprite createSprite(String filename) {
-		try {
-			BufferedImage img = ImageIO.read(new File(ASSETS_FOLDER + filename));
-			return new Sprite(this, img);
-		} catch (IOException ex) {
-			handleException(ex);
-			return null;
-		}
+		BufferedImage img = graphicsUtils.loadImage(filename);
+		return new Sprite(this, img);
 	}
 
 
@@ -202,8 +200,11 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	}
 
 
-	public Sprite createSprite(String filename, int w, int h) { // todo - combine create and setsize
-		try {
+	public Sprite createSprite(String filename, int w, int h) {
+		Sprite s = this.createSprite(filename);
+		s.setSize(w, h);
+		return s;
+		/*try {
 			BufferedImage img = ImageIO.read(new File(ASSETS_FOLDER + filename));
 
 			BufferedImage scaled = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -213,7 +214,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		} catch (IOException ex) {
 			handleException(ex);
 			return null;
-		}
+		}*/
 	}
 
 
@@ -392,14 +393,15 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 	public static void p(String s) {
 		System.out.println(s);
 	}
-	
-	
-	protected void setFont(Font _font) {
-		font = _font;
+
+
+	protected void setDefaultFont(Font _font) {
+		defaultFont = _font;
 	}
-	
-	/*
-	public List<Controller> getConnectedControllers() {
-		return this.controllerManager.knownControllers;
-	}*/
+
+
+	public void playSound(String filename) {
+		new AudioPlayer("assets/sfx/" + filename, false).start();
+	}
+
 }

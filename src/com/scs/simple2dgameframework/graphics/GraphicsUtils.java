@@ -2,8 +2,8 @@ package com.scs.simple2dgameframework.graphics;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -11,13 +11,19 @@ import com.scs.simple2dgameframework.Simple2DGameFramework;
 
 public class GraphicsUtils {
 
-	private GraphicsUtils() {
+	private ClassLoader cl;
+	
+	public GraphicsUtils() {
+		cl = this.getClass().getClassLoader();
 	}
 	
 	
-	public static BufferedImage loadImage(String filename) {
+	public BufferedImage loadImage(String filename) {
 		try {
-			return ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
+			//ClassLoader cl = BufferedImage.class.getClassLoader();
+			InputStream is = cl.getResourceAsStream(Simple2DGameFramework.ASSETS_FOLDER + filename);
+			return ImageIO.read(is);
+			//return ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
 		} catch (IOException ex) {
 			throw new RuntimeException("Unable to load image " + filename);
 		}

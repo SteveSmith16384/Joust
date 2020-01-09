@@ -150,7 +150,7 @@ public class ProcessCollisionSystem extends AbstractSystem {
 			return;
 		}
 
-		//game.sfx.play("Falling.mp3");
+		game.playSound("died.mp3");
 
 		avatar.remove();
 		game.ecs.addEntity(game.entityFactory.createDeadPlayer(avatar));

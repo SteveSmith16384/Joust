@@ -6,12 +6,12 @@ import net.java.games.input.Event;
 import net.java.games.input.EventQueue;
 import net.java.games.input.Component.Identifier;
 
-public class ControllerInput implements IPlayerInput { // todo - rename to PS4 controller
+public class PS4ControllerInput implements IPlayerInput {
 
 	public Controller controller;
 	private boolean leftPressed, rightPressed, firePressed;
 	
-	public ControllerInput(Controller _controller) {
+	public PS4ControllerInput(Controller _controller) {
 		controller = _controller;
 	}
 

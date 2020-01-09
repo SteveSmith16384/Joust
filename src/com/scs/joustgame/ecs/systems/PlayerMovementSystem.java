@@ -33,6 +33,7 @@ public class PlayerMovementSystem extends AbstractSystem {
 
 		if (Settings.JOUST_MOVEMENT) {
 			if (uic.player.jumpOrFlap) {
+				game.playSound("flap.wav");
 				mc.offY -= 5; // Flap up
 			}
 			JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
