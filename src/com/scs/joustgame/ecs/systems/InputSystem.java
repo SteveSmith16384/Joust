@@ -35,24 +35,6 @@ public class InputSystem {
 				}
 			}
 		}
-
-		if (game.gameStage == -1) {
-			/*if (game.isKeyPressed(KeyEvent.VK_SPACE)) { // Space for keyboard player to join
-				key[KeyEvent.VK_SPACE] = false;
-				for (PlayerData player : game.players) {
-					if (player.controller instanceof KeyboardInput) {
-						if (player.isInGame() == false) {
-							//game.p("Keyboard player joined");
-							player.setInGame(true);
-							break;
-						}
-					}
-				}
-			}*/
-
-		} else if (game.gameStage == 0) {
-			//super.process();
-		}
 	}
 
 
@@ -71,56 +53,4 @@ public class InputSystem {
 		key[keycode] = false;
 	}
 
-	/*
-	public boolean buttonDown(Controller controller, int buttonCode) {
-		if (buttonCode == 1) {
-			if (game.gameStage == -1) {
-				PlayerData player = game.players.get(controller);
-				player.setInGame(true);
-			} else if (game.gameStage == 0) {
-				AbstractEntity entity = game.players.get(controller).avatar;
-				if (entity != null) {
-					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-					uic.jump = true;
-				}
-			}
-		}
-		return false;
-	}
-
-
-	public boolean buttonUp(Controller controller, int buttonCode) {
-		if (buttonCode == 1) {
-			if (game.gameStage == 0) {
-				AbstractEntity entity = game.players.get(controller).avatar;
-				if (entity != null) {
-					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-					uic.jump = false;
-				}
-			}
-		}
-		return false;
-	}
-
-
-	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (Settings.RELEASE_MODE == false) {
-			float val = controller.getAxis(axisCode);
-			if (val < -0.5f || val > .5f) {
-				MyGdxGame.p("Axis " + axisCode + ": " + controller.getAxis(axisCode));
-			}
-		}
-		if (axisCode == Settings.AXIS) {
-			if (game.gameStage == 0) {
-				AbstractEntity entity = game.players.get(controller).avatar;
-				if (entity != null) {
-					PlayersAvatarComponent uic = (PlayersAvatarComponent)entity.getComponent(PlayersAvatarComponent.class);
-					uic.moveLeft = uic.controller.getAxis(Settings.AXIS) < -0.5f;
-					uic.moveRight = uic.controller.getAxis(Settings.AXIS) > 0.5f;
-				}
-			}
-		}
-		return false;
-	}
-	 */
 }
