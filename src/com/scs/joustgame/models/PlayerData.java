@@ -7,7 +7,7 @@ public class PlayerData {
 
 	public static int nextImageId = 1;
 
-	public boolean moveLeft, moveRight, jumpOrFlap;
+	public boolean moveLeft, moveRight, jumpOrFlap, wasJumpOrFlap;
 	public IPlayerInput controller;
 	private boolean in_game = false;
 	public AbstractEntity avatar;

@@ -34,38 +34,55 @@ public class PlayerMovementSystem extends AbstractSystem {
 		if (Settings.JOUST_MOVEMENT) {
 			if (uic.player.jumpOrFlap) {
 				game.playSound("flap.wav");
-				mc.offY -= 5; // Flap up
+				mc.offY -= 50; // Flap up
 			}
 			JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
-			if (uic.player.moveLeft && (uic.player.jumpOrFlap || jc.canJump)) {
+			/*if (uic.player.moveLeft && (uic.player.jumpOrFlap || jc.canJump)) {
 				mc.offX -= Settings.JOUST_PLAYER_SPEED;
 			} else if (uic.player.moveRight && (uic.player.jumpOrFlap || jc.canJump)) {
 				mc.offX += Settings.JOUST_PLAYER_SPEED;
-			}
-			if (uic.player.jumpOrFlap) {
-				uic.player.jumpOrFlap = false;
-			}
-			mc.offX *= 0.99f;
-
-		} else {
+			}*/
 			if (uic.player.moveLeft) {
-				mc.offX = -Settings.NORMAL_PLAYER_SPEED;
-			} else if (uic.player.moveRight) {
-				mc.offX = Settings.NORMAL_PLAYER_SPEED;
-			}
-
-			if (uic.player.jumpOrFlap) {
-				JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
+				if (uic.player.jumpOrFlap) {
+					mc.offX -= Settings.JOUST_PLAYER_SPEED * 4;
+				}
 				if (jc.canJump) {
-					//game.sfx.play("BonusCube.ogg");
-					mc.offY = -Settings.JUMP_FORCE;
-					jc.canJump = false;
-				} else {
-					//JoustMain.p("Cannot jump!");
+					mc.offX -= Settings.JOUST_PLAYER_SPEED;
+				}
+			}
+			if (uic.player.moveRight) {
+				if (uic.player.jumpOrFlap) {
+					mc.offX += Settings.JOUST_PLAYER_SPEED * 4;
+				}
+				if (jc.canJump) {
+					mc.offX += Settings.JOUST_PLAYER_SPEED;
+				}
+			}
+			
+				if (uic.player.jumpOrFlap) {
+					uic.player.jumpOrFlap = false;
+				}
+				mc.offX *= 0.999f; // Drag
+
+			} else {
+				if (uic.player.moveLeft) {
+					mc.offX = -Settings.NORMAL_PLAYER_SPEED;
+				} else if (uic.player.moveRight) {
+					mc.offX = Settings.NORMAL_PLAYER_SPEED;
+				}
+
+				if (uic.player.jumpOrFlap) {
+					JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
+					if (jc.canJump) {
+						//game.sfx.play("BonusCube.ogg");
+						mc.offY = -Settings.JUMP_FORCE;
+						jc.canJump = false;
+					} else {
+						//JoustMain.p("Cannot jump!");
+					}
 				}
 			}
 		}
+
+
 	}
-
-
-}

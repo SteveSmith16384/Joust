@@ -258,13 +258,17 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 			}
 		}
 
-		keys[ke.getKeyCode()] = true;
+		if (ke.getKeyCode() < keys.length) {
+			keys[ke.getKeyCode()] = true;
+		}
 	}
 
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
-		keys[ke.getKeyCode()] = false;
+		if (ke.getKeyCode() < keys.length) {
+			keys[ke.getKeyCode()] = false;
+		}
 	}
 
 

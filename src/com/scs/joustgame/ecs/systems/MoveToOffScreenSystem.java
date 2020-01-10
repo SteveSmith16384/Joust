@@ -34,9 +34,6 @@ public class MoveToOffScreenSystem extends AbstractSystem {
 				entity.remove();
 				return;
 			}
-			//MovementComponent mc = (MovementComponent)entity.getComponent(MovementComponent.class);
-			//mc.offX = gic.offX;
-			//mc.offY = gic.offY;
 			pos.rect.x += gic.offX * game.delta_seconds;
 			pos.rect.y += gic.offY * game.delta_seconds;
 

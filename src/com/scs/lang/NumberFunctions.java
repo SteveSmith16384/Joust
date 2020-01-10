@@ -17,6 +17,11 @@ public class NumberFunctions {
 	}
 
 	
+	public static boolean rndBool() {
+		return random.nextBoolean();
+	}
+
+	
 	public static byte rndByte(int a, int b) {
 		assert a <= 127 && b <= 127;
 		int var = b + 1 - a;

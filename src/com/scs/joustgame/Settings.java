@@ -3,12 +3,12 @@ package com.scs.joustgame;
 public class Settings {
 
 	public static final boolean RELEASE_MODE = false;
-	public static final boolean JOUST_MOVEMENT = true;
+	public static final boolean JOUST_MOVEMENT = true; // If false, it's a platformer
 	public static final boolean QUICKSTART = !RELEASE_MODE && true;
 	public static final boolean SHOW_GREY_BOXES = !RELEASE_MODE && false;
  
 	public static final int MAX_MOVEMENT = 3;
-	public static final float JOUST_PLAYER_SPEED = 5f;//40f;
+	public static final float JOUST_PLAYER_SPEED = 5f;
 	public static final float NORMAL_PLAYER_SPEED = 40f;
 	public static final float JUMP_FORCE = 80f;	
 	public static final float GRAVITY = 120f;

@@ -20,6 +20,7 @@ import com.scs.joustgame.ecs.components.ScrollsAroundComponent;
 import com.scs.joustgame.ecs.components.WalkingAnimationComponent;
 import com.scs.joustgame.input.IPlayerInput;
 import com.scs.joustgame.models.PlayerData;
+import com.scs.lang.NumberFunctions;
 import com.scs.simple2dgameframework.graphics.Ninepatch;
 import com.scs.simple2dgameframework.graphics.Sprite;
 
@@ -298,7 +299,7 @@ public class EntityFactory {
 		e.addComponent(imageData);
 		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
-		MoveOffScreenComponent moc = new MoveOffScreenComponent(80, -80);
+		MoveOffScreenComponent moc = new MoveOffScreenComponent(160 * (NumberFunctions.rndBool() ? -1 : 1), -160);
 		e.addComponent(moc);
 		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);

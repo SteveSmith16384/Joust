@@ -25,7 +25,16 @@ public class InputSystem {
 			player.controller.poll();
 			player.moveLeft = player.controller.isLeftPressed();
 			player.moveRight = player.controller.isRightPressed();
-			player.jumpOrFlap = player.controller.isJumpPressed();
+			
+			if (player.controller.isJumpPressed()) {
+				player.jumpOrFlap = true && player.wasJumpOrFlap == false;
+				player.wasJumpOrFlap = true;
+			} else {
+				player.jumpOrFlap = false;
+				player.wasJumpOrFlap = false;
+			}
+			
+			//JoustMain.p(player.jumpOrFlap ? "Flap!" : "noflap");
 
 			if (player.jumpOrFlap) {
 				if (player.isInGame() == false) {
