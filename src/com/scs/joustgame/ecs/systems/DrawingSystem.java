@@ -36,6 +36,7 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 		while (it.hasNext()) {
 			AbstractEntity entity = it.next();
 			this.processEntity(entity);
+			//return;
 		}
 	}
 
@@ -56,22 +57,6 @@ public class DrawingSystem extends AbstractSystem implements Comparator<Abstract
 		// Draw the sprite
 		imageData.sprite.setPosition(posData.rect.x, posData.rect.y);
 		imageData.sprite.drawSprite();
-	}
-
-	/*
-	public Texture getTexture(String filename) {
-		if (textures.containsKey(filename)) {
-			return textures.get(filename);
-		}
-		MyGdxGame.p("Loading new tex: " + filename);
-		Texture t = new Texture(filename);
-		this.textures.put(filename, t);
-		return t;
-	}
-
-	 */
-	public void drawDebug() {
-
 	}
 
 

@@ -13,17 +13,17 @@ public class DrawPostGameGuiSystem {
 	public DrawPostGameGuiSystem(JoustMain _game) {
 		game = _game;
 
-		if (Settings.RELEASE_MODE) {
+		//if (Settings.RELEASE_MODE) {
 			background = game.createSprite(Settings.GFX_FOLDER + "background.jpg");
 			background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
-		}
+		//}
 	}
 
 
 	public void process() {
-		if (Settings.RELEASE_MODE) {
+		//if (Settings.RELEASE_MODE) {
 			background.drawSprite();
-		}
+		//}
 		
 		game.drawFont("WINNER!", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 		if (winnerSprite == null) {

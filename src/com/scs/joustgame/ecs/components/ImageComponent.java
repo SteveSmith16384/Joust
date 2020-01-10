@@ -9,7 +9,7 @@ public class ImageComponent {
 	public final String imageFilename;
 	public int w, h;
 	public Sprite sprite;
-	public int zOrder; // -1, - or 1
+	public int zOrder;
 
 	public Rectangle2D.Float atlasPosition; // Fill this in if it uses atlas
 

@@ -38,7 +38,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 1, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(imageData);
-		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, Settings.PLAYER_SIZE, Settings.PLAYER_SIZE);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
@@ -84,7 +84,7 @@ public class EntityFactory {
 			ImageComponent imageData = new ImageComponent(Settings.GFX_FOLDER + "grey_box.png", 0, w, h);
 			e.addComponent(imageData);
 		}
-		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, h);
 		e.addComponent(pos);
 		CollisionComponent cc = new CollisionComponent(true, false, true, false);
 		e.addComponent(cc);
@@ -118,7 +118,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent(filename, zOrder, w, h);
 		e.addComponent(imageData);
-		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, h);
 		e.addComponent(pos);
 
 		return e;
@@ -255,7 +255,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent(image, 1);
 		e.addComponent(imageData);
-		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, w, h);
+		PositionComponent pos = PositionComponent.ByTopLeft(x, y, w, h);
 		e.addComponent(pos);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, 200);
 		e.addComponent(moc);
@@ -297,7 +297,7 @@ public class EntityFactory {
 			imageData = new ImageComponent(img.imageFilename, 1, img.w, img.h);
 		}
 		e.addComponent(imageData);
-		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
+		PositionComponent pos2 = PositionComponent.ByTopLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(160 * (NumberFunctions.rndBool() ? -1 : 1), -160);
 		e.addComponent(moc);
@@ -316,7 +316,7 @@ public class EntityFactory {
 
 		ImageComponent imageData = new ImageComponent(img.sprite, 1);
 		e.addComponent(imageData);
-		PositionComponent pos2 = PositionComponent.ByBottomLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
+		PositionComponent pos2 = PositionComponent.ByTopLeft(pos.rect.x, pos.rect.y, pos.rect.width, pos.rect.height);
 		e.addComponent(pos2);
 		MoveOffScreenComponent moc = new MoveOffScreenComponent(0, 200);
 		e.addComponent(moc);

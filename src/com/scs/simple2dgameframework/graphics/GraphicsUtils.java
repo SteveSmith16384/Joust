@@ -20,10 +20,8 @@ public class GraphicsUtils {
 	
 	public BufferedImage loadImage(String filename) {
 		try {
-			//ClassLoader cl = BufferedImage.class.getClassLoader();
 			InputStream is = cl.getResourceAsStream(Simple2DGameFramework.ASSETS_FOLDER + filename);
 			return ImageIO.read(is);
-			//return ImageIO.read(new File(Simple2DGameFramework.ASSETS_FOLDER + filename));
 		} catch (IOException ex) {
 			throw new RuntimeException("Unable to load image " + filename);
 		}

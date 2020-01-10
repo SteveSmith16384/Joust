@@ -216,7 +216,7 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 
 	public void drawSprite(Sprite s) {
 		if (s.img != null) {
-			this.backgroundGraphics.drawImage(s.img, (int)s.pos.x, (int)s.pos.y, null);
+			this.backgroundGraphics.drawImage(s.img, (int)s.pos.x, (int)s.pos.y, this.frame);
 		}
 	}
 

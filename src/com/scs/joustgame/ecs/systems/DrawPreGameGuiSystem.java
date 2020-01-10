@@ -8,28 +8,27 @@ import com.scs.simple2dgameframework.graphics.Sprite;
 public class DrawPreGameGuiSystem {
 
 	private Sprite background;
-	private Sprite logo;
+	//private Sprite logo;
 	private JoustMain game;
 
 	public DrawPreGameGuiSystem(JoustMain _game) {
 		game = _game;
 
-		if (Settings.RELEASE_MODE) {
-			background = game.createSprite(Settings.GFX_FOLDER + "background.jpg");
-			background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
+		background = game.createSprite(Settings.GFX_FOLDER + "background.jpg");
+		background.setSize(Settings.LOGICAL_WIDTH_PIXELS,  Settings.LOGICAL_HEIGHT_PIXELS);
 
-			logo = game.createSprite(Settings.GFX_FOLDER + "ctc_logo.png");
+		/*logo = game.createSprite(Settings.GFX_FOLDER + "ctc_logo.png");
 			logo.setSize(Settings.LOGICAL_WIDTH_PIXELS/2, Settings.LOGICAL_HEIGHT_PIXELS/2);
-			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/2);
-		}
+			logo.setPosition(Settings.LOGICAL_WIDTH_PIXELS/4, Settings.LOGICAL_HEIGHT_PIXELS/2);*/
+		//}
 	}
 
 
 	public void process() {
-		if (Settings.RELEASE_MODE) {
-			background.drawSprite();
-			logo.drawSprite();
-		}
+		//if (Settings.RELEASE_MODE) {
+		background.drawSprite();
+		//logo.drawSprite();
+		//}
 
 		//game.drawFont(batch, Controllers.getControllers().size + " controllers found", 20, Settings.LOGICAL_HEIGHT_PIXELS-40);
 

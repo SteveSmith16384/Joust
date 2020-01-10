@@ -1,6 +1,7 @@
 package com.scs.joustgame;
 
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -67,14 +68,27 @@ public final class JoustMain extends Simple2DGameFramework {
 	public JoustMain() {
 		super(Settings.LOGICAL_WIDTH_PIXELS, Settings.LOGICAL_HEIGHT_PIXELS);
 
-		this.setScreenSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
-		super.setDefaultFont(new Font("Helvetica", Font.BOLD, 24));
+		if (Settings.RELEASE_MODE) {
+			this.setFullScreen();
+		} else {
+			this.setScreenSize(Settings.PHYSICAL_WIDTH_PIXELS, Settings.PHYSICAL_HEIGHT_PIXELS);
+		}
+		
+		try{
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			Font font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/assets/fonts/SHOWG.TTF"));
+			ge.registerFont(font);
+			super.setDefaultFont(new Font("Showcard Gothic", Font.BOLD, 24));
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+
 	}
 
 
 	@Override
 	public void init() {
-		this.setBackgroundColour(255, 255, 255);
+		this.setBackgroundColour(255, 0, 0);
 
 		ecs = new BasicECS();
 		entityFactory = new EntityFactory(this);
@@ -233,7 +247,7 @@ public final class JoustMain extends Simple2DGameFramework {
 		}
 		
 		for (int i=0 ; i<this.log.size() ; i++) {
-			super.drawFont(this.log.get(i), 20, 200-(i*20));
+			super.drawFont(this.log.get(i), 20, 200+(i*20));
 		}
 
 	}
@@ -242,7 +256,6 @@ public final class JoustMain extends Simple2DGameFramework {
 	private void addPlayerForController(Controller controller) {
 		PlayerData data = new PlayerData(new PS4ControllerInput(controller));
 		this.players.add(data);
-		this.addLogEntry("Player created for controller " + controller.getName());
 	}
 
 
