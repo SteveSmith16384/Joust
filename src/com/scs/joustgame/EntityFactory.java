@@ -268,7 +268,7 @@ public class EntityFactory {
 
 		AnimationCycleComponent acc = game.animFrameHelper.generateForCoin(Settings.COLLECTABLE_SIZE);
 		e.addComponent(acc);
-		ImageComponent imageData = new ImageComponent(acc.frames[0], 1);
+		ImageComponent imageData = new ImageComponent(acc.frames[NumberFunctions.rnd(0, acc.frames.length-1)], 1);
 		e.addComponent(imageData);
 		PositionComponent pos = PositionComponent.ByBottomLeft(x, y, Settings.COLLECTABLE_SIZE, Settings.COLLECTABLE_SIZE);
 		e.addComponent(pos);

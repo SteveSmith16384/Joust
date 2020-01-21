@@ -58,31 +58,28 @@ public class PlayerMovementSystem extends AbstractSystem {
 					mc.offX += Settings.JOUST_PLAYER_SPEED;
 				}
 			}
-			
-				if (uic.player.jumpOrFlap) {
-					uic.player.jumpOrFlap = false;
-				}
-				mc.offX *= 0.999f; // Drag
 
-			} else {
-				if (uic.player.moveLeft) {
-					mc.offX = -Settings.NORMAL_PLAYER_SPEED;
-				} else if (uic.player.moveRight) {
-					mc.offX = Settings.NORMAL_PLAYER_SPEED;
-				}
+			if (uic.player.jumpOrFlap) {
+				uic.player.jumpOrFlap = false;
+			}
+			mc.offX *= 0.999f; // Drag
+		} else {
+			if (uic.player.moveLeft) {
+				mc.offX = -Settings.NORMAL_PLAYER_SPEED;
+			} else if (uic.player.moveRight) {
+				mc.offX = Settings.NORMAL_PLAYER_SPEED;
+			}
 
-				if (uic.player.jumpOrFlap) {
-					JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
-					if (jc.canJump) {
-						//game.sfx.play("BonusCube.ogg");
-						mc.offY = -Settings.JUMP_FORCE;
-						jc.canJump = false;
-					} else {
-						//JoustMain.p("Cannot jump!");
-					}
+			if (uic.player.jumpOrFlap) {
+				JumpingComponent jc = (JumpingComponent)player.getComponent(JumpingComponent.class);
+				if (jc.canJump) {
+					//game.sfx.play("BonusCube.ogg");
+					mc.offY = -Settings.JUMP_FORCE;
+					jc.canJump = false;
+				} else {
+					//JoustMain.p("Cannot jump!");
 				}
 			}
 		}
-
-
 	}
+}

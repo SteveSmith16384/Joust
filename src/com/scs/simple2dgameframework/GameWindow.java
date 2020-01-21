@@ -33,6 +33,7 @@ public class GameWindow extends JFrame {
 		canvas.addMouseWheelListener(game);
 		canvas.createBufferStrategy(2);
 		canvas.requestFocusInWindow();
+		canvas.setFocusTraversalKeysEnabled(false);
 
 	}
 	
