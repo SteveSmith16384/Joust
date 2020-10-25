@@ -78,7 +78,8 @@ public class BasicECS {
 
 
 	public AbstractEntity get(int i) {
-		return this.entities.get(i);
+		//return this.entities.get(i);
+		throw new RuntimeException("Do  not use this!  The ID is not the same as the entity id!");
 	}
 
 
