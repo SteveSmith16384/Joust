@@ -256,6 +256,7 @@ public final class JoustMain extends Simple2DGameFramework {
 	private void addPlayerForController(Controller controller) {
 		PlayerData data = new PlayerData(new PS4ControllerInput(controller));
 		this.players.add(data);
+		this.addLogEntry("Player added for controller " + controller.getName());
 	}
 
 

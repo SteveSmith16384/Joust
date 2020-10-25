@@ -108,7 +108,7 @@ public class CollisionCheckSystem extends AbstractSystem {
 		return ret;
 	}
 
-
+/*
 	public boolean intersects(AbstractEntity e1, AbstractEntity e2) {
 		PositionComponent p1 = (PositionComponent)e1.getComponent(PositionComponent.class);
 		PositionComponent p2 = (PositionComponent)e2.getComponent(PositionComponent.class);
@@ -137,5 +137,5 @@ public class CollisionCheckSystem extends AbstractSystem {
 		return false;
 	}
 
-
+*/
 }

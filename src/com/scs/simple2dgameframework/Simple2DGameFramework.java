@@ -155,6 +155,15 @@ public abstract class Simple2DGameFramework extends Thread implements MouseListe
 		}
 
 		draw();
+		
+		if (this.keys[KeyEvent.VK_TAB]) {
+			// Show controller info
+			int idx = 0;
+			for (Controller controller : this.controllerManager.controllers) {
+				g.drawString(controller.getName(), 20, 100 + (idx*20));
+				idx++;
+			}
+		}
 	}
 
 
